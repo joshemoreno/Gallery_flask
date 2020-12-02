@@ -1,14 +1,14 @@
 .col-md-12{
     padding: 10%;
 }
-.form-control{
+.inputMail{
     height: 50px;
 }
-.title{
+.titleRestart{
     margin-left: 25%;
     text-align: center;
 }
-.text{
+.message{
     font-size: 20px;
     color: black;
     text-align: center;
@@ -23,8 +23,8 @@
 .downloadIcon{
     width: 7%;
 }
-.btn{
-    margin-left: 43%;
+.btnSend{
+    margin-left: 42%;
     color: black;
     font-size: 25px;
     background-color: #A6C4FE;

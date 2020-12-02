@@ -1,16 +1,20 @@
 .col-md-12{
     padding: 10%;
 }
-.form-control{
+.inputUser{
+    height: 50px;
+}
+.inputPasswd{
     height: 50px;
 }
 .title{
     text-align: center;
 }
-.text{
+.textForget{
     color: black;
     text-align: center;
-    margin-left: 32%;
+    margin-left: 33%;
+    text-decoration: underline;
 }
 .voteIcon{
     width: 7%;
