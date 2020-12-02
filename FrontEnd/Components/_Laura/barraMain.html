@@ -14,13 +14,13 @@
 
 <body>
   <header class="header">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style ="background-color:transparent !important">
       <div class="col-md-1">
         <a class="navbar-brand" href="#"><img class="logo-navbar" src="../../Assets/Images/Logo.png" alt="logo"></a>
       </div>
 
       <div class="col-md-9">
-        <div class="container" id="navbarSupportedContent">
+        <div class="container search-bar navbarSupportedContent">
           <div class="input-group md-form form-sm form-2 pl-0">
             <input class="form-control my-0 py-1 gray-border" type="text" placeholder="Ingresa una palabra clave"
               aria-label="Search">
@@ -148,6 +148,26 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+
+    <script>
+      // When the user scrolls down 80px from the top of the document, resize the navbar's padding and the logo's font size
+      window.onscroll = function() {scrollFunction()};
+      
+      function scrollFunction() {
+        if (document.body.scrollTop > 290 || document.documentElement.scrollTop > 290) {
+          $(".navbar").addClass("fixed-top")
+          $(".header .navbar").removeAttr("style");
+          $(".header .navbar").attr("style", "background-color:#9f9f9f !important");
+          $(".search-bar").removeClass("navbarSupportedContent")
+        } else {
+          $(".navbar").removeClass("fixed-top")
+          $(".header .navbar").removeAttr("style");
+          $(".header .navbar").attr("style", "background-color:transparent !important");
+          $(".search-bar").addClass("navbarSupportedContent")
+        }
+      }
+      </script>
+
 </body>
 
 </html>

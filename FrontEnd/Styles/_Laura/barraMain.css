@@ -21,9 +21,7 @@
     background-size: cover;
     min-height: 70vh;
 }
-.header .navbar {
-    background-color: transparent !important;
-}
+
 .nav-link{
     color: #000;
 }
@@ -43,7 +41,7 @@
 .nav-link:hover{
     color: #A6C4FE !important;
 }
-#navbarSupportedContent{
+.navbarSupportedContent{
     height: 100%;
     width: 100%;
     position: absolute;
@@ -51,4 +49,12 @@
     margin-left: -50px;
     top: 230px;
     margin-top: -50px;
+}
+.fixed-top{
+    position: fixed;
+    top:0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    height: 60px;
 }
