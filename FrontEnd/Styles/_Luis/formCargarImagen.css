@@ -69,11 +69,17 @@
 }
 
 img{
-    width: 400px; height: 400px;
+    width: 400px; height: 430px;
 }
 label{
   font-weight: bold !important;
   font-size: 140%; 
+}
+input{
+  text-align: justify;
+}
+#Descripcion{
+  height: 100px ;
 }
 h1{
   font-size: 140%; 
@@ -87,4 +93,6 @@ h1{
   font-weight:600 !important;
 }
 
-
+.textarea{
+  text-align: justify;
+}
