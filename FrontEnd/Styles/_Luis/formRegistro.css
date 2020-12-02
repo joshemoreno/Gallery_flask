@@ -1,0 +1,23 @@
+form{
+    background-color: white;
+    text-align: center;
+    font-family: ;
+}
+h1{
+    font-size: 300%;
+}
+h2{ 
+    color:#a6c4fe;
+    font-size: 150%;  
+}
+input{
+    text-align: center;
+    margin: center;
+    font-family: roboto;
+}
+h3{
+    font-size: 80%
+}
+.singIn-btn{
+    background-color: #a6c4fe !important;
+}
