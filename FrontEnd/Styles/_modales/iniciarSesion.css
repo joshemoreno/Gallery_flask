@@ -1,0 +1,26 @@
+.col-md-12{
+    padding: 10%;
+}
+.form-control{
+    height: 50px;
+}
+.title{
+    text-align: center;
+}
+.text{
+    color: black;
+    text-align: center;
+    margin-left: 32%;
+}
+.voteIcon{
+    width: 7%;
+}
+.downloadIcon{
+    width: 7%;
+}
+.btn{
+    margin-left: 30%;
+    color: black;
+    font-size: 25px;
+    background-color: #A6C4FE;
+}

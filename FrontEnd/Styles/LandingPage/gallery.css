@@ -3,7 +3,8 @@
   }
 .row{
     display: flex;
-    padding:5%;
+    padding-left: 5%;
+    padding-right: 5%;
     height: 20px;
 }
 
@@ -84,6 +85,3 @@
     right: 12%;
     width: 6%;
 }
-
-
-  
