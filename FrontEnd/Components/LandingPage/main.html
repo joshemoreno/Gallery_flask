@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../Styles/LandingPage/modal.css">
     <link rel="stylesheet" href="../../Styles/LandingPage/gallery.css">
     <link rel="stylesheet" href="../../Styles/LandingPage/navbar.css">
+    <!-- <link rel="stylesheet" href="../../Styles/SingUp/modal.css"> -->
 </head>
 
 <body>
@@ -26,7 +27,7 @@
                         <input class="form-control my-0 py-1 gray-border" type="text"
                             placeholder="Ingresa una palabra clave" aria-label="Search">
                         <div class="input-group-append">
-                            <a class="btn btn-light" id="logoSearch-btn"><img src="../../Assets/Icons/search.svg"
+                            <a class="btn btn-light" id="logoSearch-btn" href="../Search/searchImage.html"><img src="../../Assets/Icons/search.svg"
                                     alt="logoSearch" class="logoSearch"><b>Buscar</b></a>
                         </div>
                     </div>
@@ -39,7 +40,7 @@
                         <a class="nav-link" href="../SingIn/singIn.html"><b>Regístrate</b></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#"><b>Inicia sesión</b></a>
+                        <a class="nav-link" data-toggle="modal" data-target="#myModal2"><b>Inicia sesión</b></a>
                     </li>
                 </ul>
             </div>
@@ -261,6 +262,39 @@
                 <div class="modal-footer">
                     <img src="../../Assets/Icons/heartEmpty.svg" alt="heart" class="voteIcon1">
                     <img src="../../Assets/Icons/downloadBlack.svg" alt="download" class="downloadIcon1">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal2" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="title">Bienvenido de nuevo a PHOTOS</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <input class="form-control" type="text" placeholder="Usuario">
+                        </div>
+                        <br>
+                        <div class="row">
+                            <input type="password" class="form-control" id="exampleInputPassword1"
+                                placeholder="Contraseña">
+                        </div>
+                        <br>
+                        <div class="row">
+                            <button type="submit" class="btn btnSingUp">Iniciar sesión</button>
+                        </div>
+                    </form>
+                    <br>
+                    <a href="#" class="text">Olvidé mi contraseña</a>
+                    </div>
                 </div>
             </div>
         </div>
