@@ -71,3 +71,20 @@
 img{
     width: 400px; height: 400px;
 }
+label{
+  font-weight: bold !important;
+  font-size: 140%; 
+}
+h1{
+  font-size: 140%; 
+}
+#button2{
+  background-color:#fea6a6  !important;
+  font-weight:600 !important;
+}
+#button1{
+  background-color:#a6c4fe  !important;
+  font-weight:600 !important;
+}
+
+
