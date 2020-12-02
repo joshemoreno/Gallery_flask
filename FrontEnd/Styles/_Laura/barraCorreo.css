@@ -1,0 +1,11 @@
+nav{
+    background-color: #9f9f9f;
+}
+.logo-navbar {
+    width: 100%;
+}
+.title-registro{
+    font-size: 30px;
+    font-weight: bolder;
+    text-align: center;
+}
