@@ -2,9 +2,11 @@
     padding: 10%;
 }
 .inputUser{
+    text-align: center;
     height: 50px;
 }
 .inputPasswd{
+    text-align: center;
     height: 50px;
 }
 .title{
