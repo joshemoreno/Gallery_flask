@@ -1,21 +1,5 @@
-.fixed-top{
-    position: fixed;
-    top:0;
-    right: 0;
-    left: 0;
-    z-index: 1030;
-    height: 60px;
-}
 .logo-navbar {
     width: 100%;
-}
-.input-group.md-form.form-sm.form-1 input{
-    border: 1px solid #bdbdbd;
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
-}
-.input-group.md-form.form-sm.form-2 input.gray-border {
-    border: 1px solid #9f9f9f;
 }
 .logoSearch{
     padding-right: 10px;
@@ -24,14 +8,13 @@
 #logoSearch-btn{
     border: 1px solid black;
 }
+.header {
+    background: url(../../Assets/Images/Fondo.jpg) no-repeat center;
+    background-size: cover;
+    min-height: 60vh;
+}
 .nav-link{
     color: #000;
-}
-.secondaryNavBar-nav{
-    padding-top: 5px;
-}
-.nav-underline{
-    margin-top: 60px;
 }
 .underline-active-bar{
     width: 100%; 
@@ -45,4 +28,22 @@
 }
 .nav-link:hover{
     color: #A6C4FE !important;
+}
+.navbarSupportedContent{ 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45vh;
+}
+.fixed-top{
+    position: fixed;
+    top:0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    height: 75px;
+    padding: 30px;;
+}
+.search-nav-fixed{
+    display: none !important;
 }
