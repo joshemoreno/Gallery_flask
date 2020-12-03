@@ -1,0 +1,41 @@
+form{
+    background-color: white;
+    text-align: center;
+    font-family: ;
+}
+h1{
+    font-size: 300%;
+}
+#subtitulo{ 
+    color:#a6c4fe;
+    font-size: 130%;  
+}
+input{
+    text-align: center;
+    margin: center;
+    font-weight: bold;
+}
+h3{
+    font-size: 80%
+}
+.singIn-btn{
+    background-color: #a6c4fe !important;
+    font-weight: bold !important;
+    font-size: 120%;
+}
+
+.singIn-btn1{
+    font-weight: bold !important;
+    background-color: #f6f5f5 !important;
+    colo
+}
+
+#encabezado{
+    font-weight: bold !important;
+    font-size: 70%;
+    color: #7f7f7f ;
+}
+
+#Nombre{
+    background-color: blue;
+}
