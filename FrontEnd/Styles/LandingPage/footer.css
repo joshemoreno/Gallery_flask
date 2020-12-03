@@ -1,0 +1,21 @@
+footer{
+    position: fixed;
+    bottom:0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+.footer-in{
+    height: 50px;
+    background-color: #000;
+    color: #fff
+}
+.footer-down{
+    height: 40px;
+    background-color: #fff;
+    color: #000
+}
+.text-center{
+    font-weight: 600;
+    font-size: 14px;
+}
