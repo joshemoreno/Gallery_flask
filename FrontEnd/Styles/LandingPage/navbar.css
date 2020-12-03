@@ -46,3 +46,6 @@
 .search-nav-fixed{
     display: none !important;
 }
+.login{
+    cursor: pointer;
+}
