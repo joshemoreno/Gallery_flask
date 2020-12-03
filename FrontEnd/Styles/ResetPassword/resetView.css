@@ -9,10 +9,12 @@ nav {
     width: 100%;
 }
 .titleRestart{
+    cursor: default;
     padding: 8%;
     text-align: center;
 }
 h1{
+    cursor: default;
     font-weight: bolder;
 }
 .subtitulo{ 

@@ -8,9 +8,11 @@
     text-align: justify;
 }
 .voteIcon1{
+    cursor: pointer;
     width: 7%;
 }
 .downloadIcon1{
+    cursor: pointer;
     width: 7%;
 }
 .row1{
