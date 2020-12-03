@@ -2,23 +2,17 @@
     box-sizing: border-box;
   }
 .row{
-    display: flex;
     padding-left: 5%;
     padding-right: 5%;
     margin-right: 0px;
-    height: 20px;
 }
-
 .columnLeft{
-    flex: 30%;
     padding: 10px;
 }
 .columnCenter{
-    flex: 30%;
     padding: 10px;
 }
 .columnRight{
-    flex: 30%;
     padding: 10px;
 }
 .imageLong{

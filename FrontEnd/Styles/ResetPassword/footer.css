@@ -14,7 +14,8 @@
 }
 
 .footer{
-    margin-top: 2%;
+    position: absolute;
+    /* margin-top: 2%; */
     bottom: 0px;
     left: 0;
     right: 0;
