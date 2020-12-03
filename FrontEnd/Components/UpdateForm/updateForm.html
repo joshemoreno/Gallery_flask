@@ -8,6 +8,7 @@
     integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="../../Styles/UpdateView/gallery.css">
     <link rel="stylesheet" href="../../Styles/UpdateView/navbar.css">
+    <link rel="stylesheet" href="../../Styles/UploadView/form.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="background-color: #9f9f9f !important;">
@@ -44,7 +45,39 @@
         </ul>
       </div>
     </nav>
+
+    <div class="uploadForm">
+      <div class="containerImage">
+        <img id="preview" class="uploadImage" src="../../Assets/Images/imagen3.jpg">
+        <input id="file" type="file" accept="image/jpeg,image/png" class="buttonImage">
+      </div>
+      <div class="containerForms">
+        <form action="">
+          <label for="name">Nombre</label>
+          <br>
+          <input type="text" placeholder="Nombre de la imagen" class="singIn-btn1 form-control" id="name" value="Mirador al mar">
+          <br>
+          <label for="description">Descripción</label>
+          <br>
+          <textarea type="text" rows="8" placeholder="Descripción" class="form-control textarea"
+            id="description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type...</textarea>
+          <br>
+          <label for="status">Estado de visibilidad</label>
+          <br>
+          <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+          </label>
+          <label id="statusImag">Privado</label>
+          <br>
+          <br>
+          <button type="button" class="btn  btn-lg btnUpload">Actualizar imagen</button>
+          <button type="button" class="btn  btn-lg btnCancel">Cancelar proceso</button>
+        </form>
+      </div>
+    </div>
 </body>
+<script src="../../Js/Upload/upload.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>

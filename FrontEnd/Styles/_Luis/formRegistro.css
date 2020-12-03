@@ -31,7 +31,7 @@ h3{
 }
 
 #encabezado{
-    font-weight: bold !important;
+    /* font-weight:  !important; */
     font-size: 70%;
     color: #7f7f7f ;
 }
