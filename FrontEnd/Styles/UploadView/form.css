@@ -61,37 +61,68 @@
     border-radius: 50%;
   }
 /* FIN DE Toggle Switch */
-#container-right{
-    float: left;
-    
+.uploadForm{
+    height: 500px;
+    margin-top: 5%;
+    margin-left: 15%;
+    margin-right: 15%;
+    display: flex;
+    /* border: solid; */
 }
-.col-md-4{
-    float: left;
+.containerImage{
+    border-radius: 5%;
+    margin-right: 3%;
+    width: 50%;
+    /* border: solid gray; */
+}
+.containerForms{
+    width: 50%;
 }
 
-img{
-    width: 400px; height: 406px;
-    border-radius: 2% !important;
+.uploadImage{
+    border: solid gray;
+    position: relative;
+    border-radius: 5%;
+    width: 100%;
+    max-height: 500px;
+    cursor: pointer;
 }
+
+.buttonImage{
+	position: absolute;
+    top:25%;
+	left:15%;
+	bottom:100px;
+    width:34%;
+    opacity: 0;
+    cursor: pointer;
+}
+
 label{
   font-weight: bold !important;
   font-size: 140%; 
 }
+input{
+  text-align: justify;
+}
 #Descripcion{
-    height: 100px ;
+  height: 100px ;
 }
 h1{
   font-size: 140%; 
 }
-#button2{
-  background-color:#fea6a6  !important;
-  font-weight:600 !important;
+.btnCancel{
+    margin-left: 5%;
+    background-color:#fea6a6  !important;
+    font-weight:600 !important;
 }
-#button1{
-  background-color:#a6c4fe  !important;
-  font-weight:600 !important;
-}s
+.btnUpload{
+    margin-left: 15%;
+    background-color:#a6c4fe  !important;
+    font-weight:600 !important;
+}
+
 
 .textarea{
-    text-align: justify;
-  }
+  text-align: justify;
+}
