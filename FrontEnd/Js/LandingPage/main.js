@@ -1,3 +1,4 @@
+  
   window.onscroll = function() {scrollFunction()};
   
   function scrollFunction() {
@@ -15,4 +16,23 @@
       $(".search-nav-fixed").attr("style", "display:none !important");
       $(".search-bar").addClass("navbarSupportedContent")
     }
+    return false;
   }
+
+  // events
+    $('.home-nav-link').on('click', function(){
+      $('#downloads-nav-link').removeClass("underline-active-bar")
+      $('#votes-nav-link').removeClass("underline-active-bar")
+      $('#home-nav-link').addClass("underline-active-bar")
+    })
+    $('.votes-nav-link').on('click', function(){
+      $('#downloads-nav-link').removeClass("underline-active-bar")
+      $('#home-nav-link').removeClass("underline-active-bar")
+      $('#votes-nav-link').addClass("underline-active-bar")
+    })
+    $('.downloads-nav-link').on('click', function(){
+      $('#home-nav-link').removeClass("underline-active-bar")
+      $('#votes-nav-link').removeClass("underline-active-bar")
+      $('#downloads-nav-link').addClass("underline-active-bar")
+    })
+
