@@ -13,3 +13,11 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('LandingPage/main.html')
+
+@app.route('/update/search/')
+def update():
+    return render_template('Updateview/update.html')
+
+@app.route('/insession/search/')
+def inSession():
+    return render_template('inSession/inSession.html')
