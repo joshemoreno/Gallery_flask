@@ -44,8 +44,8 @@ def log_out():
     #logout_user()
     return redirect(url_for('index'))
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
     # login_form = forms.LoginForm(request.form)
     # if request.method == 'POST' and login_form.validate():
     #     username = login_form.username.data
@@ -105,7 +105,7 @@ def register():
 # End RegisterRoute
 
 # ResetRoute
-@app.route('/reset/:id', methods=['GET', 'POST'])
+@app.route('/reset/<string:id>', methods=['GET', 'POST'])
 def reset(id):
     return render_template('Reset/resetPassword.html')
 # End ResetRoute
@@ -115,6 +115,6 @@ def reset(id):
 def upload():
     return render_template('UploadView/upload.html')
 
-@app.route('/updateform/:id', methods=['GET', 'POST'])
+@app.route('/updateform/<string:id>', methods=['GET', 'POST'])
 def updateform(id):
     return render_template('UpdateForm/updateForm.html')
