@@ -58,7 +58,7 @@ def login():
 @app.route('/imageDelete/<id>', methods=["DELETE"])
 def image_delete(id):
     return redirect(url_for('update'))
-
+  
 #Luis
 
 #jose
