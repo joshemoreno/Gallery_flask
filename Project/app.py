@@ -15,7 +15,7 @@ yag = yagmail.SMTP('misiontic2022grupo11@gmail.com', '2022Grupo11')
 app = Flask(__name__)
 
 #Laura
-@app.route('/search/<name>')
+@app.route('/search/<string:name>')
 def search_image(name):
     return render_template('Search/searchImage.html')
 
@@ -35,18 +35,38 @@ def download():
 @app.route('/insession')
 def in_session():
     return render_template('InSession/inSession.html')
-    
+
 @app.route('/update')
 def update():
     return render_template('UpdateView/update.html')
+
+@app.route('/showImage')
+def showImage():
+    return render_template('ShowImage/showImage.html')
 
 @app.route('/logout')
 def log_out():
     #logout_user()
     return redirect(url_for('index'))
 
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
+
+class LoginForm(Form):
+    user = StringField('Usuario',[validators.Length(min=1, max=50)])
+    password = PasswordField('Contraseña', [
+      validators.DataRequired()
+      ])
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = form.user.data
+    return render_template('Login/login.html', form=form)
+    #return render_template('login.html', title='Login', form=form)
+
+    # status = "ok"
+    # return status
     # login_form = forms.LoginForm(request.form)
     # if request.method == 'POST' and login_form.validate():
     #     username = login_form.username.data
@@ -59,7 +79,12 @@ def log_out():
 @app.route('/imageDelete/<id>', methods=["DELETE"])
 def image_delete(id):
     return redirect(url_for('update'))
-  
+
+##Validar que no esté duplicado
+@app.route('/resetRequest', methods=['GET', 'POST'])
+def resetRequest():
+    return render_template('Reset/resetRequest.html')
+    
 #Luis
 
 #jose
