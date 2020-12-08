@@ -8,8 +8,8 @@
 #logoSearch-btn{
     border: 1px solid black;
 }
-.header {
-    background: url(../../Assets/Images/Fondo.jpg) no-repeat center;
+.header{
+    background: url(../../images/Fondo.jpg) no-repeat center;
     background-size: cover;
     min-height: 60vh;
 }
