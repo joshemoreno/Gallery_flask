@@ -14,10 +14,10 @@ app = Flask(__name__)
 def index():
     return render_template('LandingPage/main.html')
 
-@app.route('/update/search/')
-def update():
-    return render_template('Updateview/update.html')
+# @app.route('/update/search/<string:name>')
+# def update():
+#     return render_template('Updateview/update.html')
 
-@app.route('/insession/search/')
-def inSession():
-    return render_template('inSession/inSession.html')
+# @app.route('/insession/search/<string:name>')
+# def inSession():
+#     return render_template('inSession/inSession.html')
