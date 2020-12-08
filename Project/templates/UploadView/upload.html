@@ -49,8 +49,7 @@
   <div class="uploadForm">
     <div class="containerImage">
       <img id="preview" class="uploadImage" src="../../static/images/newImage.JPG">
-      {{render_field(form.image, class_="buttonImage", accept="image/jpeg,image/png", id="file")}}
-      <!-- <input id="file" type="file" accept="image/jpeg,image/png" class="buttonImage"> -->
+      <input name="file" id="file" type="file" accept="image/jpeg,image/png" class="buttonImage">
     </div>
     <div class="containerForms">
       <label for="name">Nombre</label>
