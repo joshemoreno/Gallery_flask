@@ -36,7 +36,7 @@
           <a class="nav-link" href="#"><b>Hola, Laura</b></a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="../LandingPage/main.html"><b>Cerrar sesión</b></a>
+          <a class="nav-link" href="{{url_for('log_out')}}"><b>Cerrar sesión</b></a>
         </li>
       </ul>
     </div>
@@ -54,7 +54,10 @@
         <div class="underline-inactive-bar"></div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../Updateview/update.html"><img src="../../static/icons/update.svg" alt="logoSearch"
+
+        <a class="nav-link" href="{{url_for('update')}}"><img src="../../static/icons/update.svg" alt="logoSearch"
+
+
             class="logoSearch"><b>Actualizar imagen</b></a>
         <div class="underline-inactive-bar"></div>
       </li>

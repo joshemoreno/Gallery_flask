@@ -36,7 +36,7 @@
                     <a class="nav-link" href="#"><b>Hola, Laura</b></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="../LandingPage/main.html"><b>Cerrar sesión</b></a>
+                    <a class="nav-link" href="{{url_for('log_out')}}"><b>Cerrar sesión</b></a>
                 </li>
             </ul>
         </div>
@@ -44,7 +44,7 @@
     <div class="nav-underline shadow  mb-5 bg-white ">
         <ul class="nav justify-content-center secondaryNavBar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="../InSession/inSession.html"><img src="../../static/icons/images.svg"
+                <a class="nav-link" href="{{url_for('in_session')}}"><img src="../../static/icons/images.svg"
                         alt="logoSearch" class="logoSearch"><b>Mis imágenes</b></a>
                 <div class="underline-inactive-bar"></div>
             </li>
