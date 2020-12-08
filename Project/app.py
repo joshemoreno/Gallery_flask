@@ -8,7 +8,7 @@ import utils
 import os
 # secret_key=os.urandom(24)
 secret_key='secrect123'
-yag = yagmail.SMTP('jose_antonio.moreno@uao.edu.co', 'Autonoma0902')
+yag = yagmail.SMTP('misiontic2022grupo11@gmail.com', '2022Grupo11')
 
 
 app = Flask(__name__)
