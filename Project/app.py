@@ -38,13 +38,14 @@ def log_out():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # error = None
-    # if request.method == 'POST':
-    #     if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-    #         error = 'Credenciales incorrectas. Intenta de nuevo'
-    #     else:
-    #         return redirect(url_for('index'))
-    return render_template('login.html', error=error)
+    # login_form = forms.LoginForm(request.form)
+    # if request.method == 'POST' and login_form.validate():
+    #     username = login_form.username.data
+    #     successs_message = 'Bienvenido {}'. format(username)
+    #     flash(success_message)
+
+    #     session['username'] = login_form.username.data
+    # return render_template('LandingPage/main.html', form = login_form)
 
 @app.route('/imageDelete/<id>', methods=["DELETE"])
 def image_delete(id):
