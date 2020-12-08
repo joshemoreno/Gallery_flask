@@ -12,7 +12,7 @@ $select.addEventListener("change", () => {
     const objectURL = URL.createObjectURL(oneFile);
     $preview.src = objectURL;
 });
-
+document.getElementById("switch").checked = false;
 document.getElementById('switch').addEventListener('change', (e) => {
     let status = $('#statusImag')
     this.checkboxValue = e.target.checked ? status.html('Público') : status.html('Privado');

@@ -1,7 +1,8 @@
 # imports
 import yagmail
 from flask import Flask, render_template, flash, request, redirect, url_for, session, logging
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators, BooleanField, SubmitField, FileField
+from  werkzeug.utils  import  secure_filename
 from passlib.hash import sha256_crypt
 from functools import wraps
 import utils
@@ -72,18 +73,20 @@ def index():
 
 # Class registerForm
 class RegisterForm(Form):
-  user = StringField('Usuario',[validators.Length(min=1, max=50)])
-  email = StringField('Correo', [validators.Length(min=6, max=50)])
+  user = StringField('Usuario',[
+      validators.Length(min=5, max=15, message='El nombre del usuario debe tener de 5 a 15 caracteres')
+      ,validators.DataRequired()
+      ])
+  email = StringField('Correo', [
+      validators.Length(min=6, max=30, message='El nombre del usuario debe tener de 6 a 30 caracteres')
+      ,validators.DataRequired()
+      ])
   password = PasswordField('Contraseña', [
       validators.DataRequired(),
-      validators.EqualTo('confirm', message='Password do not match')
+      validators.EqualTo('confirm', message='Las contraseñas no coinciden')
       ])
   confirm = PasswordField('Confirma contraseña')
 #End Class registerForm
-
-# MailContent
-
-# End MailContent
 
 # RegisterRoute
 @app.route('/register', methods=['GET', 'POST'])
@@ -104,16 +107,54 @@ def register():
     return render_template('SingIn/singIn.html', form=form)
 # End RegisterRoute
 
+# Class resetForm
+class ResetForm(Form):
+    password = PasswordField('Contraseña', [
+      validators.DataRequired(),
+      validators.EqualTo('confirm', message='Las contraseñas no coinciden')
+      ])
+    confirm = PasswordField('Confirma contraseña', [validators.DataRequired()])
+#End Class resetForm
+
 # ResetRoute
-@app.route('/reset/<string:id>', methods=['GET', 'POST'])
+@app.route('/resetpassword/<string:id>', methods=['GET', 'POST'])
 def reset(id):
-    return render_template('Reset/resetPassword.html')
+    form = ResetForm(request.form)
+    if request.method == 'POST' and form.validate():
+        password = sha256_crypt.encrypt(str(form.password.data))
+        return redirect(url_for('index'))
+    return render_template('Reset/resetPassword.html', form=form)
 # End ResetRoute
 
+# Class uploadForm
+class UploadForm(Form):
+  title = StringField('Nombre',[
+      validators.Length(min=5, max=15, message='El nombre del usuario debe tener de 5 a 15 caracteres')
+      ,validators.DataRequired()
+      ])
+  description = TextAreaField('Descripción', [
+      validators.Length(min=10, max=50, message='El nombre del usuario debe tener de 10 a 50 caracteres')
+      ,validators.DataRequired()
+      ])
+  status = BooleanField()
+  image = FileField(validators.DataRequired())
+
+#End Class uploadForm
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    return render_template('UploadView/upload.html')
+    form = UploadForm(request.form)
+    if request.method == 'POST' and form.validate():
+        title = form.title.data
+        description = form.description.data
+        status = form.status.data
+        images = form.image.data
+        filename = secure_filename(images.filename)
+        f.save(os.path.join(
+            app.instance_path,'photos',filename
+        ))
+        print(title,description,status,image)
+    return render_template('UploadView/upload.html', form=form)
 
 @app.route('/updateform/<string:id>', methods=['GET', 'POST'])
 def updateform(id):
