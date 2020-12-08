@@ -38,7 +38,7 @@ class RegisterForm(Form):
 #End Class registerForm
 
 # MailContent
-contents = ["hola"]
+
 # End MailContent
 
 # RegisterRoute
@@ -50,9 +50,13 @@ def register():
         email = form.email.data
         password = sha256_crypt.encrypt(str(form.password.data))
         # flash('Ya te has registrado revisa tu correo y activa tu cuenta', 'correcto')
-        yag.send(email, 'Activa tu cuenta', contents)
+        yag.send(email, 'Activa tu cuenta', 
+        ''' <h1> Bienvenid@ a nuestra comunidad </h1>
+            <h3><b>Hola, '''+user+'''</b></h3><br><p>Este correo es para informarte que te has registrado en PHOTOS<p>
+            <a href="http://localhost:5000/insession">Activa tu cuenta</a>
+            <p>Si usted no realizo este registro por favor ignore este mensaje, gracias!</p>
+            ''')
         return redirect(url_for('index'))
-    # print(user,email,password)
     return render_template('SingIn/singIn.html', form=form)
 # End RegisterRoute
 
