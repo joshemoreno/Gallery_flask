@@ -1,3 +1,13 @@
+// arrowUp
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  let obj1 = document.getElementById('arrow');
+  if (scrolled > 300) {
+    obj1.removeAttribute("hidden");
+  } else {
+    obj1.setAttribute("hidden", "false")
+  }
+});
 
 window.onscroll = function () {
   scrollFunction()
@@ -39,13 +49,3 @@ $('.downloads-nav-link').on('click', function () {
   $('#downloads-nav-link').addClass("underline-active-bar")
 })
 
-// arrowUp
-window.addEventListener('scroll', () => {
-  const scrolled = window.scrollY;
-  let obj1 = document.getElementById('arrow');
-  if (scrolled > 300) {
-    obj1.removeAttribute("hidden");
-  } else {
-    obj1.setAttribute("hidden", "false")
-  }
-});
