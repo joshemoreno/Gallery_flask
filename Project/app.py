@@ -67,6 +67,7 @@ def image_delete(id):
 @app.route('/')
 def index():
     return render_template('LandingPage/main.html')
+
 # End MainRoute
 
 
@@ -118,3 +119,13 @@ def upload():
 @app.route('/updateform/<string:id>', methods=['GET', 'POST'])
 def updateform(id):
     return render_template('UpdateForm/updateForm.html')
+
+
+# @app.route('/update/search/<string:name>')
+# def update():
+#     return render_template('Updateview/update.html')
+
+# @app.route('/insession/search/<string:name>')
+# def inSession():
+#     return render_template('inSession/inSession.html')
+
