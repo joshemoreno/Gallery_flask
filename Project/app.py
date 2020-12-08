@@ -167,8 +167,6 @@ class UploadForm(Form):
       ,validators.DataRequired()
       ])
   status = BooleanField()
-#   photo = FileField(validators.DataRequired())
-
 #End Class uploadForm
 
 def allowed_file(filename):
@@ -188,9 +186,33 @@ def upload():
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return render_template('UploadView/upload.html', form=form)
 
+
+# Class updateForm
+class UpdateForm(Form):
+  title = StringField('Nombre',[
+      validators.Length(min=5, max=15, message='El nombre del usuario debe tener de 5 a 15 caracteres')
+      ,validators.DataRequired()
+      ])
+  description = TextAreaField('Descripción', [
+      validators.Length(min=10, max=50, message='El nombre del usuario debe tener de 10 a 50 caracteres')
+      ,validators.DataRequired()
+      ])
+  status = BooleanField()
+#End Class updateForm
+
+
 @app.route('/updateform/<string:id>', methods=['GET', 'POST'])
 def updateform(id):
-    return render_template('UpdateForm/updateForm.html')
+    form = UpdateForm(request.form)
+    if request.method == 'POST' and form.validate():
+        title = form.title.data
+        description = form.description.data
+        status = form.status.data
+        image = request.files['file']
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return render_template('UpdateForm/updateForm.html', form=form)
 
 
 # @app.route('/update/search/<string:name>')

@@ -45,7 +45,7 @@
   </div>
 </nav>
 {%from "layouts/_macro.html" import render_field%}
-<form method = "POST" enctype = "multipart/form-data" action = "" >
+<form method="POST" enctype="multipart/form-data" action="">
   <div class="uploadForm">
     <div class="containerImage">
       <img id="preview" class="uploadImage" src="../../static/images/newImage.JPG">
@@ -67,8 +67,7 @@
         <label id="statusImag" class="label">Privado</label>
       </div>
       <input type="submit" class="btn btnUpload" value="Cargar imagen">
-      <!-- <button type="button" class="btn btnUpload">Cargar imagen</button> -->
-      <button type="button" class="btn btnCancel">Cancelar proceso</button>
+      <button type="reset" class="btn btnCancel">Cancelar proceso</button>
 </form>
 </div>
 </div>
