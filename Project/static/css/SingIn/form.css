@@ -53,10 +53,3 @@ h3{
 #Nombre{
     background-color: blue;
 }
-.textForget{
-    cursor: pointer;
-    color: black;
-    text-align: center;
-    margin-left: 33%;
-    text-decoration: underline;
-}

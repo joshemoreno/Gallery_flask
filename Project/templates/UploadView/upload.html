@@ -45,11 +45,12 @@
   </div>
 </nav>
 {%from "layouts/_macro.html" import render_field%}
-<form method="POST" enctype="multipart/form-data" action="">
+<form method = "POST" enctype = "multipart/form-data" action = "" >
   <div class="uploadForm">
     <div class="containerImage">
       <img id="preview" class="uploadImage" src="../../static/images/newImage.JPG">
-      <input name="file" id="file" type="file" accept="image/jpeg,image/png" class="buttonImage">
+      {{render_field(form.image, class_="buttonImage", accept="image/jpeg,image/png", id="file")}}
+      <!-- <input id="file" type="file" accept="image/jpeg,image/png" class="buttonImage"> -->
     </div>
     <div class="containerForms">
       <label for="name">Nombre</label>
@@ -67,7 +68,8 @@
         <label id="statusImag" class="label">Privado</label>
       </div>
       <input type="submit" class="btn btnUpload" value="Cargar imagen">
-      <button type="reset" class="btn btnCancel">Cancelar proceso</button>
+      <!-- <button type="button" class="btn btnUpload">Cargar imagen</button> -->
+      <button type="button" class="btn btnCancel">Cancelar proceso</button>
 </form>
 </div>
 </div>
