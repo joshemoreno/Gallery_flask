@@ -299,10 +299,10 @@ def updateform(id):
         title = form.title.data
         description = form.description.data
         status = form.status.data
-        image = request.files['file']
-        if image and allowed_file(image.filename):
-            filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        # image = request.files['file']
+        # if image and allowed_file(image.filename):
+        #     filename = secure_filename(image.filename)
+        #     image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return render_template('UpdateForm/updateForm.html', form=form)
 
 class InSessionSearchForm(Form):
