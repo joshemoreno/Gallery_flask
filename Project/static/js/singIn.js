@@ -1,10 +1,11 @@
-// function validateMail(email) {
-//     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(email)) {
-//         alert("La dirección de email " + email + " es correcta.");
-//        } else {
-//         alert("La dirección de email es incorrecta.");
-//        }
-// }
+/* window.onload = function() {
+    validateName();
+  }; */
+
+window.onclick = function() {
+    validateUser();
+    validateMail();
+}
 
 // function validatePassword() {
 //     var newPassword = document.getElementById('changePasswordForm').newPassword.value;
@@ -21,10 +22,29 @@
 //     }
 // }
 
-function validateName() {
-    var newPassword = document.getElementById('user').value;
-    patronNombre = /^([A-Z]{1}[a-z]+[\s]*)+$/;
-    compNombre = patronNombre.test(nombre);
-    correcto(compNombre);
-    document.getElementById('mensaje').value="La dirección de email es incorrecta.";
+function validateUser() {
+    var user = document.getElementById('user').value;
+    userPattern = /^[a-z]+$/;
+    console.log(userPattern.test(user));
+    if (userPattern.test(user)){
+        document.getElementById('userMessage').style.visibility='visible';
+        document.getElementById('userMessage').innerText="El usuario cumple con los parametros";
+    } else {
+        document.getElementById('userMessage').style.visibility='visible';
+        document.getElementById('userMessage').innerText="El usuario debe cumplir con los parametros";
+    }
+}
+
+function validateMail() {
+    var email = document.getElementById('email').value;
+    //emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/;
+    emailPattern = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/;
+    console.log(emailPattern.test(email));
+    if (emailPattern.test(email)){
+        document.getElementById('emailMessage').style.visibility='visible';
+        document.getElementById('emailMessage').innerText="La dirección de email " + email + " es correcta.";
+    } else {
+        document.getElementById('emailMessage').style.visibility='visible';
+        document.getElementById('emailMessage').innerText="La dirección de email es incorrecta.";
+    }
 }
