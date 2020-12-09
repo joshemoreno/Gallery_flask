@@ -30,12 +30,21 @@
             </div>
             <div class="col-md-3">
                 <ul class="navbar-nav ml-auto">
+                {% if g.user.username %}
+                    <li class="nav-item active ml-5">
+                        <a class="nav-link" href="{{url_for('in_session')}}"><b>Hola, {{g.user.username}}</b></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{url_for('log_out')}}"><b>Cerrar sesión</b></a>
+                    </li>
+                {% else %}
                     <li class="nav-item active ml-5">
                         <a class="nav-link" href="{{url_for('register')}}"><b>Regístrate</b></a>
                     </li>
                     <li class="nav-item active ml-5">
                         <a class="nav-link" href="{{url_for('login')}}"><b class="login">Inicia sesión</b></a>
                     </li>
+                {% endif %}
                 </ul>
             </div>
         </nav>

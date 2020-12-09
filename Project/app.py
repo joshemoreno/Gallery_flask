@@ -125,8 +125,8 @@ def showImage(id):
 #End ShowImage Route
 
 # Vote Route
-@app.route('/vote', methods=["POST"])
-def vote():
+@app.route('/vote/<string:id>', methods=["POST"])
+def vote(id):
     #save vote
     vote = 1
     status = "ok"
@@ -134,8 +134,8 @@ def vote():
 # End Vote Route
 
 # Download Route
-@app.route('/download', methods=["POST"])
-def download():
+@app.route('/download/<string:id>', methods=["POST"])
+def download(id):
     #buscar imagen en directorio
     status = "ok"
     return status
