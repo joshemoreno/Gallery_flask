@@ -2,11 +2,8 @@
 
 {% block title %}PHOTOS{% endblock %}
 {% block css %}
-    <link rel="stylesheet" href="../../static/css/LandingPage/modal.css">
     <link rel="stylesheet" href="../../static/css/LandingPage/gallery.css">
     <link rel="stylesheet" href="../../static/css/LandingPage/navbar.css">
-    <link rel="stylesheet" href="../../static/css/SingUp/modal.css">
-    <link rel="stylesheet" href="../../static/css/ResetPassword/modal.css">
     <link rel="stylesheet" href="../../static/css/LandingPage/footer.css">
     <script src="../../static/js/main.js"></script>
     {% endblock %}
@@ -24,20 +21,30 @@
                     <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
                         aria-label="Search">
                     <div class="input-group-append">
-                        <a class="btn btn-light" id="logoSearch-btn" href="../Search/searchImage.html"><img
-                                src="../../static/icons/search.svg" alt="logoSearch"
-                                class="logoSearch"><b>Buscar</b></a>
+                        <form method="GET" action="{{url_for('search_image', name='montaña')}}">
+                            <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
+                                src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></button>
+                        </form>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <ul class="navbar-nav ml-auto">
+                {% if g.user.username %}
+                    <li class="nav-item active ml-5">
+                        <a class="nav-link" href="{{url_for('in_session')}}"><b>Hola, {{g.user.username}}</b></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{url_for('log_out')}}"><b>Cerrar sesión</b></a>
+                    </li>
+                {% else %}
                     <li class="nav-item active ml-5">
                         <a class="nav-link" href="{{url_for('register')}}"><b>Regístrate</b></a>
                     </li>
                     <li class="nav-item active ml-5">
                         <a class="nav-link" href="{{url_for('login')}}"><b class="login">Inicia sesión</b></a>
                     </li>
+                {% endif %}
                 </ul>
             </div>
         </nav>
@@ -47,8 +54,10 @@
                 <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
                     aria-label="Search">
                 <div class="input-group-append">
-                    <a class="btn btn-light" id="logoSearch-btn" href="../Search/searchImage.html"><img
-                            src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></a>
+                    <form method="GET" action="{{url_for('search_image', name='montaña')}}">
+                        <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
+                            src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -63,11 +72,11 @@
                     <div class="underline-active-bar" id="home-nav-link"></div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link votes-nav-link" href="#"><b>Más votadas</b></a>
+                    <a class="nav-link votes-nav-link" href="{{url_for('most_voted')}}"><b>Más votadas</b></a>
                     <div class="" id="votes-nav-link"></div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link downloads-nav-link" href="#"><b>Más descargadas</b></a>
+                    <a class="nav-link downloads-nav-link" href="{{url_for('most_downloaded')}}"><b>Más descargadas</b></a>
                     <div class="" id="downloads-nav-link"></div>
                 </li>
             </ul>
@@ -76,8 +85,10 @@
     <div class="row">
         <div class="columnLeft col-md-4">
             <div class="container">
-                <a data-toggle="modal" data-target="#modalImage"> <img src="../../static/images/imagen5.jpg"
-                        alt="imagen0" class="imageLong"></a>
+                <form method="GET" action="{{url_for('showImage', id=1)}}">
+                    <button type="submit" class="hide"><img src="../../static/images/imagen5.jpg"
+                        alt="imagen0" class="imageLong"></button>
+                </form>
                 <div class="overlay">
                     <div class="textAuth">Por: José A</div>
                     <div class="icons">
@@ -89,8 +100,10 @@
                 </div>
             </div>
             <div class="container">
-                <a data-toggle="modal" data-target="#modalImage"><img src="../../static/images/imagen4.jpg"
-                        alt="imagen0" class="imageLong"></a>
+                <form method="GET" action="{{url_for('showImage', id=1)}}">
+                    <button type="submit" class="hide"><img src="../../static/images/imagen4.jpg"
+                        alt="imagen0" class="imageLong"></button>
+                </form>
                 <div class="overlay">
                     <div class="textAuth">Por: José A</div>
                     <div class="icons">
@@ -102,8 +115,10 @@
                 </div>
             </div>
             <div class="container">
-                <a data-toggle="modal" data-target="#modalImage"><img src="../../static/images/imagen3.jpg"
-                        alt="imagen0" class="imageLong"></a>
+                <form method="GET" action="{{url_for('showImage', id=1)}}">
+                    <button type="submit" class="hide"><img src="../../static/images/imagen3.jpg"
+                        alt="imagen0" class="imageLong"></button>
+                </form>
                 <div class="overlay">
                     <div class="textAuth">Por: Manuel D</div>
                     <div class="icons">
@@ -117,8 +132,10 @@
         </div>
         <div class="columnCenter col-md-4">
             <div class="container">
-                <a data-toggle="modal" data-target="#modalImage"><img src="../../static/images/imagen6.jpg"
-                        alt="imagen0" class="imageShort"></a>
+                <form method="GET" action="{{url_for('showImage', id=1)}}">
+                    <button type="submit" class="hide"><img src="../../static/images/imagen6.jpg"
+                        alt="imagen0" class="imageShort"></button>
+                </form>
                 <div class="overlay">
                     <div class="textAuth">Por: José A</div>
                     <div class="icons">
@@ -130,8 +147,10 @@
                 </div>
             </div>
             <div class="container">
-                <a data-toggle="modal" data-target="#modalImage"><img src="../../static/images/imagen7.jpg"
-                        alt="imagen0" class="imageShort"></a>
+                <form method="GET" action="{{url_for('showImage', id=1)}}">
+                    <button type="submit" class="hide"><img src="../../static/images/imagen7.jpg"
+                        alt="imagen0" class="imageShort"></button>
+                </form>
                 <div class="overlay">
                     <div class="textAuth">Por: Luis M</div>
                     <div class="icons">
@@ -143,8 +162,10 @@
                 </div>
             </div>
             <div class="container">
-                <a data-toggle="modal" data-target="#modalImage"><img src="../../static/images/imagen2.jpg"
-                        alt="imagen0" class="imageShort"></a>
+                <form method="GET" action="{{url_for('showImage', id=1)}}">
+                    <button type="submit" class="hide"><img src="../../static/images/imagen2.jpg"
+                        alt="imagen0" class="imageShort"></button>
+                </form>
                 <div class="overlay">
                     <div class="textAuth">Por: José A</div>
                     <div class="icons">
@@ -156,8 +177,10 @@
                 </div>
             </div>
             <div class="container">
-                <a data-toggle="modal" data-target="#modalImage"><img src="../../static/images/imagen8.jpg"
-                        alt="imagen0" class="imageShort"></a>
+                <form method="GET" action="{{url_for('showImage', id=1)}}">
+                    <button type="submit" class="hide"><img src="../../static/images/imagen8.jpg"
+                        alt="imagen0" class="imageShort"></button>
+                </form>
                 <div class="overlay">
                     <div class="textAuth">Por: Laura C</div>
                     <div class="icons">
@@ -169,8 +192,10 @@
                 </div>
             </div>
             <div class="container">
-                <a data-toggle="modal" data-target="#modalImage"><img src="../../static/images/imagen6.jpg"
-                        alt="imagen0" class="imageShort"></a>
+                <form method="GET" action="{{url_for('showImage', id=1)}}">
+                    <button type="submit" class="hide"><img src="../../static/images/imagen6.jpg"
+                        alt="imagen0" class="imageShort"></button>
+                </form>
                 <div class="overlay">
                     <div class="textAuth">Por: Laura C</div>
                     <div class="icons">
@@ -182,8 +207,10 @@
                 </div>
             </div>
             <div class="container">
-                <a data-toggle="modal" data-target="#modalImage"><img src="../../static/images/imagen2.jpg"
-                        alt="imagen0" class="imageShort"></a>
+                <form method="GET" action="{{url_for('showImage', id=1)}}">
+                    <button type="submit" class="hide"><img src="../../static/images/imagen2.jpg"
+                        alt="imagen0" class="imageShort"></button>
+                </form>
                 <div class="overlay">
                     <div class="textAuth">Por: José A</div>
                     <div class="icons">
@@ -197,8 +224,10 @@
         </div>
         <div class="columnRight col-md-4">
             <div class="container">
-                <a data-toggle="modal" data-target="#modalImage"><img src="../../static/images/imagen4.jpg"
-                        alt="imagen0" class="imageLong"></a>
+                <form method="GET" action="{{url_for('showImage', id=1)}}">
+                    <button type="submit" class="hide"><img src="../../static/images/imagen4.jpg"
+                        alt="imagen0" class="imageLong"></button>
+                </form>
                 <div class="overlay">
                     <div class="textAuth">Por: Laura C</div>
                     <div class="icons">
@@ -210,8 +239,10 @@
                 </div>
             </div>
             <div class="container">
-                <a data-toggle="modal" data-target="#modalImage"><img src="../../static/images/imagen9.jpg"
-                        alt="imagen0" class="imageLong"></a>
+                <form method="GET" action="{{url_for('showImage', id=1)}}">
+                    <button type="submit" class="hide"><img src="../../static/images/imagen9.jpg"
+                        alt="imagen0" class="imageLong"></button>
+                </form>
                 <div class="overlay">
                     <div class="textAuth">Por: Manuel D</div>
                     <div class="icons">
@@ -223,8 +254,10 @@
                 </div>
             </div>
             <div class="container">
-                <a data-toggle="modal" data-target="#modalImage"><img src="../../static/images/imagen5.jpg"
-                        alt="imagen0" class="imageLong"></a>
+                <form method="GET" action="{{url_for('showImage', id=1)}}">
+                    <button type="submit" class="hide"><img src="../../static/images/imagen5.jpg"
+                        alt="imagen0" class="imageLong"></button>
+                </form>
                 <div class="overlay">
                     <div class="textAuth">Por: José A</div>
                     <div class="icons">
