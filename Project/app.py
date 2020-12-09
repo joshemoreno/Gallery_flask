@@ -71,11 +71,18 @@ def login():
         password = form.password.data
 
         usuario = [x for x in users if x.username == username][0]
+        #password_candidate = sha256_crypt.encrypt(str(usuario.password)) #para validar contraseña encriptada que viene de DB
+        #if password_candidate == password: #para validar contraseña encriptada
         if usuario and usuario.password == password:
             session['user_id'] = usuario.id
             # successs_message = 'Bienvenido {}'. format(usuario.username)
             # flash(success_message)
+            app.logger.info('PASSWORD MATCHED')
             return redirect(url_for('in_session'))
+        else:
+            app.logger.info('PASSWORD NO MATCHED')
+            error = 'sesión inválida'
+            return render_template('Login/login.html', form=form, error=error)
         return redirect(url_for('login'))
     return render_template('Login/login.html', form=form)
 #End Login route
@@ -104,17 +111,28 @@ def update():
 # End Update Route
 
 # DeleteImage Route
-@app.route('/imageDelete/<string:id>', methods=["POST"]) 
+@app.route('/update/delete/<string:id>', methods=["POST"]) 
 def image_delete(id):
     if not g.user:
         return redirect(url_for('login'))
     return redirect(url_for('update'))
 # End DeleteImage Route
 
+# End Class Search
+class SearchForm(Form):
+    texto = StringField('Texto',[
+        validators.DataRequired()
+        ])
+# End Class Search
+
 # Search Route
-@app.route('/search/<string:name>')
-def search_image(name):
-    return render_template('Search/searchImage.html')
+@app.route('/search', methods=["POST"])
+def search_image():
+    form = SearchForm(request.form)
+    if request.method == 'POST' and form.validate():
+        texto = request.form['texto']
+        return render_template('Search/searchImage.html', form=form)
+    return render_template('LandingPage/main.html')
 #End Search Route
 
 # ShowImage Route
