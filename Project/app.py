@@ -171,9 +171,9 @@ def download(id):
 # End Download Route
 
 # ResetRequest Route (Validar que no esté repetida)
-@app.route('/resetRequest', methods=['GET', 'POST'])
-def resetRequest():
-    return render_template('Reset/resetRequest.html')
+# @app.route('/resetRequest', methods=['GET', 'POST'])
+# def resetRequest():
+#     return render_template('Reset/resetRequest.html')
 # End ResetRequest Route
 
 #End Laura
@@ -305,12 +305,54 @@ def updateform(id):
         #     image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return render_template('UpdateForm/updateForm.html', form=form)
 
+class InSessionSearchForm(Form):
+    texto = StringField('Texto',[
+        validators.DataRequired()
+        ])
 
-@app.route('/update/search/<string:name>')
+@app.route('/update/search', methods=["POST"])
 def update_search():
+    form = InSessionSearchForm(request.form)
+    if request.method == 'POST' and form.validate():
+        texto = request.form['texto']
+        return render_template('Updateview/update.html', form=form)
     return render_template('Updateview/update.html')
 
-@app.route('/insession/search/<string:name>')
+@app.route('/insession/search', methods=["POST"])
 def inSession_search():
+    form = InSessionSearchForm(request.form)
+    if request.method == 'POST' and form.validate():
+        texto = request.form['texto']
+        return render_template('inSession/inSession.html', form=form)
     return render_template('inSession/inSession.html')
+
+
+# Class ResetRequestForm
+class ResetRequestForm(Form):
+  email = StringField('Correo', [
+      validators.Length(min=6, max=30, message='El nombre del usuario debe tener de 6 a 30 caracteres')
+      ,validators.DataRequired()
+      ])
+# End Class ResetRequestForm
+
+# reset_request
+@app.route('/resetRequest/<string:id>', methods=['GET', 'POST'])
+def resetRequest(id):
+    form = ResetRequestForm(request.form)
+    if request.method == 'POST' and form.validate():
+        email = form.email.data
+        # user = form.user.data
+        # flash('Ya te has registrado revisa tu correo y activa tu cuenta', 'correcto')
+        yag.send(email, 'Reestablecer contraseña de PHOTOS', 
+        ''' <h1>¿HAS OLVIDADO TU CONTRASEÑA? </h1>
+            <h3><b>Hola, '''+email+'''</b></h3><br><p>Esta es una solicitud para restablecer tu contraseña</p>
+            Haz clic en el siguiente enlace para restablecer tu contraseña
+            <a href="http://localhost:5000/resetpassword/1">Restablece tu contraseña</a>
+            <p>Si no has solicitado una nueva contraseña, por favor ignore este mensaje, gracias!</p>
+            ''')
+        return redirect(url_for('login'))
+    return render_template('Reset/resetRequest.html', form=form)
+# End resetRequest
+
+
 

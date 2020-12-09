@@ -27,14 +27,16 @@
                 <div class="card-body">
                     <div class="content">
                         <div class="col-md-12">
-                            <form>
+                            {%from "layouts/_macro.html" import render_field%}
+                            <form method="POST">
                                 <div class="col-md-12">
                                     <p class="message">Ingresa aquí tu correo para buscar tu usuario y enviarte un correo de
                                         recuperación de
                                         contraseña:</p>
                                     <br>
-                                    <input type="email" class="form-control inputMail" id="exampleInputPassword1"
-                                        placeholder="Correo electrónico">
+                                    <!-- <input type="email" class="form-control inputMail" id="exampleInputPassword1"
+                                        placeholder="Correo electrónico"> -->
+                                    {{render_field(form.email, class_="form-control inputMail", placeholder="Dirección de correo eléctronico", id="email")}}
                                     <br>
                                     <input type="submit" class="btn btn-lg restart-btn" value="Enviar">
                             </form>

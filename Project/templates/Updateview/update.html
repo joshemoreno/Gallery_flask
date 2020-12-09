@@ -17,12 +17,18 @@
         <div class="col-md-9">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="input-group md-form form-sm form-2 pl-0">
-                    <input class="form-control my-0 py-1 gray-border" type="text"
-                        placeholder="Ingresa una palabra clave" aria-label="Search">
-                    <div class="input-group-append">
-                        <a class="btn btn-light" id="logoSearch-btn"><img src="../../static/icons/search.svg"
-                                alt="logoSearch" class="logoSearch"><b>Buscar</b></a>
-                    </div>
+                    <form method="POST" action="{{url_for('update_search')}}" style="width: 100%;">
+                        <div class="row">
+                            <div class="col-md-10 text-input">
+                                <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
+                            aria-label="Search" name="texto" style="width: 100%;">
+                            </div>
+                            <div class="col-md-2 button-input">
+                                <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
+                                    src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
