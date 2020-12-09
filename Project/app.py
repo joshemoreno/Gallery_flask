@@ -22,7 +22,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #Laura
 
 #Check the session at the beggining of request
-
 @app.before_request
 def before_request():
     g.user = None
@@ -30,7 +29,7 @@ def before_request():
         user = [x for x in users if x.id == session['user_id']][0]
         g.user = user
 
-#Classes of LoginForm
+#Classes of Login
 class LoginForm(Form):
     user = StringField('Usuario',[
         validators.Length(min=1, max=50, message=('El nombre debe tener máximo 50 caracteres')),
@@ -57,8 +56,7 @@ users.append(User(id=2, username='Jose', password='secret'))
 users.append(User(id=3, username='Luis', password='hola'))
 users.append(User(id=4, username='Ivan', password='mundo'))
 ##
-
-#End Classes of LoginForm
+#End Classes of Login
 
 # Login Route
 @app.route('/login', methods=['GET', 'POST'])
@@ -97,6 +95,22 @@ def log_out():
     return redirect(url_for('index'))
 # End Logout Route
 
+# Update Route
+@app.route('/update')
+def update():
+    if not g.user:
+        return redirect(url_for('login'))
+    return render_template('UpdateView/update.html')
+# End Update Route
+
+# DeleteImage Route
+@app.route('/imageDelete/<string:id>', methods=["POST"]) 
+def image_delete(id):
+    if not g.user:
+        return redirect(url_for('login'))
+    return redirect(url_for('update'))
+# End DeleteImage Route
+
 # Search Route
 @app.route('/search/<string:name>')
 def search_image(name):
@@ -104,14 +118,26 @@ def search_image(name):
 #End Search Route
 
 # ShowImage Route
-@app.route('/showImage')
-def showImage():
+@app.route('/showImage/<string:id>')
+def showImage(id):
     return render_template('ShowImage/showImage.html')
 #End ShowImage Route
 
+# MostVoted Route
+@app.route('/mostVoted')
+def most_voted():
+    return render_template('LandingPage/main.html')
+# End MostVoted Route
+
+# MostDownloaded Route
+@app.route('/mostDownloaded')
+def most_downloaded():
+    return render_template('LandingPage/main.html')
+# End Vote MostDownloaded Route
+
 # Vote Route
-@app.route('/vote', methods=["POST"])
-def vote():
+@app.route('/vote/<string:id>', methods=["POST"])
+def vote(id):
     #save vote
     vote = 1
     status = "ok"
@@ -119,27 +145,14 @@ def vote():
 # End Vote Route
 
 # Download Route
-@app.route('/download', methods=["POST"])
-def download():
+@app.route('/download/<string:id>', methods=["POST"])
+def download(id):
     #buscar imagen en directorio
     status = "ok"
     return status
 # End Download Route
 
-
-# Update Route
-@app.route('/update')
-def update():
-    return render_template('UpdateView/update.html')
-# End Update Route
-
-# DeleteImage Route
-@app.route('/imageDelete/<id>', methods=["DELETE"])
-def image_delete(id):
-    return redirect(url_for('update'))
-# End DeleteImage Route
-
-# ResetRequest Route
+# ResetRequest Route (Validar que no esté repetida)
 @app.route('/resetRequest', methods=['GET', 'POST'])
 def resetRequest():
     return render_template('Reset/resetRequest.html')
@@ -233,6 +246,8 @@ def allowed_file(filename):
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    if not g.user:
+        return redirect(url_for('login'))
     form = UploadForm(request.form)
     if request.method == 'POST' and form.validate():
         title = form.title.data
