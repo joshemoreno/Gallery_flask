@@ -124,6 +124,18 @@ def showImage(id):
     return render_template('ShowImage/showImage.html')
 #End ShowImage Route
 
+# MostVoted Route
+@app.route('/mostVoted')
+def most_voted():
+    return render_template('LandingPage/main.html')
+# End MostVoted Route
+
+# MostDownloaded Route
+@app.route('/mostDownloaded')
+def most_downloaded():
+    return render_template('LandingPage/main.html')
+# End Vote MostDownloaded Route
+
 # Vote Route
 @app.route('/vote/<string:id>', methods=["POST"])
 def vote(id):

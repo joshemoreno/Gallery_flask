@@ -52,15 +52,15 @@
         <div class="nav-underline shadow  mb-5 bg-white ">
             <ul class="nav justify-content-center secondaryNavBar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><b>Inicio</b></a>
+                    <a class="nav-link" href="{{url_for('index')}}"><b>Inicio</b></a>
                     <div class="underline-active-bar"></div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><b>Más votadas</b></a>
+                    <a class="nav-link" href="{{url_for('most_voted')}}"><b>Más votadas</b></a>
                     <div class="underline-inactive-bar"></div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><b>Más descargadas</b></a>
+                    <a class="nav-link" href="{{url_for('most_downloaded')}}"><b>Más descargadas</b></a>
                     <div class="underline-inactive-bar"></div>
                 </li>
             </ul>
