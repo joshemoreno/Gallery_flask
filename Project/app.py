@@ -71,7 +71,7 @@ def login():
         password = form.password.data
 
         usuario = [x for x in users if x.username == username][0]
-        #password_candidate = sha256_crypt.encrypt(str(usuario.password)) #para validar contraseña encriptada
+        #password_candidate = sha256_crypt.encrypt(str(usuario.password)) #para validar contraseña encriptada que viene de DB
         #if password_candidate == password: #para validar contraseña encriptada
         if usuario and usuario.password == password:
             session['user_id'] = usuario.id
@@ -81,7 +81,7 @@ def login():
             return redirect(url_for('in_session'))
         else:
             app.logger.info('PASSWORD NO MATCHED')
-            error = 'sesion inválida'
+            error = 'sesión inválida'
             return render_template('Login/login.html', form=form, error=error)
         return redirect(url_for('login'))
     return render_template('Login/login.html', form=form)
