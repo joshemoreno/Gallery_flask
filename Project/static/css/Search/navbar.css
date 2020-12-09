@@ -46,3 +46,15 @@
 .nav-link:hover{
     color: #A6C4FE !important;
 }
+.text-input, .button-input{
+    margin: 0;
+    padding: 0;
+}
+.text-input>input{
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+.button-input>button{
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}

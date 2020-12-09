@@ -16,16 +16,20 @@
                         alt="logo"></a>
             </div>
 
-            <div class="col-md-8">
-                <div class="input-group search-nav-fixed">
-                    <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
-                        aria-label="Search">
-                    <div class="input-group-append">
-                        <form method="GET" action="{{url_for('search_image', name='montaña')}}">
-                            <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
-                                src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></button>
-                        </form>
-                    </div>
+            <div class="col-md-8" style="width: 100%;">
+                <div class="input-group search-nav-fixed" style="width: 100%;">
+                    <form method="POST" action="{{url_for('search_image')}}" style="width: 100%;">
+                        <div class="row">
+                            <div class="col-md-10 text-input">
+                                <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
+                            aria-label="Search" name="texto" style="width: 100%;">
+                            </div>
+                            <div class="col-md-2 button-input">
+                                <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
+                                    src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="col-md-3">
@@ -50,17 +54,31 @@
         </nav>
 
         <div class="container search-bar navbarSupportedContent">
-            <div class="input-group">
-                <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
+            <div class="input-group" style="width: 100%;">
+                <form method="POST" action="{{url_for('search_image')}}" style="width: 100%;">
+                    <div class="row">
+                        <div class="col-md-9 text-input">
+                            <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
+                        aria-label="Search" name="texto" style="width: 100%;">
+                        </div>
+                        <div class="col-md-3 button-input">
+                            <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
+                                src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
                     aria-label="Search">
                 <div class="input-group-append">
                     <form method="GET" action="{{url_for('search_image', name='montaña')}}">
                         <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
                             src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></button>
                     </form>
-                </div>
-            </div>
-        </div>
+                </div> -->
 
     </header>
 
@@ -68,20 +86,27 @@
         <div class="nav-underline shadow  mb-5 bg-white ">
             <ul class="nav justify-content-center secondaryNavBar-nav">
                 <li class="nav-item">
-                    <a class="nav-link home-nav-link" href="#"><b>Inicio</b></a>
-                    <div class="underline-active-bar" id="home-nav-link"></div>
+                    <a class="nav-link home-nav-link" href="{{url_for('index')}}"><b>Inicio</b></a>
+                    {% if request.url_rule.endpoint == 'index' %}    
+                        <div class="underline-active-bar" id="home-nav-link"></div> 
+                    {% endif %}
                 </li>
                 <li class="nav-item">
                     <a class="nav-link votes-nav-link" href="{{url_for('most_voted')}}"><b>Más votadas</b></a>
-                    <div class="" id="votes-nav-link"></div>
+                    {% if request.url_rule.endpoint == 'most_voted' %}                 
+                        <div class="underline-active-bar" id="votes-nav-link"></div>  
+                    {% endif %}
                 </li>
                 <li class="nav-item">
                     <a class="nav-link downloads-nav-link" href="{{url_for('most_downloaded')}}"><b>Más descargadas</b></a>
-                    <div class="" id="downloads-nav-link"></div>
+                    {% if request.url_rule.endpoint == 'most_downloaded' %}                 
+                        <div class="underline-active-bar" id="downloads-nav-link"></div> 
+                    {% endif %}
                 </li>
             </ul>
         </div>
-    </nav>
+    </nav>    
+
     <div class="row">
         <div class="columnLeft col-md-4">
             <div class="container">
@@ -285,8 +310,8 @@
         </a>
     </span>
 
+
     {% endblock %}
     {% block scripts %}
-    <script src="../../static/js/main.js"></script>
     {% endblock %}
 
