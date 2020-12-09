@@ -71,11 +71,18 @@ def login():
         password = form.password.data
 
         usuario = [x for x in users if x.username == username][0]
+        #password_candidate = sha256_crypt.encrypt(str(usuario.password)) #para validar contraseña encriptada
+        #if password_candidate == password: #para validar contraseña encriptada
         if usuario and usuario.password == password:
             session['user_id'] = usuario.id
             # successs_message = 'Bienvenido {}'. format(usuario.username)
             # flash(success_message)
+            app.logger.info('PASSWORD MATCHED')
             return redirect(url_for('in_session'))
+        else:
+            app.logger.info('PASSWORD NO MATCHED')
+            error = 'sesion inválida'
+            return render_template('Login/login.html', form=form, error=error)
         return redirect(url_for('login'))
     return render_template('Login/login.html', form=form)
 #End Login route
@@ -124,7 +131,6 @@ def search_image():
     form = SearchForm(request.form)
     if request.method == 'POST' and form.validate():
         texto = request.form['texto']
-        print(texto)
         return render_template('Search/searchImage.html', form=form)
     return render_template('LandingPage/main.html')
 #End Search Route
