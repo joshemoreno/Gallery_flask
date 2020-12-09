@@ -1,5 +1,4 @@
 {% extends "layouts/base.html"%}
-
 {% block title %}Nueva imagen{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="../../static/css/UploadView/navbar.css">
@@ -9,7 +8,8 @@
 {% block body %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="background-color: #9f9f9f !important;">
   <div class="col-md-1">
-    <a class="navbar-brand" href="{{url_for('index')}}"><img class="logo-navbar" src="../../static/images/Logo.png" alt="logo"></a>
+    <a class="navbar-brand" href="{{url_for('index')}}"><img class="logo-navbar" src="../../static/images/Logo.png"
+        alt="logo"></a>
   </div>
   <div class="col-md-9"></div>
   <div class="col-md-3">
@@ -18,7 +18,7 @@
         <a class="nav-link" href="{{url_for('in_session')}}"><b>Hola, {{g.user.username}}</b></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="../LandingPage/main.html"><b>Cerrar sesión</b></a>
+        <a class="nav-link" href="{{url_for('log_out')}}"><b>Cerrar sesión</b></a>
       </li>
     </ul>
   </div>
@@ -32,7 +32,7 @@
         <div class="underline-inactive-bar"></div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#"><img src="../../static/icons/load.svg" alt="logoSearch"
+        <a class="nav-link" href="{{url_for('upload')}}"><img src="../../static/icons/load.svg" alt="logoSearch"
             class="logoSearch"><b>Cargar imagen</b></a>
         <div class="underline-active-bar"></div>
       </li>
@@ -67,11 +67,10 @@
         <label id="statusImag" class="label">Privado</label>
       </div>
       <input type="submit" class="btn btnUpload" value="Cargar imagen">
-      <button type="reset" class="btn btnCancel">Cancelar proceso</button>
+      <a type="button" class="btn  btnCancel" href="{{url_for('in_session')}}">Cancelar proceso</a>
 </form>
 </div>
 </div>
-
 <div class="footer">
   <div class="text-center footer-in py-3">
     <div class="text-center">Términos y condiciones <span class="mx-4"></span>Políticas de privacidad</span>
