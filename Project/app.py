@@ -2,18 +2,21 @@
 import yagmail
 from flask import Flask, render_template, flash, request, redirect, url_for, session, logging, g
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, BooleanField, SubmitField, FileField
-from  werkzeug.utils  import  secure_filename
+from werkzeug.utils  import secure_filename
 from passlib.hash import sha256_crypt
 from functools import wraps
 import utils
 import os
-# secret_key=os.urandom(24)
-secret_key='secrect123'
-yag = yagmail.SMTP('misiontic2022grupo11@gmail.com', '2022Grupo11')
 
+# secret_key=os.urandom(24)
+# secret_key='secrect123'
+yag = yagmail.SMTP('misiontic2022grupo11@gmail.com', '2022Grupo11')
+# UPLOAD_FOLDER = 'D:\Descarga\Mintic\Ciclo3\ProyectoGrupoE'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
-app.secret_key = secret_key
+app.secret_key=os.urandom(24)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 #Laura
@@ -222,9 +225,11 @@ class UploadForm(Form):
       ,validators.DataRequired()
       ])
   status = BooleanField()
-  image = FileField(validators.DataRequired())
-
 #End Class uploadForm
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -233,17 +238,39 @@ def upload():
         title = form.title.data
         description = form.description.data
         status = form.status.data
-        images = form.image.data
-        filename = secure_filename(images.filename)
-        f.save(os.path.join(
-            app.instance_path,'photos',filename
-        ))
-        print(title,description,status,image)
+        image = request.files['file']
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return render_template('UploadView/upload.html', form=form)
+
+
+# Class updateForm
+class UpdateForm(Form):
+  title = StringField('Nombre',[
+      validators.Length(min=5, max=15, message='El nombre del usuario debe tener de 5 a 15 caracteres')
+      ,validators.DataRequired()
+      ])
+  description = TextAreaField('Descripción', [
+      validators.Length(min=10, max=50, message='El nombre del usuario debe tener de 10 a 50 caracteres')
+      ,validators.DataRequired()
+      ])
+  status = BooleanField()
+#End Class updateForm
+
 
 @app.route('/updateform/<string:id>', methods=['GET', 'POST'])
 def updateform(id):
-    return render_template('UpdateForm/updateForm.html')
+    form = UpdateForm(request.form)
+    if request.method == 'POST' and form.validate():
+        title = form.title.data
+        description = form.description.data
+        status = form.status.data
+        image = request.files['file']
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return render_template('UpdateForm/updateForm.html', form=form)
 
 
 # @app.route('/update/search/<string:name>')
