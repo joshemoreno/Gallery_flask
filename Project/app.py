@@ -140,9 +140,7 @@ def image_delete(id):
 # End DeleteImage Route
 
 # ResetRequest Route
-@app.route('/resetRequest', methods=['GET', 'POST'])
-def resetRequest():
-    return render_template('Reset/resetRequest.html')
+
 # End ResetRequest Route
 
 #End Laura
@@ -273,11 +271,14 @@ def updateform(id):
     return render_template('UpdateForm/updateForm.html', form=form)
 
 
-# @app.route('/update/search/<string:name>')
-# def update():
-#     return render_template('Updateview/update.html')
+@app.route('/update/search/<string:name>')
+def update():
+    return render_template('Updateview/update.html')
 
-# @app.route('/insession/search/<string:name>')
-# def inSession():
-#     return render_template('inSession/inSession.html')
+@app.route('/insession/search/<string:name>')
+def inSession():
+    return render_template('inSession/inSession.html')
 
+@app.route('/resetRequest', methods=['GET', 'POST'])
+def resetRequest():
+    return render_template('Reset/resetRequest.html')
