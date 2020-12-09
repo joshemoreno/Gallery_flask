@@ -288,11 +288,11 @@ def updateform(id):
     return render_template('UpdateForm/updateForm.html', form=form)
 
 
-# @app.route('/update/search/<string:name>')
-# def update():
-#     return render_template('Updateview/update.html')
+@app.route('/update/search/<string:name>')
+def update_search():
+    return render_template('Updateview/update.html')
 
-# @app.route('/insession/search/<string:name>')
-# def inSession():
-#     return render_template('inSession/inSession.html')
+@app.route('/insession/search/<string:name>')
+def inSession_search():
+    return render_template('inSession/inSession.html')
 
