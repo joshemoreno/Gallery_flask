@@ -47,7 +47,7 @@
     <div class="uploadForm">
       <div class="containerImage">
         <img id="preview" class="uploadImage" src="../../static/images/imagen3.jpg">
-        <input name="file" id="file" type="file" accept="image/jpeg,image/png" class="buttonImage">
+        <!-- <input name="file" id="file" type="file" accept="image/jpeg,image/png" class="buttonImage"> -->
       </div>
       <div class="containerForms">
           <label for="name">Nombre</label>
@@ -56,7 +56,7 @@
           <br>
           <label for="description">Descripción</label>
           <br>
-          {{render_field(form.description, class_="form-control textarea", placeholder="Descripción", rows="8", id="description", value="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type...")}}
+          {{render_field(form.description, class_="form-control textarea", placeholder="Descripción", rows="8", id="description")}}
           <br>
           <label for="status">Estado de visibilidad</label>
           <br>
