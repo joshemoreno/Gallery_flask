@@ -11,8 +11,7 @@ import os
 # secret_key=os.urandom(24)
 # secret_key='secrect123'
 yag = yagmail.SMTP('misiontic2022grupo11@gmail.com', '2022Grupo11')
-#UPLOAD_FOLDER = 'D:\Descarga\Mintic\Ciclo3\ProyectoGrupoE'
-UPLOAD_FOLDER = 'C:\Descargas'
+UPLOAD_FOLDER = os.path.abspath("./uploader")
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
