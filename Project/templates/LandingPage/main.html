@@ -16,16 +16,20 @@
                         alt="logo"></a>
             </div>
 
-            <div class="col-md-8">
-                <div class="input-group search-nav-fixed">
-                    <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
-                        aria-label="Search">
-                    <div class="input-group-append">
-                        <form method="GET" action="{{url_for('search_image', name='montaña')}}">
-                            <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
-                                src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></button>
-                        </form>
-                    </div>
+            <div class="col-md-8" style="width: 100%;">
+                <div class="input-group search-nav-fixed" style="width: 100%;">
+                    <form method="POST" action="{{url_for('search_image')}}" style="width: 100%;">
+                        <div class="row">
+                            <div class="col-md-10 text-input">
+                                <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
+                            aria-label="Search" name="texto" style="width: 100%;">
+                            </div>
+                            <div class="col-md-2 button-input">
+                                <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
+                                    src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="col-md-3">
@@ -50,17 +54,31 @@
         </nav>
 
         <div class="container search-bar navbarSupportedContent">
-            <div class="input-group">
-                <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
+            <div class="input-group" style="width: 100%;">
+                <form method="POST" action="{{url_for('search_image')}}" style="width: 100%;">
+                    <div class="row">
+                        <div class="col-md-9 text-input">
+                            <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
+                        aria-label="Search" name="texto" style="width: 100%;">
+                        </div>
+                        <div class="col-md-3 button-input">
+                            <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
+                                src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
                     aria-label="Search">
                 <div class="input-group-append">
                     <form method="GET" action="{{url_for('search_image', name='montaña')}}">
                         <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
                             src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></button>
                     </form>
-                </div>
-            </div>
-        </div>
+                </div> -->
 
     </header>
 

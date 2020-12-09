@@ -104,17 +104,29 @@ def update():
 # End Update Route
 
 # DeleteImage Route
-@app.route('/imageDelete/<string:id>', methods=["POST"]) 
+@app.route('/update/delete/<string:id>', methods=["POST"]) 
 def image_delete(id):
     if not g.user:
         return redirect(url_for('login'))
     return redirect(url_for('update'))
 # End DeleteImage Route
 
+# End Class Search
+class SearchForm(Form):
+    texto = StringField('Texto',[
+        validators.DataRequired()
+        ])
+# End Class Search
+
 # Search Route
-@app.route('/search/<string:name>')
-def search_image(name):
-    return render_template('Search/searchImage.html')
+@app.route('/search', methods=["POST"])
+def search_image():
+    form = SearchForm(request.form)
+    if request.method == 'POST' and form.validate():
+        texto = request.form['texto']
+        print(texto)
+        return render_template('Search/searchImage.html', form=form)
+    return render_template('LandingPage/main.html')
 #End Search Route
 
 # ShowImage Route
