@@ -153,9 +153,9 @@ def download(id):
 # End Download Route
 
 # ResetRequest Route (Validar que no esté repetida)
-@app.route('/resetRequest', methods=['GET', 'POST'])
-def resetRequest():
-    return render_template('Reset/resetRequest.html')
+# @app.route('/resetRequest', methods=['GET', 'POST'])
+# def resetRequest():
+#     return render_template('Reset/resetRequest.html')
 # End ResetRequest Route
 
 #End Laura
@@ -309,28 +309,32 @@ def inSession_search():
     return render_template('inSession/inSession.html')
 
 
-
-# Class reset_request_form
+# Class ResetRequestForm
 class ResetRequestForm(Form):
   email = StringField('Correo', [
       validators.Length(min=6, max=30, message='El nombre del usuario debe tener de 6 a 30 caracteres')
       ,validators.DataRequired()
       ])
-#End Class reset_request_form
+# End Class ResetRequestForm
 
-
-@app.route('/forgotPassword', methods=['GET', 'POST'])
-def forgotPassword():
+# reset_request
+@app.route('/resetRequest/<string:id>', methods=['GET', 'POST'])
+def resetRequest(id):
     form = ResetRequestForm(request.form)
-    # if request.method == 'POST' and form.validate():
-    #     email = form.email.data
-    #     # flash('se ha enviado un correo para restablecer contraseña', 'correcto')
-    #     yag.send(email, 'Activa tu cuenta', 
-    #     ''' <h1> Bienvenid@ a nuestra comunidad </h1>
-    #         <h3><b>Hola</b></h3><br><p>Este correo es para informarte que te has registrado en PHOTOS<p>
-    #         <a href="http://localhost:5000/resetpassword/1">Activa tu cuenta</a>
-    #         <p>Si usted no realizo este registro por favor ignore este mensaje, gracias!</p>
-    #         ''')
-    #     return redirect(url_for('reset',id=1))
+    if request.method == 'POST' and form.validate():
+        email = form.email.data
+        # user = form.user.data
+        # flash('Ya te has registrado revisa tu correo y activa tu cuenta', 'correcto')
+        yag.send(email, 'Reestablecer contraseña de PHOTOS', 
+        ''' <h1>¿HAS OLVIDADO TU CONTRASEÑA? </h1>
+            <h3><b>Hola, '''+email+'''</b></h3><br><p>Esta es una solicitud para restablecer tu contraseña</p>
+            Haz clic en el siguiente enlace para restablecer tu contraseña
+            <a href="http://localhost:5000/resetpassword/1">Restablece tu contraseña</a>
+            <p>Si no has solicitado una nueva contraseña, por favor ignore este mensaje, gracias!</p>
+            ''')
+        return redirect(url_for('login'))
     return render_template('Reset/resetRequest.html', form=form)
-# End RegisterRoute
+# End resetRequest
+
+
+
