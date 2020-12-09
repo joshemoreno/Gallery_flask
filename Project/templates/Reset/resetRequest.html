@@ -27,6 +27,7 @@
                 <div class="card-body">
                     <div class="content">
                         <div class="col-md-12">
+                            {%from "layouts/_macro.html" import render_field%}
                             <form>
                                 <div class="col-md-12">
                                     <p class="message">Ingresa aquí tu correo para buscar tu usuario y enviarte un correo de
@@ -35,6 +36,7 @@
                                     <br>
                                     <input type="email" class="form-control inputMail" id="exampleInputPassword1"
                                         placeholder="Correo electrónico">
+
                                     <br>
                                     <input type="submit" class="btn btn-lg restart-btn" value="Enviar">
                             </form>

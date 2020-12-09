@@ -287,12 +287,50 @@ def updateform(id):
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return render_template('UpdateForm/updateForm.html', form=form)
 
+class InSessionSearchForm(Form):
+    texto = StringField('Texto',[
+        validators.DataRequired()
+        ])
 
-@app.route('/update/search/<string:name>')
+@app.route('/update/search', methods=["POST"])
 def update_search():
+    form = InSessionSearchForm(request.form)
+    if request.method == 'POST' and form.validate():
+        texto = request.form['texto']
+        return render_template('Updateview/update.html', form=form)
     return render_template('Updateview/update.html')
 
-@app.route('/insession/search/<string:name>')
+@app.route('/insession/search', methods=["POST"])
 def inSession_search():
+    form = InSessionSearchForm(request.form)
+    if request.method == 'POST' and form.validate():
+        texto = request.form['texto']
+        return render_template('inSession/inSession.html', form=form)
     return render_template('inSession/inSession.html')
 
+
+
+# Class reset_request_form
+class ResetRequestForm(Form):
+  email = StringField('Correo', [
+      validators.Length(min=6, max=30, message='El nombre del usuario debe tener de 6 a 30 caracteres')
+      ,validators.DataRequired()
+      ])
+#End Class reset_request_form
+
+
+@app.route('/forgotPassword', methods=['GET', 'POST'])
+def forgotPassword():
+    form = ResetRequestForm(request.form)
+    # if request.method == 'POST' and form.validate():
+    #     email = form.email.data
+    #     # flash('se ha enviado un correo para restablecer contraseña', 'correcto')
+    #     yag.send(email, 'Activa tu cuenta', 
+    #     ''' <h1> Bienvenid@ a nuestra comunidad </h1>
+    #         <h3><b>Hola</b></h3><br><p>Este correo es para informarte que te has registrado en PHOTOS<p>
+    #         <a href="http://localhost:5000/resetpassword/1">Activa tu cuenta</a>
+    #         <p>Si usted no realizo este registro por favor ignore este mensaje, gracias!</p>
+    #         ''')
+    #     return redirect(url_for('reset',id=1))
+    return render_template('Reset/resetRequest.html', form=form)
+# End RegisterRoute
