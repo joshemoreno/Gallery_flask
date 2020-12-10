@@ -2,7 +2,7 @@
 import yagmail
 from flask import Flask, render_template, flash, request, redirect, url_for, session, logging, g
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, BooleanField, SubmitField, FileField
-from werkzeug.utils  import secure_filename
+from werkzeug.utils import secure_filename
 from passlib.hash import sha256_crypt
 from functools import wraps
 import utils
