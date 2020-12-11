@@ -1,31 +1,15 @@
 var exp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-// document.getElementById('submit').addEventListener("click", function(e){
-//     e.preventDefault;
-//     MailValidate()
-//     UserValidate()
-//     PasswordValidate()
-//     ConfirmValidate()
-// })
-
 function inactiveSubmit(){
-    var x = document.getElementById('submitBtn');
-    x.removeAttribute('disable');
-    console.log(x)
+    document.getElementById('submitBtn').disabled=true;
+}
+function activeSubmit(){
+    document.getElementById('submitBtn').disabled=false;
 }
 
 window.onload = function(){ 
-    // changes()
-    inactiveSubmit()
+    changes()
 }
-
-// function validate(){
-//     // return [MailValidate(),UserValidate(),PasswordValidate(),ConfirmValidate()]
-//     // UserValidate()
-//     // PasswordValidate()
-//     // ConfirmValidate()
-//     // return false;
-// }
 
 function changes(){
     document.getElementById("user").addEventListener("change", function(){
@@ -44,87 +28,78 @@ function changes(){
 
 function UserValidate(e) {
     var user = document.getElementById('user');
-    var salida = true;
+    var userError = document.getElementById('usererror');
 
     if (user.value.trim().length == 0) {
-        var userError = document.getElementById('usererror');
         userError.removeAttribute("hidden");
         userError.innerHTML = "Debes ingresar un usuario";
-        salida = false;
+        inactiveSubmit()
     }else if(user.value.trim().length < 5){
-        var userError = document.getElementById('usererror');
         userError.removeAttribute("hidden");
         userError.innerHTML = "Tu usuario debe tener al menos 5 caracteres";
-        salida = false;
+        inactiveSubmit()
     }else if(user.value.trim().length > 15){
-        var userError = document.getElementById('usererror');
         userError.removeAttribute("hidden");
         userError.innerHTML = "Tu usuario debe tener maximo 15 caracteres";
-        salida = false;
+        inactiveSubmit()
     }else{
-        var userError = document.getElementById('usererror');
         userError.setAttribute("hidden","true");
+        activeSubmit()
     }
-    return salida;
+    return false;
 }
 
 function MailValidate() {
     var mail = document.getElementById('mail');
-    var salida = true;
+    var emailError = document.getElementById('mailerror');
 
     if (mail.value.trim().length == 0){
-        var emailError = document.getElementById('mailerror');
         emailError.removeAttribute("hidden");
         emailError.innerHTML = "Debes ingresar un correo";
-        salida = false;
+        inactiveSubmit()
     }else if  (!exp.test(mail.value)) {
-        var emailError = document.getElementById('mailerror');
         emailError.removeAttribute("hidden");
         emailError.innerHTML = "Correo invalido";
         inactiveSubmit()
-        salida = false;
     }else{
-        var emailError = document.getElementById('mailerror');
         emailError.setAttribute("hidden","true");
+        activeSubmit()
     }
-    console.log(salida)
-    return salida;
+    return false;
 }
 
 function PasswordValidate() {
     var password = document.getElementById('password');
-    var salida = true;
+    var passwordError = document.getElementById('passworderror');
     if (password.value.trim().length < 7 ) {
-        var passwordError = document.getElementById('passworderror');
         passwordError.removeAttribute("hidden");
         passwordError.innerHTML = "La contraseña debe tener al menos 7 caracteres";
-        salida = false;
+        inactiveSubmit()
     }else if (password.value.trim().length > 15 ) {
-        var passwordError = document.getElementById('passworderror');
         passwordError.removeAttribute("hidden");
         passwordError.innerHTML = "La contraseña debe tener maximo 15 caracteres";
-        salida = false;
+        inactiveSubmit()
     }else{
-        var passwordError = document.getElementById('passworderror');
         passwordError.setAttribute("hidden","true");
+        activeSubmit()
     }
-    return salida;
+    return false;
 }
 
 function ConfirmValidate() {
     var password = document.getElementById('password');
     var confirm = document.getElementById('confirm');
-    var salida = true;
+    var confirmError = document.getElementById('confirmerror');
+
     if (password.value.trim() != confirm.value.trim()) {
-        var confirmError = document.getElementById('confirmerror');
         confirmError.removeAttribute("hidden");
         confirmError.innerHTML = "No coincide con contraseña";
-        salida = false;
+        inactiveSubmit()
     }else{
-        var confirmError = document.getElementById('confirmerror');
         confirmError.setAttribute("hidden","true");
+        activeSubmit()
     }
-    return salida;
+    return false;
 }
 
 
