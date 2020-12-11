@@ -1,13 +1,12 @@
 {% extends "layouts/base.html"%}
-
 {% block title %}Nueva imagen{% endblock %}
 {% block css %}
-    <link rel="stylesheet" href="../../static/css/UpdateView/gallery.css">
-    <link rel="stylesheet" href="../../static/css/UpdateView/navbar.css">
-    <link rel="stylesheet" href="../../static/css/UpdateForm/form.css">
-    <link rel="stylesheet" href="../../static/css/UpdateForm/footer.css">
-    {% endblock %}
-    {% block body %}
+<link rel="stylesheet" href="../../static/css/UpdateView/gallery.css">
+<link rel="stylesheet" href="../../static/css/UpdateView/navbar.css">
+<link rel="stylesheet" href="../../static/css/UpdateForm/form.css">
+<link rel="stylesheet" href="../../static/css/UpdateForm/footer.css">
+{% endblock %}
+{% block body %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="background-color: #9f9f9f !important;">
   <div class="col-md-1">
     <a class="navbar-brand" href="{{url_for('index')}}"><img class="logo-navbar" src="../../static/images/Logo.png"
@@ -46,7 +45,7 @@
 </div>
 </nav>
 {%from "layouts/_macro.html" import render_field%}
-<form method="POST" action="" id="form">
+<form method="POST" action="" id="form" onsubmit="return changes()">
   <div class="uploadForm">
     <div class="containerImage">
       <img id="preview" class="uploadImage" src="../../static/images/imagen3.jpg">
@@ -68,7 +67,7 @@
         {{render_field(form.status, id="switch", class_="check")}}
         <label id="statusImag" class="label">Privado</label>
       </div>
-      <input type="submit" class="btn btnUpload" value="Actualizar imagen" id="submit" onclick="validate(this.form)">
+      <input type="submit" class="btn btnUpload" value="Actualizar imagen" id="submitBtn">
       <a type="button" class="btn  btnCancel" href="{{url_for('update')}}">Cancelar proceso</a>
 </form>
 </div>

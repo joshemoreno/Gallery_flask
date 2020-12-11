@@ -8,11 +8,6 @@ function activeSubmit(){
     document.getElementById('submitBtn').disabled=false;
 }
 
-function validate(){
-    NameValidate()
-    DescriptionValidate()
-}
-
 function changes(){
     document.getElementById('name').addEventListener("change", function(){
         NameValidate()
@@ -28,18 +23,18 @@ function NameValidate() {
     if (name.value.trim().length == 0) {
         nameError.removeAttribute("hidden");
         nameError.innerHTML = "Debes ingresar un nombre para la imagen";
-        inactiveSubmit()
+        inactiveSubmit();
     }else if(name.value.trim().length < 5){
         nameError.removeAttribute("hidden");
         nameError.innerHTML = "El nombre de la imagen debe tener al menos 5 caracteres";
-        inactiveSubmit()
+        inactiveSubmit();
     }else if(name.value.trim().length > 20){
         nameError.removeAttribute("hidden");
         nameError.innerHTML = "El nombre de la imagen debe tener máximo 20 caracteres";
-        inactiveSubmit()
+        inactiveSubmit();
     }else{
         nameError.setAttribute("hidden","true");
-        activeSubmit()
+        activeSubmit();
     }
     return false;
 }
@@ -47,22 +42,21 @@ function NameValidate() {
 function DescriptionValidate() {
     var description = document.getElementById('description');
     var descriptionError = document.getElementById('descriptionerror');
-
     if (description.value.trim().length == 0) {
         descriptionError.removeAttribute("hidden");
-        descriptionError.innerHTML = "Debes ingresar una descripción";
-        inactiveSubmit()
+        descriptionError.innerHTML = "Debes ingresar una descripción para la imagen";
+        inactiveSubmit();
     }else if(description.value.trim().length < 15){
         descriptionError.removeAttribute("hidden");
         descriptionError.innerHTML = "La descripción de la imagen debe tener al menos 15 caracteres";
-        inactiveSubmit()
+        inactiveSubmit();
     }else if(description.value.trim().length > 250){
         descriptionError.removeAttribute("hidden");
         descriptionError.innerHTML = "La descripción de la imagen debe tener máximo 250 caracteres";
-        inactiveSubmit()
+        inactiveSubmit();
     }else{
         descriptionError.setAttribute("hidden","true");
-        activeSubmit()
+        activeSubmit();
     }
     return false;
 }

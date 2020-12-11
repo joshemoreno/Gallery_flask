@@ -95,7 +95,7 @@
 	bottom:100px;
     width:34%;
     opacity: 0;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 label{
