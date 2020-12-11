@@ -1,3 +1,13 @@
+// arrowUp
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  let obj1 = document.getElementById('arrow');
+  if (scrolled > 300) {
+    obj1.removeAttribute("hidden");
+  } else {
+    obj1.setAttribute("hidden", "false")
+  }
+});
 
 window.onscroll = function () {
   scrollFunction()
@@ -23,29 +33,19 @@ function scrollFunction() {
 }
 
 // events
-$('.home-nav-link').on('click', function () {
-  $('#downloads-nav-link').removeClass("underline-active-bar")
-  $('#votes-nav-link').removeClass("underline-active-bar")
-  $('#home-nav-link').addClass("underline-active-bar")
-})
-$('.votes-nav-link').on('click', function () {
-  $('#downloads-nav-link').removeClass("underline-active-bar")
-  $('#home-nav-link').removeClass("underline-active-bar")
-  $('#votes-nav-link').addClass("underline-active-bar")
-})
-$('.downloads-nav-link').on('click', function () {
-  $('#home-nav-link').removeClass("underline-active-bar")
-  $('#votes-nav-link').removeClass("underline-active-bar")
-  $('#downloads-nav-link').addClass("underline-active-bar")
-})
+// $('.home-nav-link').on('click', function () {
+//   $('#downloads-nav-link').removeClass("underline-active-bar")
+//   $('#votes-nav-link').removeClass("underline-active-bar")
+//   $('#home-nav-link').addClass("underline-active-bar")
+// })
+// $('.votes-nav-link').on('click', function () {
+//   $('#downloads-nav-link').removeClass("underline-active-bar")
+//   $('#home-nav-link').removeClass("underline-active-bar")
+//   $('#votes-nav-link').addClass("underline-active-bar")
+// })
+// $('.downloads-nav-link').on('click', function () {
+//   $('#home-nav-link').removeClass("underline-active-bar")
+//   $('#votes-nav-link').removeClass("underline-active-bar")
+//   $('#downloads-nav-link').addClass("underline-active-bar")
+// })
 
-// arrowUp
-window.addEventListener('scroll', () => {
-  const scrolled = window.scrollY;
-  let obj1 = document.getElementById('arrow');
-  if (scrolled > 300) {
-    obj1.removeAttribute("hidden");
-  } else {
-    obj1.setAttribute("hidden", "false")
-  }
-});

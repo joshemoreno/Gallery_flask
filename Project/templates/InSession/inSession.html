@@ -1,42 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layouts/base.html"%}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi perfil</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-  <link rel="stylesheet" href="../../Styles/InSession/gallery.css">
-  <link rel="stylesheet" href="../../Styles/InSession/navbar.css">
-  <link rel="stylesheet" href="../../Styles/InSession/footer.css">
-</head>
+{% block title %}Buscar{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="../../static/css/InSession/gallery.css">
+  <link rel="stylesheet" href="../../static/css/InSession/navbar.css">
+  <link rel="stylesheet" href="../../static/css/InSession/footer.css">
+{% endblock %}
 
-<body>
+{% block body %}
+  <!-- NavBar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="background-color: #9f9f9f !important;">
     <div class="col-md-1">
-      <a class="navbar-brand" href="#"><img class="logo-navbar" src="../../Assets/Images/Logo.png" alt="logo"></a>
+      <a class="navbar-brand" href="{{url_for('index')}}"><img class="logo-navbar" src="../../static/images/Logo.png" alt="logo"></a>
     </div>
 
     <div class="col-md-9">
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="input-group md-form form-sm form-2 pl-0">
-          <input class="form-control my-0 py-1 gray-border" type="text" placeholder="Ingresa una palabra clave"
-            aria-label="Search">
-          <div class="input-group-append">
-            <a class="btn btn-light" id="logoSearch-btn"><img src="../../Assets/Icons/search.svg" alt="logoSearch"
-                class="logoSearch"><b>Buscar</b></a>
-          </div>
+          <form method="POST" action="{{url_for('inSession_search')}}" style="width: 100%;">
+            <div class="row">
+                <div class="col-md-10 text-input">
+                    <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
+                aria-label="Search" name="texto" style="width: 100%;">
+                </div>
+                <div class="col-md-2 button-input">
+                    <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
+                        src="../../static/icons/search.svg" alt="logoSearch" class="logoSearch"><b>Buscar</b></button>
+                </div>
+            </div>
+        </form>
         </div>
       </div>
     </div>
     <div class="col-md-3">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#"><b>Hola, Laura</b></a>
+          <a class="nav-link" href="#"><b>Hola, {{g.user.username}}</b></a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="../LandingPage/main.html"><b>Cerrar sesión</b></a>
+          <a class="nav-link" href="{{url_for('log_out')}}"><b>Cerrar sesión</b></a>
         </li>
       </ul>
     </div>
@@ -44,51 +46,52 @@
   <div class="nav-underline shadow  mb-5 bg-white ">
     <ul class="nav justify-content-center secondaryNavBar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#"><img src="../../Assets/Icons/images.svg" alt="logoSearch" class="logoSearch"><b>Mis
+        <a class="nav-link" href="#"><img src="../../static/icons/images.svg" alt="logoSearch" class="logoSearch"><b>Mis
             imágenes</b></a>
         <div class="underline-active-bar"></div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../UploadView/upload.html"><img src="../../Assets/Icons/load.svg" alt="logoSearch"
+        <a class="nav-link" href="{{url_for('upload')}}"><img src="../../static/icons/load.svg" alt="logoSearch"
             class="logoSearch"><b>Cargar imagen</b></a>
         <div class="underline-inactive-bar"></div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../Updateview/update.html"><img src="../../Assets/Icons/update.svg" alt="logoSearch"
+        <a class="nav-link" href="{{url_for('update')}}"><img src="../../static/icons/update.svg" alt="logoSearch"
             class="logoSearch"><b>Actualizar imagen</b></a>
         <div class="underline-inactive-bar"></div>
       </li>
     </ul>
   </div>
   </nav>
+  <!-- End NavBar -->
 
 
   <div class="row">
     <div class="columnLeft col-md-4">
       <div class="container">
-        <img src="../../Assets/Images/imagen1.jpg" alt="imagen0" class="imageShort">
+        <img src="../../static/images/imagen1.jpg" alt="imagen0" class="imageShort">
         <div class="overlayButton">
           <div class="textAuth">Estado: Publico</div>
         </div>
         <div class="overlayTop">
           <div class="icons">
-            <img src="../../Assets/Icons/heartWhite.svg" alt="heart" class="voteIcon">
+            <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
             <p class="textVote">30</p>
-            <img src="../../Assets/Icons/download.svg" alt="download" class="downloadIcon">
+            <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
             <p class="textDownload">20</p>
           </div>
         </div>
       </div>
       <div class="container">
-        <img src="../../Assets/Images/imagen8.jpg" alt="imagen0" class="imageShort">
+        <img src="../../static/images/imagen8.jpg" alt="imagen0" class="imageShort">
         <div class="overlayButton">
           <div class="textAuth">Estado: Publico</div>
         </div>
         <div class="overlayTop">
           <div class="icons">
-            <img src="../../Assets/Icons/heartWhite.svg" alt="heart" class="voteIcon">
+            <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
             <p class="textVote">30</p>
-            <img src="../../Assets/Icons/download.svg" alt="download" class="downloadIcon">
+            <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
             <p class="textDownload">20</p>
           </div>
         </div>
@@ -96,29 +99,29 @@
     </div>
     <div class="columnCenter col-md-4">
       <div class="container">
-        <img src="../../Assets/Images/imagen2.jpg" alt="imagen0" class="imageShort">
+        <img src="../../static/images/imagen2.jpg" alt="imagen0" class="imageShort">
         <div class="overlayButton">
           <div class="textAuth">Estado: Privado</div>
         </div>
         <div class="overlayTop">
           <div class="icons">
-            <img src="../../Assets/Icons/heartWhite.svg" alt="heart" class="voteIcon">
+            <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
             <p class="textVote">30</p>
-            <img src="../../Assets/Icons/download.svg" alt="download" class="downloadIcon">
+            <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
             <p class="textDownload">20</p>
           </div>
         </div>
       </div>
       <div class="container">
-        <img src="../../Assets/Images/imagen6.jpg" alt="imagen0" class="imageShort">
+        <img src="../../static/images/imagen6.jpg" alt="imagen0" class="imageShort">
         <div class="overlayButton">
           <div class="textAuth">Estado: Privado</div>
         </div>
         <div class="overlayTop">
           <div class="icons">
-            <img src="../../Assets/Icons/heartWhite.svg" alt="heart" class="voteIcon">
+            <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
             <p class="textVote">30</p>
-            <img src="../../Assets/Icons/download.svg" alt="download" class="downloadIcon">
+            <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
             <p class="textDownload">20</p>
           </div>
         </div>
@@ -126,15 +129,15 @@
     </div>
     <div class="columnRight col-md-4">
       <div class="container">
-        <img src="../../Assets/Images/imagen3.jpg" alt="imagen0" class="imageLong">
+        <img src="../../static/images/imagen3.jpg" alt="imagen0" class="imageLong">
         <div class="overlayButton">
           <div class="textAuth">Estado: Privado</div>
         </div>
         <div class="overlayTop">
           <div class="icons">
-            <img src="../../Assets/Icons/heartWhite.svg" alt="heart" class="voteIcon">
+            <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
             <p class="textVote">30</p>
-            <img src="../../Assets/Icons/download.svg" alt="download" class="downloadIcon">
+            <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
             <p class="textDownload">20</p>
           </div>
         </div>
@@ -155,6 +158,7 @@
     </ul>
   </nav>
 
+  <!-- Footer  -->
   <div class="footer">
     <div class="text-center footer-in py-3">
       <div class="text-center">Términos y condiciones <span class="mx-4"></span>Políticas de privacidad</span>
@@ -164,13 +168,9 @@
       <div class="text-center">© 2020 PHOTOS . Todos los derechos reservados . Diseñado por Grupo E</div>
     </div>
   </div>
+  <!-- End Footer -->
 
-</body>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  {% endblock %}
 
-</html>
+  {% block scripts %}
+  {% endblock %}

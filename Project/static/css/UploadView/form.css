@@ -126,3 +126,10 @@ h1{
 .textarea{
   text-align: justify;
 }
+.check{
+  margin-left: 15px;
+  margin-top: 11px;
+}
+.label{
+  margin-left: 5px;
+}

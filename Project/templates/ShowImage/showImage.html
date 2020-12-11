@@ -1,0 +1,91 @@
+{% extends "layouts/base.html"%}
+{% block title %}Show Image{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="../../static/css/Search/card.css">
+<link rel="stylesheet" href="../../static/css/UploadView/navbar.css">
+<link rel="stylesheet" href="../../static/css/UploadView/footer.css">
+{% endblock %}
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="background-color: #9f9f9f !important;">
+    <div class="col-md-1">
+        <a class="navbar-brand" href="{{url_for('index')}}"><img class="logo-navbar" src="../../static/images/Logo.png"
+                alt="logo"></a>
+    </div>
+    <div class="col-md-9"></div>
+    <div class="col-md-3">
+        <ul class="navbar-nav ml-auto">
+            {% if g.user.username %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('in_session')}}"><b>Hola, {{g.user.username}}</b></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('log_out')}}"><b>Cerrar sesión</b></a>
+            </li>
+            {% else %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('register')}}"><b>Regístrate</b></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('login')}}"><b class="login">Inicia sesión</b></a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<div class="card-showImage">
+    <div class="row1">
+        <div class="card text-center">
+            <div class="card-header">
+                <h3>Mirador al mar</h3>
+            </div>
+            <div class="card-body">
+                <div class="content">
+                    <div class="col-md-6">
+                        <img src="../../static/images/imagen3.jpg" alt="imagen0" class="image">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="description-title">
+                            <h4>Descripción</h4>
+                        </div>
+                        <p class="text"> Lorem Ipsum is simply dummy text of the printing and typesetting
+                            industry. Lorem Ipsum
+                            has been the industry's standard dummy text ever since the 1500s, when an unknown
+                            printer took a galley of type and scrambled it to make a type
+                            has been the industry's standard dummy text ever since the 1500s, when an unknown
+                            printer took a galley of type and scrambled it to make a type
+                            has been the industry's standard dummy text ever since the 1500s, when an unknown
+                            printer took a galley of type and scrambled it to make a type...
+                        </p>
+                        <div class="description-title">
+                            <h4>Autor</h4>
+                        </div>
+                        <p class="text">Manuel D.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                {% if g.user.username %}
+                <img src="../../static/icons/heartEmpty.svg" alt="heart" class="voteIcon1">
+                {% endif %}
+                <img src="../../static/icons/downloadBlack.svg" alt="download" class="downloadIcon1">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="text-center footer-in py-3">
+        <div class="text-center">Términos y condiciones <span class="mx-4"></span>Políticas de privacidad</span>
+        </div>
+    </div>
+    <div class="text-center footer-down py-2">
+        <div class="text-center">© 2020 PHOTOS . Todos los derechos reservados . Diseñado por Grupo E</div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+    crossorigin="anonymous"></script>
+<script src="../../static/js/search.js"></script>
+{% endblock %}

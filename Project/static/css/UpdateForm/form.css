@@ -95,7 +95,7 @@
 	bottom:100px;
     width:34%;
     opacity: 0;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 label{
@@ -121,8 +121,13 @@ h1{
     background-color:#a6c4fe  !important;
     font-weight:600 !important;
 }
-
-
 .textarea{
   text-align: justify;
+}
+.check{
+  /* margin-left: 15px; */
+  margin-top: 11px;
+}
+.label{
+  margin-left: 5px;
 }

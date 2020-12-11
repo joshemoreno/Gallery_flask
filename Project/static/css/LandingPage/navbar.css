@@ -8,8 +8,8 @@
 #logoSearch-btn{
     border: 1px solid black;
 }
-.header {
-    background: url(../../Assets/Images/Fondo.jpg) no-repeat center;
+.header{
+    background: url(../../images/Fondo.jpg) no-repeat center;
     background-size: cover;
     min-height: 60vh;
 }
@@ -48,4 +48,16 @@
 }
 .login{
     cursor: pointer;
+}
+.text-input, .button-input{
+    margin: 0;
+    padding: 0;
+}
+.text-input>input{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.button-input>button{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
