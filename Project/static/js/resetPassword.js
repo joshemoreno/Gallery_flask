@@ -1,45 +1,53 @@
 window.onload = function(){ 
-    changes(form)
+    changes()
 }
 
-function validate(form){
-    PasswordValidate(form)
-    ConfirmValidate(form)
+function inactiveSubmit(){
+    document.getElementById('submitBtn').disabled=true;
+}
+function activeSubmit(){
+    document.getElementById('submitBtn').disabled=false;
 }
 
-function changes(form){
+function changes(){
     document.getElementById("password").addEventListener("change", function(){
-        PasswordValidate(form)
+        PasswordValidate()
     })
     document.getElementById("confirm").addEventListener("change", function(){
-        ConfirmValidate(form)
+        ConfirmValidate()
     })
 }
 
-function PasswordValidate(form) {
-    if (form.password.value.trim().length < 7 ) {
-        var passwordError = document.getElementById('passworderror');
+function PasswordValidate() {
+    var password = document.getElementById('password');
+    var passwordError = document.getElementById('passworderror');
+    if (password.value.trim().length < 7 ) {
         passwordError.removeAttribute("hidden");
         passwordError.innerHTML = "La contraseña debe tener al menos 7 caracteres";
-    }else if (form.password.value.trim().length > 15 ) {
-        var passwordError = document.getElementById('passworderror');
+        inactiveSubmit()
+    }else if (password.value.trim().length > 15 ) {
         passwordError.removeAttribute("hidden");
         passwordError.innerHTML = "La contraseña debe tener maximo 15 caracteres";
+        inactiveSubmit()
     }else{
-        var passwordError = document.getElementById('passworderror');
         passwordError.setAttribute("hidden","true");
+        activeSubmit()
     }
     return false;
 }
 
-function ConfirmValidate(form) {
-    if (form.password.value.trim() != form.confirm.value.trim()) {
-        var confirmError = document.getElementById('confirmerror');
+function ConfirmValidate() {
+    var password = document.getElementById('password');
+    var confirm = document.getElementById('confirm');
+    var confirmError = document.getElementById('confirmerror');
+
+    if (password.value.trim() != confirm.value.trim()) {
         confirmError.removeAttribute("hidden");
         confirmError.innerHTML = "No coincide con contraseña";
+        inactiveSubmit()
     }else{
-        var confirmError = document.getElementById('confirmerror');
         confirmError.setAttribute("hidden","true");
+        activeSubmit()
     }
     return false;
 }
