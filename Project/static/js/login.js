@@ -9,11 +9,6 @@ function activeSubmit(){
     document.getElementById('submitBtn').disabled=false;
 }
 
-function validate(){
-    UserValidate()
-    PasswordValidate()
-}
-
 function changes(){
     document.getElementById("user").addEventListener("change", function(){
         UserValidate()
