@@ -1,53 +1,65 @@
 window.onload = function(){ 
-    changes(form)
+    changes()
 }
 
-function validate(form){
-    UserValidate(form)
-    PasswordValidate(form)
+function inactiveSubmit(){
+    document.getElementById('submitBtn').disabled=true;
+}
+function activeSubmit(){
+    document.getElementById('submitBtn').disabled=false;
 }
 
-function changes(form){
+function validate(){
+    UserValidate()
+    PasswordValidate()
+}
+
+function changes(){
     document.getElementById("user").addEventListener("change", function(){
-        UserValidate(form)
+        UserValidate()
     })
     document.getElementById("password").addEventListener("change", function(){
-        PasswordValidate(form)
+        PasswordValidate()
     })
 }
 
-function UserValidate(form) {
-    if (form.user.value.trim().length == 0) {
-        var userError = document.getElementById('usererror');
+function UserValidate(e) {
+    var user = document.getElementById('user');
+    var userError = document.getElementById('usererror');
+
+    if (user.value.trim().length == 0) {
         userError.removeAttribute("hidden");
         userError.innerHTML = "Debes ingresar un usuario";
-    }else if(form.user.value.trim().length < 5){
-        var userError = document.getElementById('usererror');
+        inactiveSubmit()
+    }else if(user.value.trim().length < 5){
         userError.removeAttribute("hidden");
         userError.innerHTML = "Tu usuario debe tener al menos 5 caracteres";
-    }else if(form.user.value.trim().length > 15){
-        var userError = document.getElementById('usererror');
+        inactiveSubmit()
+    }else if(user.value.trim().length > 15){
         userError.removeAttribute("hidden");
         userError.innerHTML = "Tu usuario debe tener maximo 15 caracteres";
+        inactiveSubmit()
     }else{
-        var userError = document.getElementById('usererror');
         userError.setAttribute("hidden","true");
+        activeSubmit()
     }
     return false;
 }
 
-function PasswordValidate(form) {
-    if (form.password.value.trim().length < 7 ) {
-        var passwordError = document.getElementById('passworderror');
+function PasswordValidate() {
+    var password = document.getElementById('password');
+    var passwordError = document.getElementById('passworderror');
+    if (password.value.trim().length < 7 ) {
         passwordError.removeAttribute("hidden");
         passwordError.innerHTML = "La contraseña debe tener al menos 7 caracteres";
-    }else if (form.password.value.trim().length > 15 ) {
-        var passwordError = document.getElementById('passworderror');
+        inactiveSubmit()
+    }else if (password.value.trim().length > 15 ) {
         passwordError.removeAttribute("hidden");
         passwordError.innerHTML = "La contraseña debe tener maximo 15 caracteres";
+        inactiveSubmit()
     }else{
-        var passwordError = document.getElementById('passworderror');
         passwordError.setAttribute("hidden","true");
+        activeSubmit()
     }
     return false;
 }
