@@ -1,13 +1,12 @@
 {% extends "layouts/base.html"%}
-
 {% block title %}Nueva imagen{% endblock %}
 {% block css %}
-    <link rel="stylesheet" href="../../static/css/UpdateView/gallery.css">
-    <link rel="stylesheet" href="../../static/css/UpdateView/navbar.css">
-    <link rel="stylesheet" href="../../static/css/UpdateForm/form.css">
-    <link rel="stylesheet" href="../../static/css/UpdateForm/footer.css">
-    {% endblock %}
-    {% block body %}
+<link rel="stylesheet" href="../../static/css/UpdateView/gallery.css">
+<link rel="stylesheet" href="../../static/css/UpdateView/navbar.css">
+<link rel="stylesheet" href="../../static/css/UpdateForm/form.css">
+<link rel="stylesheet" href="../../static/css/UpdateForm/footer.css">
+{% endblock %}
+{% block body %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="background-color: #9f9f9f !important;">
   <div class="col-md-1">
     <a class="navbar-brand" href="{{url_for('index')}}"><img class="logo-navbar" src="../../static/images/Logo.png"
