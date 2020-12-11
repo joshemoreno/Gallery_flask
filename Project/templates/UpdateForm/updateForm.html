@@ -45,7 +45,7 @@
 </div>
 </nav>
 {%from "layouts/_macro.html" import render_field%}
-<form method="POST" action="" id="form">
+<form method="POST" action="" id="form" onsubmit="return changes()">
   <div class="uploadForm">
     <div class="containerImage">
       <img id="preview" class="uploadImage" src="../../static/images/imagen3.jpg">
@@ -67,7 +67,7 @@
         {{render_field(form.status, id="switch", class_="check")}}
         <label id="statusImag" class="label">Privado</label>
       </div>
-      <input type="submit" class="btn btnUpload" value="Actualizar imagen" id="submit" onclick="validate(this.form)">
+      <input type="submit" class="btn btnUpload" value="Actualizar imagen" id="submitBtn">
       <a type="button" class="btn  btnCancel" href="{{url_for('update')}}">Cancelar proceso</a>
 </form>
 </div>

@@ -50,7 +50,7 @@ function DescriptionValidate() {
 
     if (description.value.trim().length == 0) {
         descriptionError.removeAttribute("hidden");
-        descriptionError.innerHTML = "Debes ingresar una descripción";
+        descriptionError.innerHTML = "Debes ingresar una descripción para la imagen";
         inactiveSubmit()
     }else if(description.value.trim().length < 15){
         descriptionError.removeAttribute("hidden");
