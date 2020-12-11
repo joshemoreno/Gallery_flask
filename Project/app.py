@@ -58,10 +58,10 @@ class User:
 
 # Esta información vendría de DB
 users = []
-users.append(User(id=1, username='Laura', password='password'))
-users.append(User(id=2, username='Jose', password='secret'))
-users.append(User(id=3, username='Luis', password='hola'))
-users.append(User(id=4, username='Ivan', password='mundo'))
+users.append(User(id=1, username='laura', password='password'))
+users.append(User(id=2, username='josea', password='password'))
+users.append(User(id=3, username='luism', password='password'))
+users.append(User(id=4, username='ivanc', password='password'))
 ##
 # End Classes of Login
 
@@ -215,13 +215,15 @@ def index():
 class RegisterForm(Form):
     user = StringField('Usuario', [
         validators.Length(
-            min=5, max=15, message='El nombre del usuario debe tener de 5 a 15 caracteres'), validators.DataRequired()
+            min=5, max=15, message='El nombre del usuario debe tener 5 a 15 caracteres'), validators.DataRequired()
     ])
     email = StringField('Correo', [
         validators.Length(
-            min=6, max=30, message='El nombre del usuario debe tener de 6 a 30 caracteres'), validators.DataRequired()
+            min=6, max=30, message='El el correo debe tener 6 a 30 caracteres'), validators.DataRequired()
     ])
     password = PasswordField('Contraseña', [
+        validators.Length(
+            min=7, max=15, message='La contraseña debe tener entre 7 a 15 caracteres'),
         validators.DataRequired(),
         validators.EqualTo('confirm', message='Las contraseñas no coinciden')
     ])
@@ -254,6 +256,8 @@ def register():
 
 class ResetForm(Form):
     password = PasswordField('Contraseña', [
+        validators.Length(
+            min=7, max=15, message='La contraseña debe tener entre 7 a 15 caracteres'),
         validators.DataRequired(),
         validators.EqualTo('confirm', message='Las contraseñas no coinciden')
     ])
@@ -278,11 +282,11 @@ def reset(id):
 class UploadForm(Form):
     title = StringField('Nombre', [
         validators.Length(
-            min=5, max=15, message='El nombre del usuario debe tener de 5 a 15 caracteres'), validators.DataRequired()
+            min=5, max=20, message='El nombre del usuario debe tener de 5 a 20 caracteres'), validators.DataRequired()
     ])
     description = TextAreaField('Descripción', [
         validators.Length(
-            min=10, max=50, message='El nombre del usuario debe tener de 10 a 50 caracteres'), validators.DataRequired()
+            min=15, max=50, message='El nombre del usuario debe tener de 15 a 50 caracteres'), validators.DataRequired()
     ])
     status = BooleanField()
 # End Class uploadForm
@@ -320,11 +324,11 @@ def upload():
 class UpdateForm(Form):
     title = StringField('Nombre', [
         validators.Length(
-            min=5, max=15, message='El nombre del usuario debe tener de 5 a 15 caracteres'), validators.DataRequired()
+            min=5, max=20, message='El nombre del usuario debe tener de 5 a 20 caracteres')
     ])
     description = TextAreaField('Descripción', [
         validators.Length(
-            min=10, max=50, message='El nombre del usuario debe tener de 10 a 50 caracteres'), validators.DataRequired()
+            min=15, max=50, message='El nombre del usuario debe tener de 10 a 50 caracteres')
     ])
     status = BooleanField()
 # End Class updateForm

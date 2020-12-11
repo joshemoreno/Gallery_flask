@@ -1,50 +1,130 @@
-/* window.onload = function() {
-    validateName();
-  }; */
+var exp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-window.onclick = function() {
-    validateUser();
-    validateMail();
+// document.getElementById('submit').addEventListener("click", function(e){
+//     e.preventDefault;
+//     MailValidate()
+//     UserValidate()
+//     PasswordValidate()
+//     ConfirmValidate()
+// })
+
+function inactiveSubmit(){
+    var x = document.getElementById('submitBtn');
+    x.removeAttribute('disable');
+    console.log(x)
 }
 
-// function validatePassword() {
-//     var newPassword = document.getElementById('changePasswordForm').newPassword.value;
-//     var minNumberofChars = 6;
-//     var maxNumberofChars = 16;
-//     var regularExpression  = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-//     alert(newPassword); 
-//     if(newPassword.length < minNumberofChars || newPassword.length > maxNumberofChars){
-//         return false;
-//     }
-//     if(!regularExpression.test(newPassword)) {
-//         alert("La contraseña debe contener al menos 1 número y 1 caracter especial");
-//         return false;
-//     }
+window.onload = function(){ 
+    // changes()
+    inactiveSubmit()
+}
+
+// function validate(){
+//     // return [MailValidate(),UserValidate(),PasswordValidate(),ConfirmValidate()]
+//     // UserValidate()
+//     // PasswordValidate()
+//     // ConfirmValidate()
+//     // return false;
 // }
 
-function validateUser() {
-    var user = document.getElementById('user').value;
-    userPattern = /^[a-z]+$/;
-    console.log(userPattern.test(user));
-    if (userPattern.test(user)){
-        document.getElementById('userMessage').style.visibility='visible';
-        document.getElementById('userMessage').innerText="El usuario cumple con los parametros";
-    } else {
-        document.getElementById('userMessage').style.visibility='visible';
-        document.getElementById('userMessage').innerText="El usuario debe cumplir con los parametros";
-    }
+function changes(){
+    document.getElementById("user").addEventListener("change", function(){
+        return UserValidate()
+    })
+    document.getElementById("mail").addEventListener("change", function(){
+       return MailValidate()
+    })
+    document.getElementById("password").addEventListener("change", function(){
+        return PasswordValidate()
+    })
+    document.getElementById("confirm").addEventListener("change", function(){
+        return ConfirmValidate()
+    })
 }
 
-function validateMail() {
-    var email = document.getElementById('email').value;
-    //emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/;
-    emailPattern = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/;
-    console.log(emailPattern.test(email));
-    if (emailPattern.test(email)){
-        document.getElementById('emailMessage').style.visibility='visible';
-        document.getElementById('emailMessage').innerText="La dirección de email " + email + " es correcta.";
-    } else {
-        document.getElementById('emailMessage').style.visibility='visible';
-        document.getElementById('emailMessage').innerText="La dirección de email es incorrecta.";
+function UserValidate(e) {
+    var user = document.getElementById('user');
+    var salida = true;
+
+    if (user.value.trim().length == 0) {
+        var userError = document.getElementById('usererror');
+        userError.removeAttribute("hidden");
+        userError.innerHTML = "Debes ingresar un usuario";
+        salida = false;
+    }else if(user.value.trim().length < 5){
+        var userError = document.getElementById('usererror');
+        userError.removeAttribute("hidden");
+        userError.innerHTML = "Tu usuario debe tener al menos 5 caracteres";
+        salida = false;
+    }else if(user.value.trim().length > 15){
+        var userError = document.getElementById('usererror');
+        userError.removeAttribute("hidden");
+        userError.innerHTML = "Tu usuario debe tener maximo 15 caracteres";
+        salida = false;
+    }else{
+        var userError = document.getElementById('usererror');
+        userError.setAttribute("hidden","true");
     }
+    return salida;
 }
+
+function MailValidate() {
+    var mail = document.getElementById('mail');
+    var salida = true;
+
+    if (mail.value.trim().length == 0){
+        var emailError = document.getElementById('mailerror');
+        emailError.removeAttribute("hidden");
+        emailError.innerHTML = "Debes ingresar un correo";
+        salida = false;
+    }else if  (!exp.test(mail.value)) {
+        var emailError = document.getElementById('mailerror');
+        emailError.removeAttribute("hidden");
+        emailError.innerHTML = "Correo invalido";
+        inactiveSubmit()
+        salida = false;
+    }else{
+        var emailError = document.getElementById('mailerror');
+        emailError.setAttribute("hidden","true");
+    }
+    console.log(salida)
+    return salida;
+}
+
+function PasswordValidate() {
+    var password = document.getElementById('password');
+    var salida = true;
+    if (password.value.trim().length < 7 ) {
+        var passwordError = document.getElementById('passworderror');
+        passwordError.removeAttribute("hidden");
+        passwordError.innerHTML = "La contraseña debe tener al menos 7 caracteres";
+        salida = false;
+    }else if (password.value.trim().length > 15 ) {
+        var passwordError = document.getElementById('passworderror');
+        passwordError.removeAttribute("hidden");
+        passwordError.innerHTML = "La contraseña debe tener maximo 15 caracteres";
+        salida = false;
+    }else{
+        var passwordError = document.getElementById('passworderror');
+        passwordError.setAttribute("hidden","true");
+    }
+    return salida;
+}
+
+function ConfirmValidate() {
+    var password = document.getElementById('password');
+    var confirm = document.getElementById('confirm');
+    var salida = true;
+    if (password.value.trim() != confirm.value.trim()) {
+        var confirmError = document.getElementById('confirmerror');
+        confirmError.removeAttribute("hidden");
+        confirmError.innerHTML = "No coincide con contraseña";
+        salida = false;
+    }else{
+        var confirmError = document.getElementById('confirmerror');
+        confirmError.setAttribute("hidden","true");
+    }
+    return salida;
+}
+
+
