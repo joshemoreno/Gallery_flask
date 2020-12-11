@@ -1,54 +1,105 @@
-window.onload = function() {
-    document.getElementById("submitNewAccount").addEventListener("click",function(e){
-        e.preventDefault();
-        validateUser();
-        validateMail();
-        validatePassword();
-    });
-  };
-window.onchange = function() {
-    document.getElementById("user").addEventListener('change',validateUser());
+var exp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+function inactiveSubmit(){
+    document.getElementById('submitBtn').disabled=true;
+}
+function activeSubmit(){
+    document.getElementById('submitBtn').disabled=false;
 }
 
-function validateUser() {
-    var user = document.getElementById('user').value;
-    userPattern = /^[a-z]+$/;
-    console.log(userPattern.test(user));
-    if (!userPattern.test(user)){
-        document.getElementById('userMessage').style.visibility='visible';
-        document.getElementById('userMessage').innerText="El usuario debe cumplir con los parametros";
+window.onload = function(){ 
+    changes()
+}
+
+function changes(){
+    document.getElementById("user").addEventListener("change", function(){
+        return UserValidate()
+    })
+    document.getElementById("mail").addEventListener("change", function(){
+       return MailValidate()
+    })
+    document.getElementById("password").addEventListener("change", function(){
+        return PasswordValidate()
+    })
+    document.getElementById("confirm").addEventListener("change", function(){
+        return ConfirmValidate()
+    })
+}
+
+function UserValidate(e) {
+    var user = document.getElementById('user');
+    var userError = document.getElementById('usererror');
+
+    if (user.value.trim().length == 0) {
+        userError.removeAttribute("hidden");
+        userError.innerHTML = "Debes ingresar un usuario";
+        inactiveSubmit()
+    }else if(user.value.trim().length < 5){
+        userError.removeAttribute("hidden");
+        userError.innerHTML = "Tu usuario debe tener al menos 5 caracteres";
+        inactiveSubmit()
+    }else if(user.value.trim().length > 15){
+        userError.removeAttribute("hidden");
+        userError.innerHTML = "Tu usuario debe tener maximo 15 caracteres";
+        inactiveSubmit()
+    }else{
+        userError.setAttribute("hidden","true");
+        activeSubmit()
     }
     return false;
 }
 
-function validateMail() {
-    var email = document.getElementById('email').value;
-    //emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/;
-    emailPattern = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/;
-    console.log(emailPattern.test(email));
-    if (!emailPattern.test(email)){
-        document.getElementById('emailMessage').style.visibility='visible';
-        document.getElementById('emailMessage').innerText="La dirección de email es incorrecta.";
+function MailValidate() {
+    var mail = document.getElementById('mail');
+    var emailError = document.getElementById('mailerror');
+
+    if (mail.value.trim().length == 0){
+        emailError.removeAttribute("hidden");
+        emailError.innerHTML = "Debes ingresar un correo";
+        inactiveSubmit()
+    }else if  (!exp.test(mail.value)) {
+        emailError.removeAttribute("hidden");
+        emailError.innerHTML = "Correo invalido";
+        inactiveSubmit()
+    }else{
+        emailError.setAttribute("hidden","true");
+        activeSubmit()
+
     }
     return false;
 }
 
-function validatePassword() {
-    var password = document.getElementById('password').value;
-    var minNumberofChars = 6;
-    var maxNumberofChars = 16;
-    if(password.length < minNumberofChars || password.length > maxNumberofChars){
-        document.getElementById('passwordMessage').style.visibility='visible';
-        document.getElementById('passwordMessage').innerText="La contraseña debe tener al menos 6 caracteres y máximo 16 caracteres.";
-        return false;
-    }
-
-    passwordPattern = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-    console.log(passwordPattern.test(password));
-    if (!passwordPattern.test(password)){
-        document.getElementById('passwordMessage').style.visibility='visible';
-        document.getElementById('passwordMessage').innerText="La contraseña debe contener al menos 1 número y 1 caracter especial.";
+function PasswordValidate() {
+    var password = document.getElementById('password');
+    var passwordError = document.getElementById('passworderror');
+    if (password.value.trim().length < 7 ) {
+        passwordError.removeAttribute("hidden");
+        passwordError.innerHTML = "La contraseña debe tener al menos 7 caracteres";
+        inactiveSubmit()
+    }else if (password.value.trim().length > 15 ) {
+        passwordError.removeAttribute("hidden");
+        passwordError.innerHTML = "La contraseña debe tener maximo 15 caracteres";
+        inactiveSubmit()
+    }else{
+        passwordError.setAttribute("hidden","true");
+        activeSubmit()
     }
     return false;
 }
+
+function ConfirmValidate() {
+    var password = document.getElementById('password');
+    var confirm = document.getElementById('confirm');
+    var confirmError = document.getElementById('confirmerror');
+
+    if (password.value.trim() != confirm.value.trim()) {
+        confirmError.removeAttribute("hidden");
+        confirmError.innerHTML = "No coincide con contraseña";
+        inactiveSubmit()
+    }else{
+        confirmError.setAttribute("hidden","true");
+        activeSubmit()
+    }
+    return false;
+}
+

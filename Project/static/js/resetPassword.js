@@ -1,4 +1,3 @@
-
 window.onload = function(){ 
     changes()
 }
@@ -11,35 +10,12 @@ function activeSubmit(){
 }
 
 function changes(){
-    document.getElementById("user").addEventListener("change", function(){
-        UserValidate()
-    })
     document.getElementById("password").addEventListener("change", function(){
         PasswordValidate()
     })
-}
-
-function UserValidate(e) {
-    var user = document.getElementById('user');
-    var userError = document.getElementById('usererror');
-
-    if (user.value.trim().length == 0) {
-        userError.removeAttribute("hidden");
-        userError.innerHTML = "Debes ingresar un usuario";
-        inactiveSubmit()
-    }else if(user.value.trim().length < 5){
-        userError.removeAttribute("hidden");
-        userError.innerHTML = "Tu usuario debe tener al menos 5 caracteres";
-        inactiveSubmit()
-    }else if(user.value.trim().length > 15){
-        userError.removeAttribute("hidden");
-        userError.innerHTML = "Tu usuario debe tener maximo 15 caracteres";
-        inactiveSubmit()
-    }else{
-        userError.setAttribute("hidden","true");
-        activeSubmit()
-    }
-    return false;
+    document.getElementById("confirm").addEventListener("change", function(){
+        ConfirmValidate()
+    })
 }
 
 function PasswordValidate() {
@@ -55,6 +31,22 @@ function PasswordValidate() {
         inactiveSubmit()
     }else{
         passwordError.setAttribute("hidden","true");
+        activeSubmit()
+    }
+    return false;
+}
+
+function ConfirmValidate() {
+    var password = document.getElementById('password');
+    var confirm = document.getElementById('confirm');
+    var confirmError = document.getElementById('confirmerror');
+
+    if (password.value.trim() != confirm.value.trim()) {
+        confirmError.removeAttribute("hidden");
+        confirmError.innerHTML = "No coincide con contraseña";
+        inactiveSubmit()
+    }else{
+        confirmError.setAttribute("hidden","true");
         activeSubmit()
     }
     return false;

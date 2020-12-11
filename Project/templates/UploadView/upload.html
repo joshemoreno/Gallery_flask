@@ -45,7 +45,7 @@
   </div>
 </nav>
 {%from "layouts/_macro.html" import render_field%}
-<form method="POST" enctype="multipart/form-data" action="">
+<form method="POST" enctype="multipart/form-data" action="" id="form" onsubmit="return changes()">
   <div class="uploadForm">
     <div class="containerImage">
       <img id="preview" class="uploadImage" src="../../static/images/newImage.JPG">
@@ -53,12 +53,13 @@
     </div>
     <div class="containerForms">
       <label for="name">Nombre</label>
-      <br>
       {{render_field(form.title, class_="singIn-btn1 form-control", placeholder="Nombre de la imagen", id="name")}}
+      <div class="alert alert-danger" id="nameerror" hidden></div>
       <br>
       <label for="description">Descripción</label>
       <br>
       {{render_field(form.description, class_="form-control textarea", placeholder="Descripción", rows="8", id="description")}}
+      <div class="alert alert-danger" id="descriptionerror" hidden></div>
       <br>
       <label for="status">Estado de visibilidad</label>
       <br>
@@ -66,8 +67,8 @@
         {{render_field(form.status, id="switch", class_="check")}}
         <label id="statusImag" class="label">Privado</label>
       </div>
-      <input type="submit" class="btn btnUpload" value="Cargar imagen">
-      <button type="reset" class="btn btnCancel">Cancelar proceso</button>
+      <input type="submit" class="btn btnUpload" value="Cargar imagen" id="submitBtn">
+      <a type="button" class="btn  btnCancel" href="{{url_for('in_session')}}">Cancelar proceso</a>
 </form>
 </div>
 </div>
