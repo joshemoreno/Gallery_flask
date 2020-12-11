@@ -1,4 +1,5 @@
 {% extends "layouts/base.html"%}
+
 {% block title %}Registro{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="../../static/css/SingIn/form.css">
@@ -11,8 +12,8 @@
 <!-- navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light " style="background-color: #9f9f9f !important;">
     <div class="col-md-1">
-        <a class="navbar-brand" href="{{url_for('index')}}"><img class="logo-navbar" src="../../static/images/Logo.png"
-                alt="logo"></a>
+        <a class="navbar-brand" href="{{url_for('index')}}"><img class="logo-navbar"
+                src="../../static/images/Logo.png" alt="logo"></a>
     </div>
     <div class="col-md-8"></div>
     <div class="col-md-3">
@@ -68,5 +69,6 @@
 
 {% endblock %}
 {% block scripts %}
-<script src='../../static/js/singIn.js'></script>
+<script src='../../static/js/singIn.js'>
+</script>
 {% endblock %}

@@ -64,6 +64,7 @@ function MailValidate() {
     }else{
         emailError.setAttribute("hidden","true");
         activeSubmit()
+
     }
     return false;
 }
@@ -101,5 +102,4 @@ function ConfirmValidate() {
     }
     return false;
 }
-
 

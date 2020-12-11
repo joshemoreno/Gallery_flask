@@ -3,7 +3,7 @@ $(document).ready(function () {
         let value = $('img.voteIcon1').attr('src')
         let data = 1
         $.ajax({
-            url: "/vote/1",
+            url: "/vote",
             type: "POST",
             data: data,
             processData: false,
@@ -40,7 +40,7 @@ $(document).ready(function () {
         let value = $('img.downloadIcon1').attr('src')
         let data = 1
         $.ajax({
-            url: "/download/1",
+            url: "/download",
             type: "POST",
             data: data,
             processData: false,

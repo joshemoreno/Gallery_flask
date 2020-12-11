@@ -80,11 +80,3 @@
     right: 12%;
     width: 6%;
 }
-button.hide{
-    margin: 0px !important;
-    padding: 0px !important;
-    visibility: hidden;
-}
-.imageShort, .imageLong{
-    visibility: visible !important;
-}

@@ -1,4 +1,5 @@
 {% extends "layouts/base.html"%}
+
 {% block title %}Nueva imagen{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="../../static/css/UploadView/navbar.css">
@@ -8,17 +9,16 @@
 {% block body %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="background-color: #9f9f9f !important;">
   <div class="col-md-1">
-    <a class="navbar-brand" href="{{url_for('index')}}"><img class="logo-navbar" src="../../static/images/Logo.png"
-        alt="logo"></a>
+    <a class="navbar-brand" href="#"><img class="logo-navbar" src="../../static/images/Logo.png" alt="logo"></a>
   </div>
   <div class="col-md-9"></div>
   <div class="col-md-3">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{{url_for('in_session')}}"><b>Hola, {{g.user.username}}</b></a>
+        <a class="nav-link" href="#"><b>Hola, Laura</b></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="{{url_for('log_out')}}"><b>Cerrar sesión</b></a>
+        <a class="nav-link" href="../LandingPage/main.html"><b>Cerrar sesión</b></a>
       </li>
     </ul>
   </div>
@@ -27,17 +27,17 @@
   <div class="nav-underline shadow  mb-5 bg-white ">
     <ul class="nav justify-content-center secondaryNavBar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="{{url_for('in_session')}}"><img src="../../static/icons/images.svg" alt="logoSearch"
+        <a class="nav-link" href="../InSession/inSession.html"><img src="../../static/icons/images.svg" alt="logoSearch"
             class="logoSearch"><b>Mis imágenes</b></a>
         <div class="underline-inactive-bar"></div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{url_for('upload')}}"><img src="../../static/icons/load.svg" alt="logoSearch"
+        <a class="nav-link" href="#"><img src="../../static/icons/load.svg" alt="logoSearch"
             class="logoSearch"><b>Cargar imagen</b></a>
         <div class="underline-active-bar"></div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{url_for('update')}}"><img src="../../static/icons/update.svg" alt="logoSearch"
+        <a class="nav-link" href="../Updateview/update.html"><img src="../../static/icons/update.svg" alt="logoSearch"
             class="logoSearch"><b>Actualizar imagen</b></a>
         <div class="underline-inactive-bar"></div>
       </li>
@@ -72,6 +72,7 @@
 </form>
 </div>
 </div>
+
 <div class="footer">
   <div class="text-center footer-in py-3">
     <div class="text-center">Términos y condiciones <span class="mx-4"></span>Políticas de privacidad</span>
