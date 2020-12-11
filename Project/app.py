@@ -282,11 +282,11 @@ def reset(id):
 class UploadForm(Form):
     title = StringField('Nombre', [
         validators.Length(
-            min=5, max=20, message='El nombre del usuario debe tener de 5 a 20 caracteres'), validators.DataRequired()
+            min=5, max=20, message='El nombre de la imagen debe tener de 5 a 20 caracteres'), validators.DataRequired()
     ])
     description = TextAreaField('Descripción', [
         validators.Length(
-            min=15, max=50, message='El nombre del usuario debe tener de 15 a 50 caracteres'), validators.DataRequired()
+            min=15, max=250, message='La descripción de la imagen debe tener de 15 a 250 caracteres'), validators.DataRequired()
     ])
     status = BooleanField()
 # End Class uploadForm
@@ -324,11 +324,11 @@ def upload():
 class UpdateForm(Form):
     title = StringField('Nombre', [
         validators.Length(
-            min=5, max=20, message='El nombre del usuario debe tener de 5 a 20 caracteres')
+            min=5, max=20, message='El nombre de la imagen debe tener de 5 a 20 caracteres')
     ])
     description = TextAreaField('Descripción', [
         validators.Length(
-            min=15, max=50, message='El nombre del usuario debe tener de 10 a 50 caracteres')
+            min=15, max=250, message='La descripción de la imagen debe tener de 15 a 250 caracteres')
     ])
     status = BooleanField()
 # End Class updateForm
