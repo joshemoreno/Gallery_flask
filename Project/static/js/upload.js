@@ -37,8 +37,10 @@ function DescriptionValidate(form) {
     var descriptionError = document.getElementById('descriptionerror');
     if (form.description.value.trim().length == 0) {
         descriptionError.removeAttribute("hidden");
-        descriptionError.innerHTML = "Debes ingresar una descripción";
-    }else if(form.name.value.trim().length < 15){
+
+        descriptionError.innerHTML = "Debes ingresar una descripción para la imagen";
+        inactiveSubmit()
+    }else if(description.value.trim().length < 15){
         descriptionError.removeAttribute("hidden");
         descriptionError.innerHTML = "Tu usuario debe tener al menos 15 caracteres";
     }else if(form.name.value.trim().length > 50){

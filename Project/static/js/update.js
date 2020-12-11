@@ -1,51 +1,62 @@
 window.onload = function(){ 
-    changes(form)
+    changes()
+}
+function inactiveSubmit(){
+    document.getElementById('submitBtn').disabled=true;
+}
+function activeSubmit(){
+    document.getElementById('submitBtn').disabled=false;
 }
 
-function validate(form){
-    NameValidate(form)
-    DescriptionValidate(form)
-}
-
-function changes(form){
+function changes(){
     document.getElementById('name').addEventListener("change", function(){
-        NameValidate(form)
+        NameValidate()
     })
     document.getElementById('description').addEventListener("change", function(){
-        DescriptionValidate(form)
+        DescriptionValidate()
     })
 }
 
-function NameValidate(form) {
+function NameValidate() {
+    var name = document.getElementById('name');
     var nameError = document.getElementById('nameerror');
-    if (form.name.value.trim().length == 0) {
+    if (name.value.trim().length == 0) {
         nameError.removeAttribute("hidden");
-        nameError.innerHTML = "Debes ingresar nombre para la imagen";
-    }else if(form.name.value.trim().length < 5){
+        nameError.innerHTML = "Debes ingresar un nombre para la imagen";
+        inactiveSubmit();
+    }else if(name.value.trim().length < 5){
         nameError.removeAttribute("hidden");
-        nameError.innerHTML = "Tu usuario debe tener al menos 5 caracteres";
-    }else if(form.name.value.trim().length > 20){
+        nameError.innerHTML = "El nombre de la imagen debe tener al menos 5 caracteres";
+        inactiveSubmit();
+    }else if(name.value.trim().length > 20){
         nameError.removeAttribute("hidden");
-        nameError.innerHTML = "Tu usuario debe tener maximo 15 caracteres";
+        nameError.innerHTML = "El nombre de la imagen debe tener máximo 20 caracteres";
+        inactiveSubmit();
     }else{
         nameError.setAttribute("hidden","true");
+        activeSubmit();
     }
     return false;
 }
 
-function DescriptionValidate(form) {
+function DescriptionValidate() {
+    var description = document.getElementById('description');
     var descriptionError = document.getElementById('descriptionerror');
-    if (form.description.value.trim().length == 0) {
+    if (description.value.trim().length == 0) {
         descriptionError.removeAttribute("hidden");
-        descriptionError.innerHTML = "Debes ingresar una descripción";
-    }else if(form.name.value.trim().length < 15){
+        descriptionError.innerHTML = "Debes ingresar una descripción para la imagen";
+        inactiveSubmit();
+    }else if(description.value.trim().length < 15){
         descriptionError.removeAttribute("hidden");
-        descriptionError.innerHTML = "Tu usuario debe tener al menos 15 caracteres";
-    }else if(form.name.value.trim().length > 50){
+        descriptionError.innerHTML = "La descripción de la imagen debe tener al menos 15 caracteres";
+        inactiveSubmit();
+    }else if(description.value.trim().length > 250){
         descriptionError.removeAttribute("hidden");
-        descriptionError.innerHTML = "Tu usuario debe tener maximo 50 caracteres";
+        descriptionError.innerHTML = "La descripción de la imagen debe tener máximo 250 caracteres";
+        inactiveSubmit();
     }else{
         descriptionError.setAttribute("hidden","true");
+        activeSubmit();
     }
     return false;
 }
