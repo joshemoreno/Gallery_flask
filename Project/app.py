@@ -286,7 +286,7 @@ class UploadForm(Form):
     ])
     description = TextAreaField('Descripción', [
         validators.Length(
-            min=15, max=250, message='El nombre de la descripción de la imagen debe tener de 10 a 250 caracteres'), validators.DataRequired()
+            min=15, max=250, message='El nombre de la descripción de la imagen debe tener de 15 a 250 caracteres'), validators.DataRequired()
     ])
     status = BooleanField()
 # End Class uploadForm
@@ -328,7 +328,7 @@ class UpdateForm(Form):
     ])
     description = TextAreaField('Descripción', [
         validators.Length(
-            min=15, max=250, message='El nombre de la descripción de la imagen debe tener de 10 a 250 caracteres')
+            min=15, max=250, message='El nombre de la descripción de la imagen debe tener de 15 a 250 caracteres')
     ])
     status = BooleanField()
 # End Class updateForm
