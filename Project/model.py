@@ -8,11 +8,47 @@ def sql_connection():
         except Error:
             print(Error)
 
-
 #Laura
 #Insert imagen y validar no existencia
-#Select for idImage
+def sql_create_image(name, description, status, path, idUser):
+    query = f"""INSERT INTO Image (name, description, status, path, idUser)
+    values ('{name}','{description}',{status},'{path}',{idUser});"""
+    conexion = sql_connection()
+    cursor = conexion.cursor()
+    cursor.execute(query)
+    conexion.commit()
+    conexion.close()
+    print("Create Image")
+
+#Delete image by idImage
+def sql_delete_image(idImage):
+    query = f"""DELETE * FROM Image WHERE idImage = {idImage};"""
+    conexion = sql_connection()
+    cursor = conexion.cursor()
+    cursor.execute(query)
+    conexion.commit()
+    conexion.close()
+    print('Delete Image')
+
 #Select image by idUser
+def sql_select_images_byUser(idUser):
+    query = f"""SELECT * FROM Image WHERE idUser = {idUser};"""
+    conexion = sql_connection()
+    cursor = conexion.cursor()
+    cursor.execute(query)
+    images = cursor.fetchall()
+    conexion.close()
+    return images
+
+#Select images from repository by keywords
+def sql_select_images_from_repository_by_keyword(keyword, idUser):
+    query = f"""SELECT * FROM Image WHERE name LIKE '"%{keyword}%"' OR description LIKE '"%{keyword}%"' AND idUser = {idUser};"""
+    conexion = sql_connection()
+    cursor = conexion.cursor()
+    cursor.execute(query)
+    images = cursor.fetchall()
+    conexion.close()
+    return images
 #fin laura
 
 
@@ -25,8 +61,32 @@ def sql_connection():
 
 #ivan
 #Insert usuario y validar no existencia
+def sql_insert_user(name, email, password):
+    conexion = sql_connection()
+    cursor = conexion.cursor()
+    query = f"""select email from User where email = '{email}';"""
+    cursor.execute(query)
+    emailUser = cursor.fetchone()
+
+    if (emailUser == None):
+        query = f"""insert into User (name, email, password)
+        values ('{name}','{email}','{password}');"""
+        cursor.execute(query)
+        conexion.commit()
+
+    conexion.close()
+    return emailUser
+
+
 #Update name, description, status, path
-#Select for idImage
+def sql_update_image(id, name, description, status, path):
+    conexion = sql_connection()
+    cursor = conexion.cursor()
+    query = f"""update Image set name = '{name}', description = '{description}', status = '{status}', path = '{path}' where idImage = {id};"""
+    cursor.execute(query)
+    conexion.commit()
+    conexion.close()
+
 #fin ivan
 
 
