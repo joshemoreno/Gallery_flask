@@ -61,8 +61,32 @@ def sql_select_images_from_repository_by_keyword(keyword, idUser):
 
 #ivan
 #Insert usuario y validar no existencia
+def sql_insert_user(name, email, password):
+    conexion = sql_connection()
+    cursor = conexion.cursor()
+    query = f"""select email from User where email = '{email}';"""
+    cursor.execute(query)
+    emailUser = cursor.fetchone()
+
+    if (emailUser == None):
+        query = f"""insert into User (name, email, password)
+        values ('{name}','{email}','{password}');"""
+        cursor.execute(query)
+        conexion.commit()
+
+    conexion.close()
+    return emailUser
+
+
 #Update name, description, status, path
-#Select for idImage
+def sql_update_image(id, name, description, status, path):
+    conexion = sql_connection()
+    cursor = conexion.cursor()
+    query = f"""update Image set name = '{name}', description = '{description}', status = '{status}', path = '{path}' where idImage = {id};"""
+    cursor.execute(query)
+    conexion.commit()
+    conexion.close()
+
 #fin ivan
 
 
