@@ -54,10 +54,42 @@ def sql_select_images_from_repository_by_keyword(keyword, idUser):
 
 #luis
 #Select user information
+def sql_select_usuario_byUser(idUser):
+    query = f"""SELECT * FROM User WHERE idUser = {idUser};"""
+    conexion = sql_connection()
+    cursor = conexion.cursor()
+    cursor.execute(query)
+    usuario = cursor.fetchall()
+    conexion.close()
+    return usuario
 #Select images by status=1
+def sql_select_images_from_repository_by_status(status):
+    query = f"""SELECT * FROM Image WHERE status = {status};"""
+    conexion = sql_connection()
+    cursor = conexion.cursor()
+    cursor.execute(query)
+    images = cursor.fetchall()
+    conexion.close()
+    return images
 #Update downloads by idImage
+def update_downloads(id,downloadStatus):
+    querySelect = """SELECT downloads FROM Image WHERE idImage={id};"""
+    conexion = sql_connection()
+    cursorSelect = conexion.cursorSelect()
+    cursorSelect.execute(querySelect)
+    downloads = cursor.fetchone()
+    if(downloadStatus == 1):
+        downloads+=1
+        query = """UPDATE Image SET downloads='{votes}' WHERE idImage={id};"""
+    else:
+        downloads-=1
+        query = """UPDATE Image SET downloads='{votes}' WHERE idImage={id};"""
+    cursor = conexion.cursor()
+    cursor.execute(query)
+    conexion.commit()
+    conexion.close()
+    print("update_downloads")
 #fin luis
-
 
 #ivan
 #Insert usuario y validar no existencia
