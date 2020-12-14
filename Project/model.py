@@ -1,13 +1,3 @@
-import sqlite3
-from sqlite3 import Error
-
-def sql_connection():
-        try:
-            conexion = sqlite3.connect('photos.db')
-            return conexion
-        except Error:
-            print(Error)
-
 #Laura
 #Insert imagen y validar no existencia
 def sql_create_image(name, description, status, path, idUser):

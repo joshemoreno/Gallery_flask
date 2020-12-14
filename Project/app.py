@@ -7,6 +7,9 @@ from passlib.hash import sha256_crypt
 from functools import wraps
 import utils
 import os
+import model
+from db import get_db, close_db
+
 # End imports
 
 # varibles
