@@ -1,12 +1,4 @@
-import sqlite3
-from sqlite3 import Error
-
-def sql_connection():
-        try:
-            conexion = sqlite3.connect('photos.db')
-            return conexion
-        except Error:
-            print(Error)
+from db import get_db, close_db
 
 #Laura
 #Insert imagen y validar no existencia
@@ -125,43 +117,43 @@ def sql_update_image(id, name, description, status, path):
 #jose
 #Update password
 def update_password(id,password):
-    query = """UPDATE User SET password='{password}' WHERE idUser={id};"""
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    conexion.commit()
-    conexion.close()
-    print("update_password")
-
+    db = get_db()
+    user = db.execute('SELECT * FROM User WHERE idUser= ?',[id]).fetchone()
+    if user is not None:
+        db.execute('UPDATE User SET password= ? WHERE idUser= ?',[password, id])
+        db.commit()
+        return user
+        # print("update_password")
+    else:
+        return user
+        # print("El usuario no existe")
+    close_db()
+    
 
 #Select image by idImage
 def sql_select_image_by_id(id):
-    query = """SELECT * FROM Image WHERE idImage={id};"""
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    image = cursor.fetchone()
-    conexion.close()
+    db = get_db()
+    image = db.execute('SELECT * FROM Image WHERE idImage= ?',[id]).fetchone()
     return image
+    close_db()
+   
 
 
 #Update votes by idImage
 def update_votes(id,voteStatus):
-    querySelect = """SELECT votes FROM Image WHERE idImage={id};"""
-    conexion = sql_connection()
-    cursorSelect = conexion.cursorSelect()
-    cursorSelect.execute(querySelect)
-    votes = cursor.fetchone()
-    if(voteStatus == 1):
-        votes+=1
-        query = """UPDATE Image SET votes='{votes}' WHERE idImage={id};"""
+    db = get_db()
+    votes = db.execute('SELECT votes FROM Image WHERE idImage = ?',[id]).fetchone()
+    if votes is not None:
+        if(voteStatus == 1):
+            votes+=1
+        else:
+            votes-=1
+        db.execute('UPDATE Image SET votes= ? WHERE idImage= ?',[votes, id])
+        db.commit()
+        close_db()
+        return votes
     else:
-        votes-=1
-        query = """UPDATE Image SET votes='{votes}' WHERE idImage={id};"""
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    conexion.commit()
-    conexion.close()
+        return votes
     print("update_votes")
 
 
