@@ -8,7 +8,6 @@ from functools import wraps
 import utils
 import os
 import model
-from db import get_db, close_db
 
 # End imports
 
@@ -164,7 +163,14 @@ def search_image():
 
 @app.route('/showImage/<string:id>')
 def showImage(id):
-    return render_template('ShowImage/showImage.html')
+    image = model.sql_select_image_by_id(id)
+    if image is not None:
+        print(image)
+        return render_template('ShowImage/showImage.html', image=image)
+    else:
+        print(image)
+        return render_template('LandingPage/main.html')
+    
 # End ShowImage Route
 
 # MostVoted Route
@@ -189,6 +195,7 @@ def most_downloaded():
 @app.route('/vote/<string:id>', methods=["POST"])
 def vote(id):
     # save vote
+    voteStatus = 1
     vote = 1
     status = "ok"
     return status
@@ -275,7 +282,14 @@ def reset(id):
     form = ResetForm(request.form)
     if request.method == 'POST' and form.validate():
         password = sha256_crypt.encrypt(str(form.password.data))
-        return redirect(url_for('index'))
+        user = model.update_password(id,password)
+        if user is not None:
+            print(user)
+            return redirect(url_for('index'))
+        else:
+            print(user)
+            return render_template('Reset/resetPassword.html', form=form)
+
     return render_template('Reset/resetPassword.html', form=form)
 # End ResetRoute
 
