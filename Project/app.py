@@ -105,7 +105,17 @@ def login():
 def in_session():
     if not g.user:
         return redirect(url_for('login'))
-    return render_template('InSession/inSession.html')
+    else:
+        id_User = session['user_id']
+        images = model.sql_select_images_byUser(id_User)
+        if images is not None:
+            print(images)
+            return render_template('InSession/inSession.html')
+        else:
+            error = 'Error buscar las imágenes de usuario en sesión, intenta de nuevo'
+            flash(error)
+            return render_template('InSession/inSession.html')
+        return render_template('InSession/inSession.html')
 # End InSession Route
 
 # Logout Route
@@ -431,10 +441,27 @@ def update_search():
 
 @app.route('/insession/search', methods=["POST"])
 def inSession_search():
+    if not g.user:
+        return redirect(url_for('login'))
     form = InSessionSearchForm(request.form)
     if request.method == 'POST' and form.validate():
+        idUser = session['user_id']
         texto = request.form['texto']
-        return render_template('inSession/inSession.html', form=form)
+        images = model.sql_select_repository_images(texto, idUser)
+
+        if not texto:
+            error = 'Debes escribir alguna palabra de búsqueda'
+            flash(error)
+            return render_template('inSession/inSession.html')
+        
+        if images is not None:
+            print(images)
+            return render_template('Search/searchImage.html')
+        else:
+            error = 'Error de búsqueda, intenta de nuevo'
+            flash(error)
+            return render_template('InSession/inSession.html')
+        return render_template('inSession/inSession.html')
     return render_template('inSession/inSession.html')
 # End updateSearch Route
 

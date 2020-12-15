@@ -18,23 +18,19 @@ def sql_delete_image(id):
     return image
 
 #Select image by idUser
-def sql_select_images_byUser(idUser):
-    query = f"""SELECT * FROM Image WHERE idUser = {idUser};"""
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    images = cursor.fetchall()
-    conexion.close()
+def sql_select_images_byUser(id):
+    db = get_db()
+    images = db.execute('SELECT * FROM Image WHERE idUser = ?', [id]).fetchall()
+    db.commit()
+    close_db()
     return images
 
 #Select images from repository by keywords
-def sql_select_images_from_repository_by_keyword(keyword, idUser):
-    query = f"""SELECT * FROM Image WHERE name LIKE '"%{keyword}%"' OR description LIKE '"%{keyword}%"' AND idUser = {idUser};"""
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    images = cursor.fetchall()
-    conexion.close()
+def sql_select_repository_images(keyword, id):
+    db = get_db()
+    images = db.execute('SELECT * FROM Image WHERE (name LIKE :keyword OR description LIKE :keyword) AND idUser = :idUser', {"keyword": '%'+keyword+'%', "idUser":id}).fetchall()
+    db.commit()
+    close_db()
     return images
 #fin laura
 
