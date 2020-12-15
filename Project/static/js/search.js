@@ -1,13 +1,16 @@
 $(document).ready(function () {
     $('.voteIcon1').on('click',function (event) {
         let value = $('img.voteIcon1').attr('src')
-        let data = 1
+        var data = {
+            'voteStatus': localStorage.getItem('voto'),
+            'idImage': "3"
+        } 
+
         $.ajax({
-            url: "/vote/1",
+            url: "/vote",
             type: "POST",
-            data: data,
-            processData: false,
-            contentType: false,
+            data: JSON.stringify(data),
+            contentType: 'application/json;charset=UTF-8',
             statusCode: {
                 404: function (event) {
                     console.log('La URL solicitada no existe, solicitud no enviada.')
@@ -24,10 +27,10 @@ $(document).ready(function () {
                     let voteStatus = localStorage.getItem('voto');
                     if (value === '../../static/icons/heartEmpty.svg'){
                         $('.voteIcon1').attr('src','../../static/icons/heartBlack.svg')
-                        localStorage.setItem('voto', '1');
+                        localStorage.setItem('voto', '0');
                     } else if (value === '../../static/icons/heartBlack.svg') {
                         $('.voteIcon1').attr('src','../../static/icons/heartEmpty.svg')
-                        localStorage.setItem('voto', '0');
+                        localStorage.setItem('voto', '1');
                     }
                 }
                 else {
