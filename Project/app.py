@@ -109,8 +109,9 @@ def in_session():
         id_User = session['user_id']
         images = model.sql_select_images_byUser(id_User)
         if images is not None:
-            print(images)
-            return render_template('InSession/inSession.html')
+            if len(images)==0:
+                return render_template('InSession/inSession.html')
+            return render_template('InSession/inSession.html', images=images)
         else:
             error = 'Error buscar las imágenes de usuario en sesión, intenta de nuevo'
             flash(error)
@@ -443,14 +444,11 @@ def update_search():
             error = 'Debes escribir alguna palabra de búsqueda'
             flash(error)
             return render_template('updateView/update.html', form=form)
-        
-        if images is not None:
-            print(images)
-            return render_template('updateView/update.html', form=form)
+      
+        if len(images) == 0:
+                return render_template('updateView/update.html', form=form)
         else:
-            error = 'Error de búsqueda, intenta de nuevo'
-            flash(error)
-            return render_template('updateView/update.html', form=form)
+            return render_template('updateView/update.html', form=form, images=images)
     return render_template('Updateview/update.html', form=form)
 
 
@@ -469,13 +467,10 @@ def inSession_search():
             flash(error)
             return render_template('inSession/inSession.html')
         
-        if images is not None:
-            print(images)
+        if len(images) == 0:
             return render_template('InSession/inSession.html')
         else:
-            error = 'Error de búsqueda, intenta de nuevo'
-            flash(error)
-            return render_template('InSession/inSession.html')
+            return render_template('InSession/inSession.html', images=images)
     return render_template('inSession/inSession.html')
 # End updateSearch Route
 
