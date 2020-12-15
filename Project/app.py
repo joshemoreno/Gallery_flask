@@ -432,11 +432,26 @@ class InSessionSearchForm(Form):
 
 @app.route('/update/search', methods=["POST"])
 def update_search():
+    if not g.user:
+        return redirect(url_for('login'))
     form = InSessionSearchForm(request.form)
     if request.method == 'POST' and form.validate():
+        idUser = session['user_id']
         texto = request.form['texto']
-        return render_template('Updateview/update.html', form=form)
-    return render_template('Updateview/update.html')
+        images = model.sql_select_repository_images(texto, idUser)
+        if not texto:
+            error = 'Debes escribir alguna palabra de búsqueda'
+            flash(error)
+            return render_template('updateView/update.html', form=form)
+        
+        if images is not None:
+            print(images)
+            return render_template('updateView/update.html', form=form)
+        else:
+            error = 'Error de búsqueda, intenta de nuevo'
+            flash(error)
+            return render_template('updateView/update.html', form=form)
+    return render_template('Updateview/update.html', form=form)
 
 
 @app.route('/insession/search', methods=["POST"])
@@ -456,12 +471,11 @@ def inSession_search():
         
         if images is not None:
             print(images)
-            return render_template('Search/searchImage.html')
+            return render_template('InSession/inSession.html')
         else:
             error = 'Error de búsqueda, intenta de nuevo'
             flash(error)
             return render_template('InSession/inSession.html')
-        return render_template('inSession/inSession.html')
     return render_template('inSession/inSession.html')
 # End updateSearch Route
 
