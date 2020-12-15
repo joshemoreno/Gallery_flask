@@ -105,7 +105,18 @@ def login():
 def in_session():
     if not g.user:
         return redirect(url_for('login'))
-    return render_template('InSession/inSession.html')
+    else:
+        id_User = session['user_id']
+        images = model.sql_select_images_byUser(id_User)
+        if images is not None:
+            if len(images)==0:
+                return render_template('InSession/inSession.html')
+            return render_template('InSession/inSession.html', images=images)
+        else:
+            error = 'Error buscar las imágenes de usuario en sesión, intenta de nuevo'
+            flash(error)
+            return render_template('InSession/inSession.html')
+        return render_template('InSession/inSession.html')
 # End InSession Route
 
 # Logout Route
@@ -134,6 +145,23 @@ def update():
 def image_delete(id):
     if not g.user:
         return redirect(url_for('login'))
+    if request.method == 'POST':
+        id_image = request.form['id_image']
+
+        if not id_image:
+            error = 'Debes seleccionar una imagen para ser eliminada'
+            flash(error)
+            return redirect(url_for('update'))
+
+        image = model.sql_delete_image(id_image)
+        if image is not None:
+            success_message = 'Imagen eliminada exitosamente'
+            flash(success_message)
+            return redirect(url_for('update'))
+        else:
+            error = 'Error al eliminar la imagen, intenta de nuevo'
+            flash(error)
+            return redirect(url_for('update'))
     return redirect(url_for('update'))
 # End DeleteImage Route
 
@@ -339,6 +367,34 @@ def upload():
         if image and allowed_file(image.filename):
             filename = secure_filename(image.filename)
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        
+        if not title:
+            error = 'Debes ingresar un título'
+            flash(error)
+            return render_template('UploadView/upload.html', form=form)
+        
+        if not description:
+            error = 'Debes ingresar una descripción'
+            flash(error)
+            return render_template('UploadView/upload.html', form=form)
+        
+        if not status:
+            status = 0
+        
+        if not image.filename:
+            error = 'Debes adjuntar una imagen'
+            flash(error)
+            return render_template('UploadView/upload.html', form=form)
+        
+        imageCreated = model.sql_create_image(title, description, status, image.filename,session['user_id'])
+        if imageCreated is not None:
+            success_message = 'Imagen creada exitosamente'
+            flash(success_message)
+            return render_template('inSession/inSession.html', form=form)
+        else:
+            error = 'Error al crear la imagen, intenta de nuevo'
+            flash(error)
+            return render_template('UploadView/upload.html', form=form)
     return render_template('UploadView/upload.html', form=form)
 # End upload Route
 
@@ -384,19 +440,44 @@ class InSessionSearchForm(Form):
 
 @app.route('/update/search', methods=["POST"])
 def update_search():
+    if not g.user:
+        return redirect(url_for('login'))
     form = InSessionSearchForm(request.form)
     if request.method == 'POST' and form.validate():
+        idUser = session['user_id']
         texto = request.form['texto']
-        return render_template('Updateview/update.html', form=form)
-    return render_template('Updateview/update.html')
+        images = model.sql_select_repository_images(texto, idUser)
+        if not texto:
+            error = 'Debes escribir alguna palabra de búsqueda'
+            flash(error)
+            return render_template('updateView/update.html', form=form)
+      
+        if len(images) == 0:
+                return render_template('updateView/update.html', form=form)
+        else:
+            return render_template('updateView/update.html', form=form, images=images)
+    return render_template('Updateview/update.html', form=form)
 
 
 @app.route('/insession/search', methods=["POST"])
 def inSession_search():
+    if not g.user:
+        return redirect(url_for('login'))
     form = InSessionSearchForm(request.form)
     if request.method == 'POST' and form.validate():
+        idUser = session['user_id']
         texto = request.form['texto']
-        return render_template('inSession/inSession.html', form=form)
+        images = model.sql_select_repository_images(texto, idUser)
+
+        if not texto:
+            error = 'Debes escribir alguna palabra de búsqueda'
+            flash(error)
+            return render_template('inSession/inSession.html')
+        
+        if len(images) == 0:
+            return render_template('InSession/inSession.html')
+        else:
+            return render_template('InSession/inSession.html', images=images)
     return render_template('inSession/inSession.html')
 # End updateSearch Route
 

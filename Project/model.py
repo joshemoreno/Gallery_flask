@@ -3,43 +3,34 @@ from db import get_db, close_db
 #Laura
 #Insert imagen y validar no existencia
 def sql_create_image(name, description, status, path, idUser):
-    query = f"""INSERT INTO Image (name, description, status, path, idUser)
-    values ('{name}','{description}',{status},'{path}',{idUser});"""
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    conexion.commit()
-    conexion.close()
-    print("Create Image")
+    db = get_db()
+    imageCreated = db.execute('INSERT INTO Image (name, description, status, path, idUser) values (?,?,?,?,?)', (name, description, status, path, idUser))
+    db.commit()
+    close_db()
+    return imageCreated
 
 #Delete image by idImage
-def sql_delete_image(idImage):
-    query = f"""DELETE * FROM Image WHERE idImage = {idImage};"""
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    conexion.commit()
-    conexion.close()
-    print('Delete Image')
+def sql_delete_image(id):
+    db=get_db()
+    image = db.execute('DELETE FROM Image WHERE idImage = ?', (id))
+    db.commit()
+    close_db()
+    return image
 
 #Select image by idUser
-def sql_select_images_byUser(idUser):
-    query = f"""SELECT * FROM Image WHERE idUser = {idUser};"""
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    images = cursor.fetchall()
-    conexion.close()
+def sql_select_images_byUser(id):
+    db = get_db()
+    images = db.execute('SELECT * FROM Image WHERE idUser = ?', [id]).fetchall()
+    db.commit()
+    close_db()
     return images
 
 #Select images from repository by keywords
-def sql_select_images_from_repository_by_keyword(keyword, idUser):
-    query = f"""SELECT * FROM Image WHERE name LIKE '"%{keyword}%"' OR description LIKE '"%{keyword}%"' AND idUser = {idUser};"""
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    images = cursor.fetchall()
-    conexion.close()
+def sql_select_repository_images(keyword, id):
+    db = get_db()
+    images = db.execute('SELECT * FROM Image WHERE (name LIKE :keyword OR description LIKE :keyword) AND idUser = :idUser', {"keyword": '%'+keyword+'%', "idUser":id}).fetchall()
+    db.commit()
+    close_db()
     return images
 #fin laura
 
