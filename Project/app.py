@@ -285,15 +285,20 @@ def register():
         user = form.user.data
         email = form.email.data
         password = sha256_crypt.encrypt(str(form.password.data))
-        # flash('Ya te has registrado revisa tu correo y activa tu cuenta', 'correcto')
-        yag.send(email, 'Activa tu cuenta',
-                 ''' <h1> Bienvenid@ a nuestra comunidad </h1>
-            <h3><b>Hola, '''+user+'''</b></h3><br><p>Este correo es para informarte que te has registrado en PHOTOS<p>
-            <a href="http://localhost:5000/insession">Activa tu cuenta</a>
-            <p>Si usted no realizo este registro por favor ignore este mensaje, gracias!</p>
-            ''')
-        return redirect(url_for('index'))
+        usuario = model.sql_insert_user(user, email, password)
+        if usuario is None:
+            yag.send(email, 'Activa tu cuenta',
+                    ''' <h1> Bienvenid@ a nuestra comunidad </h1>
+                <h3><b>Hola, '''+user+'''</b></h3><br><p>Este correo es para informarte que te has registrado en PHOTOS<p>
+                <a href="http://localhost:5000/insession">Activa tu cuenta</a>
+                <p>Si usted no realizo este registro por favor ignore este mensaje, gracias!</p>
+                ''')
+            return redirect(url_for('index'))
+        else:
+            return render_template('SingIn/singIn.html', form=form)
+            # flash('Ya te has registrado revisa tu correo y activa tu cuenta', 'correcto')
     return render_template('SingIn/singIn.html', form=form)
+
 # End RegisterRoute
 
 # Class resetForm
@@ -423,6 +428,8 @@ def updateform(id):
         title = form.title.data
         description = form.description.data
         status = form.status.data
+        path = form.description.path
+        sql_update_image(id, title, description, status, path)
     return render_template('UpdateForm/updateForm.html', form=form)
 # End update Route
 
