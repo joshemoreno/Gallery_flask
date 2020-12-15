@@ -3,24 +3,19 @@ from db import get_db, close_db
 #Laura
 #Insert imagen y validar no existencia
 def sql_create_image(name, description, status, path, idUser):
-    query = f"""INSERT INTO Image (name, description, status, path, idUser)
-    values ('{name}','{description}',{status},'{path}',{idUser});"""
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    conexion.commit()
-    conexion.close()
-    print("Create Image")
+    db = get_db()
+    imageCreated = db.execute('INSERT INTO Image (name, description, status, path, idUser) values (?,?,?,?,?)', (name, description, status, path, idUser))
+    db.commit()
+    close_db()
+    return imageCreated
 
 #Delete image by idImage
-def sql_delete_image(idImage):
-    query = f"""DELETE * FROM Image WHERE idImage = {idImage};"""
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    conexion.commit()
-    conexion.close()
-    print('Delete Image')
+def sql_delete_image(id):
+    db=get_db()
+    image = db.execute('DELETE FROM Image WHERE idImage = ?', (id))
+    db.commit()
+    close_db()
+    return image
 
 #Select image by idUser
 def sql_select_images_byUser(idUser):

@@ -134,6 +134,23 @@ def update():
 def image_delete(id):
     if not g.user:
         return redirect(url_for('login'))
+    if request.method == 'POST':
+        id_image = request.form['id_image']
+
+        if not id_image:
+            error = 'Debes seleccionar una imagen para ser eliminada'
+            flash(error)
+            return redirect(url_for('update'))
+
+        image = model.sql_delete_image(id_image)
+        if image is not None:
+            success_message = 'Imagen eliminada exitosamente'
+            flash(success_message)
+            return redirect(url_for('update'))
+        else:
+            error = 'Error al eliminar la imagen, intenta de nuevo'
+            flash(error)
+            return redirect(url_for('update'))
     return redirect(url_for('update'))
 # End DeleteImage Route
 
@@ -332,6 +349,34 @@ def upload():
         if image and allowed_file(image.filename):
             filename = secure_filename(image.filename)
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        
+        if not title:
+            error = 'Debes ingresar un título'
+            flash(error)
+            return render_template('UploadView/upload.html', form=form)
+        
+        if not description:
+            error = 'Debes ingresar una descripción'
+            flash(error)
+            return render_template('UploadView/upload.html', form=form)
+        
+        if not status:
+            status = 0
+        
+        if not image.filename:
+            error = 'Debes adjuntar una imagen'
+            flash(error)
+            return render_template('UploadView/upload.html', form=form)
+        
+        imageCreated = model.sql_create_image(title, description, status, image.filename,session['user_id'])
+        if imageCreated is not None:
+            success_message = 'Imagen creada exitosamente'
+            flash(success_message)
+            return render_template('inSession/inSession.html', form=form)
+        else:
+            error = 'Error al crear la imagen, intenta de nuevo'
+            flash(error)
+            return render_template('UploadView/upload.html', form=form)
     return render_template('UploadView/upload.html', form=form)
 # End upload Route
 
