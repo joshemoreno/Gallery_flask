@@ -1,10 +1,11 @@
 from db import get_db, close_db
 import datetime
-time = datetime.datetime.now()
+
 
 #Laura
 #Insert imagen y validar no existencia
 def sql_create_image(name, description, status, path, idUser):
+    time = datetime.datetime.now()
     db = get_db()
     imageCreated = db.execute('INSERT INTO Image (name, description, status, path, idUser, created_at) values (?,?,?,?,?,?)', (name, description, status, path, idUser, time))
     db.commit()
@@ -78,19 +79,21 @@ def update_downloads(id,downloadStatus):
 #ivan
 #Insert usuario y validar no existencia
 def sql_insert_user(user, email, password):
+    time = datetime.datetime.now()
     db = get_db()
-    emailUser = db.execute('SELECT email from User where email = ?',[email]).fetchone()
+    emailUser = db.execute('SELECT name, email from User where email = ? OR name = ?',[email, user]).fetchone()
     if (emailUser is None):
-        newUser = db.execute('INSERT INTO User (name, email, password) values (?,?,?)', (user, email, password))
+        newUser = db.execute('INSERT INTO User (name, email, password, created_at, status) values (?,?,?,?,?)', (user, email, password, time, 0))
         db.commit()
     close_db()
     return emailUser
 
 
 #Update name, description, status, path
-def sql_update_image(id, name, description, status, path):
+def sql_update_image(id, name, description, status):
+    time = datetime.datetime.now()
     db = get_db()
-    db.execute('UPDATE User SET name = ?, description = ?, status = ?, path = ? WHERE idImage= ?',[name, description, status, path, id])
+    db.execute('UPDATE Image SET name = ?, description = ?, status = ?, updated_at = ? WHERE idImage= ?',[name, description, status, time, id])
     db.commit()
     close_db()
 #fin ivan
@@ -99,6 +102,7 @@ def sql_update_image(id, name, description, status, path):
 #jose
 #Update password
 def update_password(id,password):
+    time = datetime.datetime.now()
     db = get_db()
     user = db.execute('SELECT * FROM User WHERE idUser= ?',[id]).fetchone()
     if user is not None:
@@ -156,4 +160,10 @@ def sql_select_usuario_byEmail(email):
     user = db.execute('SELECT * FROM User WHERE email=?',[email]).fetchone()
     close_db()
     return user
+
+def sql_activate_count(user):
+    db = get_db()
+    db.execute('UPDATE User SET status=1 WHERE name=?',[user])
+    db.commit()
+    close_db()
 #fin jose

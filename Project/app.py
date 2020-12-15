@@ -50,17 +50,22 @@ def login():
         password_candidate = form.password.data
         user = model.sql_select_usuario_byUser(username)
         if user is not None:
-            password = user[3]
-            if sha256_crypt.verify(password_candidate, password):
-                session['logged_in'] = True
-                session['username'] = username
-                session['id'] = user[0]
-                flash('You are logged in', 'success')
-                app.logger.info('PASSWORD MATCHED')
-                return redirect(url_for('in_session'))
+            if user[6] != 0:
+                password = user[3]
+                if sha256_crypt.verify(password_candidate, password):
+                    session['logged_in'] = True
+                    session['username'] = username
+                    session['id'] = user[0]
+                    flash('You are logged in', 'success')
+                    app.logger.info('PASSWORD MATCHED')
+                    return redirect(url_for('in_session'))
+                else:
+                    app.logger.info('PASSWORD NO MATCHED')
+                    error = 'sesión inválida'
+                    return render_template('Login/login.html', form=form, error=error)
             else:
-                app.logger.info('PASSWORD NO MATCHED')
-                error = 'sesión inválida'
+                app.logger.info('Activa tu cuenta')
+                error = 'Activa tu cuenta'
                 return render_template('Login/login.html', form=form, error=error)
         else:
             app.logger.info('PASSWORD NO MATCHED')
@@ -266,11 +271,12 @@ def register():
         email = form.email.data
         password = sha256_crypt.encrypt(str(form.password.data))
         usuario = model.sql_insert_user(user, email, password)
+        print(usuario)
         if usuario is None:
             yag.send(email, 'Activa tu cuenta',
                     ''' <h1> Bienvenid@ a nuestra comunidad </h1>
                 <h3><b>Hola, '''+user+'''</b></h3><br><p>Este correo es para informarte que te has registrado en PHOTOS<p>
-                <a href="http://localhost:5000/insession">Activa tu cuenta</a>
+                <a href="http://localhost:5000/activate/'''+user+'''">Activa tu cuenta</a>
                 <p>Si usted no realizo este registro por favor ignore este mensaje, gracias!</p>
                 ''')
             return redirect(url_for('index'))
@@ -280,6 +286,13 @@ def register():
     return render_template('SingIn/singIn.html', form=form)
 
 # End RegisterRoute
+
+@app.route('/activate/<string:user>', methods=['GET', 'POST'])
+def activate(user):
+    model.sql_activate_count(user)
+    return redirect(url_for('login'))
+
+
 
 # Class resetForm
 
@@ -408,8 +421,8 @@ def updateform(id):
         title = form.title.data
         description = form.description.data
         status = form.status.data
-        path = form.description.path
-        sql_update_image(id, title, description, status, path)
+        # path = form.description.path
+        model.sql_update_image(id, title, description, status)
     return render_template('UpdateForm/updateForm.html', form=form)
 # End update Route
 
