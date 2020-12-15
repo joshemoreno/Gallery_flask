@@ -234,10 +234,10 @@ def vote():
         jsonData = request.json
         idImage = jsonData['idImage']
         voteStatus = jsonData['voteStatus']
-        print(voteStatus)
-        
+        model.update_votes(idImage,voteStatus)
         status = "ok"
         return status
+
 # End Vote Route
 
 # Download Route
