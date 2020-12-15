@@ -1,5 +1,5 @@
 {% extends "layouts/base.html"%}
-{% block title %}Buscar{% endblock %}
+{% block title %}Actualizar repositorio{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="../../static/css/UpdateView/gallery.css">
 <link rel="stylesheet" href="../../static/css/UpdateView/navbar.css">
@@ -34,7 +34,7 @@
     <div class="col-md-3">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('in_session')}}"><b>Hola, {{g.user.username}}</b></a>
+                <a class="nav-link" href="{{url_for('in_session')}}"><b>Hola, {{session.username}}</b></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{url_for('log_out')}}"><b>Cerrar sesión</b></a>
@@ -78,6 +78,7 @@
                     </form>
                     {%from "layouts/_macro.html" import render_field%}
                     <form method="POST" action="{{url_for('image_delete', id=1)}}">
+                        <input type="hidden" name="id_image" value="{{1}}">
                         <button type="submit" class="hide"><img src="../../static/icons/trash.svg" alt="download"
                                 class="trashIcon"></button>
                     </form>
@@ -104,6 +105,7 @@
                     </form>
                     {%from "layouts/_macro.html" import render_field%}
                     <form method="POST" action="{{url_for('image_delete', id=1)}}">
+                        <input type="hidden" name="id_image" value="{{1}}">
                         <button type="submit" class="hide"><img src="../../static/icons/trash.svg" alt="download"
                                 class="trashIcon"></button>
                     </form>
@@ -132,6 +134,7 @@
                     </form>
                     {%from "layouts/_macro.html" import render_field%}
                     <form method="POST" action="{{url_for('image_delete', id=1)}}">
+                        <input type="hidden" name="id_image" value="{{1}}">
                         <button type="submit" class="hide"><img src="../../static/icons/trash.svg" alt="download"
                                 class="trashIcon"></button>
                     </form>
@@ -186,6 +189,7 @@
                     </form>
                     {%from "layouts/_macro.html" import render_field%}
                     <form method="POST" action="{{url_for('image_delete', id=1)}}">
+                        <input type="hidden" name="id_image" value="{{1}}">
                         <button type="submit" class="hide"><img src="../../static/icons/trash.svg" alt="download"
                                 class="trashIcon"></button>
                     </form>
