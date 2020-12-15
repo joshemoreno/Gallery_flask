@@ -227,13 +227,17 @@ def most_downloaded():
 # Vote Route
 
 
-@app.route('/vote/<string:id>', methods=["POST"])
-def vote(id):
+@app.route('/vote', methods=["POST"])
+def vote():
     # save vote
-    voteStatus = 1
-    vote = 1
-    status = "ok"
-    return status
+    if request.method == 'POST':
+        jsonData = request.json
+        idImage = jsonData['idImage']
+        voteStatus = jsonData['voteStatus']
+        print(voteStatus)
+        
+        status = "ok"
+        return status
 # End Vote Route
 
 # Download Route
