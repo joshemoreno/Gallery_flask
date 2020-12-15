@@ -227,6 +227,7 @@ def vote():
 @app.route('/download/<string:id>', methods=["POST"])
 def download(id):
     # buscar imagen en directorio
+    model.update_downloads(id)
     status = "ok"
     return status
 # End Download Route
@@ -236,6 +237,8 @@ def download(id):
 
 @app.route('/')
 def index():
+    image= model.sql_select_images_by_status()
+    print(image)
     return render_template('LandingPage/main.html')
 # End MainRoute
 
