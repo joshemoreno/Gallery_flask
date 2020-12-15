@@ -169,7 +169,7 @@ def image_delete(id):
 
 
 class SearchForm(Form):
-    texto = StringField('Texto', [
+    text = StringField('Texto', [
         validators.DataRequired()
     ])
 # End Class Search
@@ -177,13 +177,20 @@ class SearchForm(Form):
 # Search Route
 
 
-@app.route('/search', methods=["POST"])
+@app.route('/search',  methods=['GET', 'POST'])
 def search_image():
+    images=[]
     form = SearchForm(request.form)
     if request.method == 'POST' and form.validate():
-        texto = request.form['texto']
-        return render_template('Search/searchImage.html', form=form)
-    return render_template('LandingPage/main.html')
+        keyword= request.form['text']
+        images = model.sql_select_images_by_keyword(keyword)
+        print(images)
+        if len(images)==0:
+            return render_template('Search/searchImage.html', form=form)
+        return render_template('Search/searchImage.html', form=form, images=images)
+    print(images)
+    return render_template('Search/searchImage.html', form=form)
+    # return render_template('LandingPage/main.html')
 # End Search Route
 
 # ShowImage Route

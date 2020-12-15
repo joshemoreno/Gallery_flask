@@ -150,11 +150,8 @@ def update_votes(id,voteStatus):
 
 #Select images by keywords
 def sql_select_images_by_keyword(keyword):
-    query = """SELECT * FROM Image WHERE name LIKE '"%{keyword}%"' OR description LIKE '"%{keyword}%"' AND status = 1;"""
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    images = cursor.fetchall()
-    conexion.close()
+    db = get_db()
+    images = db.execute('SELECT * FROM Image WHERE (name LIKE :keyword OR description LIKE :keyword) AND status=1', {"keyword": '%'+keyword+'%'}).fetchall()
     return images
+    close_db()
 #fin jose
