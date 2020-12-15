@@ -77,32 +77,22 @@ def update_downloads(id,downloadStatus):
 
 #ivan
 #Insert usuario y validar no existencia
-def sql_insert_user(name, email, password):
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    query = f"""select email from User where email = '{email}';"""
-    cursor.execute(query)
-    emailUser = cursor.fetchone()
-
-    if (emailUser == None):
-        query = f"""insert into User (name, email, password)
-        values ('{name}','{email}','{password}');"""
-        cursor.execute(query)
-        conexion.commit()
-
-    conexion.close()
+def sql_insert_user(user, email, password):
+    db = get_db()
+    emailUser = db.execute('SELECT email from User where email = ?',[email]).fetchone()
+    if (emailUser is None):
+        newUser = db.execute('INSERT INTO User (name, email, password) values (?,?,?)', (user, email, password))
+        db.commit()
+    close_db()
     return emailUser
 
 
 #Update name, description, status, path
 def sql_update_image(id, name, description, status, path):
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    query = f"""update Image set name = '{name}', description = '{description}', status = '{status}', path = '{path}' where idImage = {id};"""
-    cursor.execute(query)
-    conexion.commit()
-    conexion.close()
-
+    db = get_db()
+    db.execute('UPDATE User SET name = ?, description = ?, status = ?, path = ? WHERE idImage= ?',[name, description, status, path, id])
+    db.commit()
+    close_db()
 #fin ivan
 
 
