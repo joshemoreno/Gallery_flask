@@ -14,9 +14,9 @@
     <div class="col-md-9"></div>
     <div class="col-md-3">
         <ul class="navbar-nav ml-auto">
-            {% if g.user.username %}
+            {% if session.username %}
             <li class="nav-item active">
-                <a class="nav-link" href="{{url_for('in_session')}}"><b>Hola, {{g.user.username}}</b></a>
+                <a class="nav-link" href="{{url_for('in_session')}}"><b>Hola, {{session.username}}</b></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{url_for('log_out')}}"><b>Cerrar sesión</b></a>
@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div class="card-footer text-muted">
-                {% if g.user.username %}
+                {% if session.username %}
                 <img src="../../static/icons/heartEmpty.svg" alt="heart" class="voteIcon1">
                 {% endif %}
                 <img src="../../static/icons/downloadBlack.svg" alt="download" class="downloadIcon1">

@@ -9,6 +9,7 @@ import utils
 import os
 import model
 
+
 # End imports
 
 # varibles
@@ -23,23 +24,12 @@ app.secret_key = os.urandom(24)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # EndInit
 
-# Check the session at the beggining of request
-
-
-@app.before_request
-def before_request():
-    g.user = None
-    if 'user_id' in session:
-        user = [x for x in users if x.id == session['user_id']][0]
-        g.user = user
-# EndCheck
-
-
 # Classes of Login
 class LoginForm(Form):
     user = StringField('Usuario', [
-        validators.Length(min=1, max=50, message=(
-            'El nombre debe tener máximo 50 caracteres')),
+        validators.Length(
+            min=5, max=15, message=('El nombre del usuario debe tener 5 a 15 caracteres')
+            ),
         validators.DataRequired('El nombre del usuario es obligatorio')
     ])
 
@@ -47,24 +37,6 @@ class LoginForm(Form):
         validators.DataRequired('La contraseña es obligatoria')
     ])
 
-
-class User:
-    def __init__(self, id, username, password):
-        self.id = id
-        self.username = username
-        self.password = password
-
-    def __repr__(self):
-        return f'<User: {self.username}>'
-
-
-# Esta información vendría de DB
-users = []
-users.append(User(id=1, username='laura', password='password'))
-users.append(User(id=2, username='josea', password='password'))
-users.append(User(id=3, username='luism', password='password'))
-users.append(User(id=4, username='ivanc', password='password'))
-##
 # End Classes of Login
 
 # Login Route
@@ -72,41 +44,47 @@ users.append(User(id=4, username='ivanc', password='password'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if g.user:
-        return redirect(url_for('in_session'))
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
-        session.pop('user_id', None)
-
         username = form.user.data
-        password = form.password.data
-
-        usuario = [x for x in users if x.username == username][0]
-        # password_candidate = sha256_crypt.encrypt(str(usuario.password)) #para validar contraseña encriptada que viene de DB
-        # if password_candidate == password: #para validar contraseña encriptada
-        if usuario and usuario.password == password:
-            session['user_id'] = usuario.id
-            # successs_message = 'Bienvenido {}'. format(usuario.username)
-            # flash(success_message)
-            app.logger.info('PASSWORD MATCHED')
-            return redirect(url_for('in_session'))
+        password_candidate = form.password.data
+        user = model.sql_select_usuario_byUser(username)
+        if user is not None:
+            password = user[3]
+            if sha256_crypt.verify(password_candidate, password):
+                session['logged_in'] = True
+                session['username'] = username
+                session['id'] = user[0]
+                flash('You are logged in', 'success')
+                app.logger.info('PASSWORD MATCHED')
+                return redirect(url_for('in_session'))
+            else:
+                app.logger.info('PASSWORD NO MATCHED')
+                error = 'sesión inválida'
+                return render_template('Login/login.html', form=form, error=error)
         else:
             app.logger.info('PASSWORD NO MATCHED')
             error = 'sesión inválida'
             return render_template('Login/login.html', form=form, error=error)
-        return redirect(url_for('login'))
     return render_template('Login/login.html', form=form)
 # End Login route
 
 # InSession Route
 
+def is_logged_in(f):
+	@wraps(f)
+	def wrap(*args, **kwargs):
+		if 'logged_in' in session:
+			return f(*args, **kwargs)
+		else:
+			flash('Unauthorized, Plese login', 'danger')
+			return redirect(url_for('login'))
+	return wrap
 
 @app.route('/insession')
+@is_logged_in
 def in_session():
-    if not g.user:
-        return redirect(url_for('login'))
-    else:
-        id_User = session['user_id']
+        id_User = session['id']
         images = model.sql_select_images_byUser(id_User)
         if images is not None:
             if len(images)==0:
@@ -121,20 +99,19 @@ def in_session():
 
 # Logout Route
 
-
 @app.route('/logout')
 def log_out():
-    session.pop('user_id', None)
-    return redirect(url_for('index'))
+	session.clear()
+	flash('You are now logged out','success')
+	return redirect(url_for('index'))
 # End Logout Route
 
 # Update Route
 
 
 @app.route('/update')
+@is_logged_in
 def update():
-    if not g.user:
-        return redirect(url_for('login'))
     return render_template('UpdateView/update.html')
 # End Update Route
 
@@ -142,9 +119,8 @@ def update():
 
 
 @app.route('/update/delete/<string:id>', methods=["POST"])
+@is_logged_in
 def image_delete(id):
-    if not g.user:
-        return redirect(url_for('login'))
     if request.method == 'POST':
         id_image = request.form['id_image']
 
@@ -323,7 +299,7 @@ def reset(id):
         password = sha256_crypt.encrypt(str(form.password.data))
         user = model.update_password(id,password)
         if user is not None:
-            print(user)
+            # print(user)
             return redirect(url_for('index'))
         else:
             print(user)
@@ -359,9 +335,8 @@ def allowed_file(filename):
 
 
 @app.route('/upload', methods=['GET', 'POST'])
+@is_logged_in
 def upload():
-    if not g.user:
-        return redirect(url_for('login'))
     form = UploadForm(request.form)
     if request.method == 'POST' and form.validate():
         title = form.title.data
@@ -390,7 +365,7 @@ def upload():
             flash(error)
             return render_template('UploadView/upload.html', form=form)
         
-        imageCreated = model.sql_create_image(title, description, status, image.filename,session['user_id'])
+        imageCreated = model.sql_create_image(title, description, status, image.filename,session['id'])
         if imageCreated is not None:
             success_message = 'Imagen creada exitosamente'
             flash(success_message)
@@ -421,6 +396,7 @@ class UpdateForm(Form):
 
 
 @app.route('/updateform/<string:id>', methods=['GET', 'POST'])
+@is_logged_in
 def updateform(id):
     form = UpdateForm(request.form)
     if request.method == 'POST' and form.validate():
@@ -443,12 +419,11 @@ class InSessionSearchForm(Form):
 
 
 @app.route('/update/search', methods=["POST"])
+@is_logged_in
 def update_search():
-    if not g.user:
-        return redirect(url_for('login'))
     form = InSessionSearchForm(request.form)
     if request.method == 'POST' and form.validate():
-        idUser = session['user_id']
+        idUser = session['id']
         texto = request.form['texto']
         images = model.sql_select_repository_images(texto, idUser)
         if not texto:
@@ -464,15 +439,13 @@ def update_search():
 
 
 @app.route('/insession/search', methods=["POST"])
+@is_logged_in
 def inSession_search():
-    if not g.user:
-        return redirect(url_for('login'))
     form = InSessionSearchForm(request.form)
     if request.method == 'POST' and form.validate():
-        idUser = session['user_id']
+        idUser = session['id']
         texto = request.form['texto']
         images = model.sql_select_repository_images(texto, idUser)
-
         if not texto:
             error = 'Debes escribir alguna palabra de búsqueda'
             flash(error)
@@ -498,20 +471,23 @@ class ResetRequestForm(Form):
 # reset_request
 
 
-@app.route('/resetRequest/<string:id>', methods=['GET', 'POST'])
-def resetRequest(id):
+@app.route('/resetRequest', methods=['GET', 'POST'])
+def resetRequest():
     form = ResetRequestForm(request.form)
     if request.method == 'POST' and form.validate():
         email = form.email.data
-        # user = form.user.data
-        # flash('Ya te has registrado revisa tu correo y activa tu cuenta', 'correcto')
-        yag.send(email, 'Reestablecer contraseña de PHOTOS',
-                 ''' <h1>¿HAS OLVIDADO TU CONTRASEÑA? </h1>
-            <h3><b>Hola, '''+email+'''</b></h3><br><p>Esta es una solicitud para restablecer tu contraseña</p>
-            Haz clic en el siguiente enlace para restablecer tu contraseña
-            <a href="http://localhost:5000/resetpassword/1">Restablece tu contraseña</a>
-            <p>Si no has solicitado una nueva contraseña, por favor ignore este mensaje, gracias!</p>
-            ''')
-        return redirect(url_for('login'))
+        user = model.sql_select_usuario_byEmail(email)
+        if user is not None:
+            idUser=str(user[0])
+            yag.send(email, 'Reestablecer contraseña de PHOTOS',
+                    ''' <h1>¿HAS OLVIDADO TU CONTRASEÑA? </h1>
+                <h3><b>Hola, '''+user[1]+'''</b></h3><br><p>Esta es una solicitud para restablecer tu contraseña</p>
+                Haz clic en el siguiente enlace para restablecer tu contraseña
+                <a href="http://localhost:5000/resetpassword/'''+idUser+'''">Restablece tu contraseña</a>
+                <p>Si no has solicitado una nueva contraseña, por favor ignore este mensaje, gracias!</p>
+                ''')
+            return redirect(url_for('login'))
+        else:
+            return render_template('Reset/resetRequest.html', form=form)
     return render_template('Reset/resetRequest.html', form=form)
 # End resetRequest

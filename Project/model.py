@@ -1,10 +1,12 @@
 from db import get_db, close_db
+import datetime
+time = datetime.datetime.now()
 
 #Laura
 #Insert imagen y validar no existencia
 def sql_create_image(name, description, status, path, idUser):
     db = get_db()
-    imageCreated = db.execute('INSERT INTO Image (name, description, status, path, idUser) values (?,?,?,?,?)', (name, description, status, path, idUser))
+    imageCreated = db.execute('INSERT INTO Image (name, description, status, path, idUser, created_at) values (?,?,?,?,?,?)', (name, description, status, path, idUser, time))
     db.commit()
     close_db()
     return imageCreated
@@ -37,14 +39,12 @@ def sql_select_repository_images(keyword, id):
 
 #luis
 #Select user information
-def sql_select_usuario_byUser(idUser):
-    query = f"""SELECT * FROM User WHERE idUser = {idUser};"""
-    conexion = sql_connection()
-    cursor = conexion.cursor()
-    cursor.execute(query)
-    usuario = cursor.fetchall()
-    conexion.close()
-    return usuario
+def sql_select_usuario_byUser(username):
+    db = get_db()
+    user = db.execute('SELECT * FROM User WHERE name=?',[username]).fetchone()
+    close_db()
+    return user
+
 #Select images by status=1
 def sql_select_images_from_repository_by_status(status):
     query = f"""SELECT * FROM Image WHERE status = {status};"""
@@ -55,6 +55,7 @@ def sql_select_images_from_repository_by_status(status):
     conexion.close()
     return images
 #Update downloads by idImage
+
 def update_downloads(id,downloadStatus):
     querySelect = """SELECT downloads FROM Image WHERE idImage={id};"""
     conexion = sql_connection()
@@ -111,7 +112,7 @@ def update_password(id,password):
     db = get_db()
     user = db.execute('SELECT * FROM User WHERE idUser= ?',[id]).fetchone()
     if user is not None:
-        db.execute('UPDATE User SET password= ? WHERE idUser= ?',[password, id])
+        db.execute('UPDATE User SET password= ?, updated_at= ? WHERE idUser= ?',[password, time, id])
         db.commit()
         return user
         # print("update_password")
@@ -158,4 +159,11 @@ def sql_select_images_by_keyword(keyword):
     images = db.execute('SELECT * FROM Image WHERE (name LIKE :keyword OR description LIKE :keyword) AND status=1', {"keyword": '%'+keyword+'%'}).fetchall()
     return images
     close_db()
+
+
+def sql_select_usuario_byEmail(email):
+    db = get_db()
+    user = db.execute('SELECT * FROM User WHERE email=?',[email]).fetchone()
+    close_db()
+    return user
 #fin jose
