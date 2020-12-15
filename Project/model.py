@@ -131,18 +131,22 @@ def sql_select_image_by_id(id):
 
 
 #Update votes by idImage
-def update_votes(id,voteStatus):
+def update_votes(idImage,voteStatus):
     db = get_db()
-    votes = db.execute('SELECT votes FROM Image WHERE idImage = ?',[id]).fetchone()
+    print(idImage,voteStatus)
+    votes = db.execute('SELECT votes FROM Image WHERE idImage = :idImage',{"idImage":idImage}).fetchone()
     if votes is not None:
+        toVote=votes[0]
+        voteStatus=int(voteStatus)
         if(voteStatus == 1):
-            votes+=1
+            toVote=toVote+1
+            db.execute('UPDATE Image SET votes= ? WHERE idImage= ?',[toVote, idImage])
         else:
-            votes-=1
-        db.execute('UPDATE Image SET votes= ? WHERE idImage= ?',[votes, id])
+            toVote=toVote-1
+            db.execute('UPDATE Image SET votes= ? WHERE idImage= ?',[toVote, idImage])
         db.commit()
         close_db()
-        return votes
+        return toVote
     else:
         return votes
     print("update_votes")
