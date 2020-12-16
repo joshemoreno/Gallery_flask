@@ -8,17 +8,15 @@ from functools import wraps
 import utils
 import os
 import model
-
-
 # End imports
 
-# varibles
+# Variables
 yag = yagmail.SMTP('misiontic2022grupo11@gmail.com', '2022Grupo11')
 UPLOAD_FOLDER = os.path.abspath("./uploader")
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 # EndVaribles
 
-# init
+# Init
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -36,12 +34,9 @@ class LoginForm(Form):
     password = PasswordField('Contraseña', [
         validators.DataRequired('La contraseña es obligatoria')
     ])
-
 # End Classes of Login
 
 # Login Route
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
@@ -74,8 +69,7 @@ def login():
     return render_template('Login/login.html', form=form)
 # End Login route
 
-# InSession Route
-
+# Función decoradora
 def is_logged_in(f):
 	@wraps(f)
 	def wrap(*args, **kwargs):
@@ -86,6 +80,7 @@ def is_logged_in(f):
 			return redirect(url_for('login'))
 	return wrap
 
+# InSession Route
 @app.route('/insession')
 @is_logged_in
 def in_session():
@@ -94,6 +89,7 @@ def in_session():
         if images is not None:
             if len(images)==0:
                 return render_template('InSession/inSession.html')
+            print(images)
             return render_template('InSession/inSession.html', images=images)
         else:
             error = 'Error buscar las imágenes de usuario en sesión, intenta de nuevo'
@@ -103,7 +99,6 @@ def in_session():
 # End InSession Route
 
 # Logout Route
-
 @app.route('/logout')
 def log_out():
 	session.clear()
@@ -112,17 +107,24 @@ def log_out():
 # End Logout Route
 
 # Update Route
-
-
 @app.route('/update')
 @is_logged_in
 def update():
+    id_User = session['id']
+    images = model.sql_select_images_byUser(id_User)
+    if images is not None:
+        if len(images)==0:
+            return render_template('UpdateView/update.html')
+        print(images)
+        return render_template('UpdateView/update.html', images=images)
+    else:
+        error = 'Error buscar las imágenes de usuario en sesión, intenta de nuevo'
+        flash(error)
+        return render_template('UpdateView/update.html')
     return render_template('UpdateView/update.html')
 # End Update Route
 
 # DeleteImage Route
-
-
 @app.route('/update/delete/<string:id>', methods=["POST"])
 @is_logged_in
 def image_delete(id):
@@ -147,8 +149,6 @@ def image_delete(id):
 # End DeleteImage Route
 
 # End Class Search
-
-
 class SearchForm(Form):
     text = StringField('Texto', [
         validators.DataRequired()
@@ -156,8 +156,6 @@ class SearchForm(Form):
 # End Class Search
 
 # Search Route
-
-
 @app.route('/search',  methods=['GET', 'POST'])
 def search_image():
     images=[]
@@ -175,8 +173,6 @@ def search_image():
 # End Search Route
 
 # ShowImage Route
-
-
 @app.route('/showImage/<string:id>')
 def showImage(id):
     image = model.sql_select_image_by_id(id)
@@ -186,28 +182,26 @@ def showImage(id):
     else:
         print(image)
         return render_template('LandingPage/main.html')
-    
 # End ShowImage Route
 
+##FALTA
 # MostVoted Route
-
-
 @app.route('/mostVoted')
 def most_voted():
+    image= model.sql_select_images_by_status()
+    print(image)
     return render_template('LandingPage/main.html')
 # End MostVoted Route
 
 # MostDownloaded Route
-
-
 @app.route('/mostDownloaded')
 def most_downloaded():
+    image= model.sql_select_images_by_status()
+    print(image)
     return render_template('LandingPage/main.html')
 # End Vote MostDownloaded Route
 
 # Vote Route
-
-
 @app.route('/vote', methods=["POST"])
 def vote():
     # save vote
@@ -218,23 +212,17 @@ def vote():
         model.update_votes(idImage,voteStatus)
         status = "ok"
         return status
-
 # End Vote Route
 
 # Download Route
-
-
 @app.route('/download/<string:id>', methods=["POST"])
 def download(id):
-    # buscar imagen en directorio
     model.update_downloads(id)
     status = "ok"
     return status
 # End Download Route
 
 # MainRoute
-
-
 @app.route('/')
 def index():
     image= model.sql_select_images_by_status()
@@ -243,8 +231,6 @@ def index():
 # End MainRoute
 
 # Class registerForm
-
-
 class RegisterForm(Form):
     user = StringField('Usuario', [
         validators.Length(
@@ -264,8 +250,6 @@ class RegisterForm(Form):
 # End Class registerForm
 
 # RegisterRoute
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
@@ -287,19 +271,16 @@ def register():
             return render_template('SingIn/singIn.html', form=form)
             # flash('Ya te has registrado revisa tu correo y activa tu cuenta', 'correcto')
     return render_template('SingIn/singIn.html', form=form)
-
 # End RegisterRoute
 
+# Activate Route
 @app.route('/activate/<string:user>', methods=['GET', 'POST'])
 def activate(user):
     model.sql_activate_count(user)
     return redirect(url_for('login'))
-
-
+# End ActivateRoute
 
 # Class resetForm
-
-
 class ResetForm(Form):
     password = PasswordField('Contraseña', [
         validators.Length(
@@ -311,8 +292,6 @@ class ResetForm(Form):
 # End Class resetForm
 
 # Reset Route
-
-
 @app.route('/resetpassword/<string:id>', methods=['GET', 'POST'])
 def reset(id):
     form = ResetForm(request.form)
@@ -330,8 +309,6 @@ def reset(id):
 # End ResetRoute
 
 # Class uploadForm
-
-
 class UploadForm(Form):
     title = StringField('Nombre', [
         validators.Length(
@@ -344,17 +321,13 @@ class UploadForm(Form):
     status = BooleanField()
 # End Class uploadForm
 
-# validator
-
-
+# Validator Files
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-# End validator
+# End validator Files
 
 # upload Route
-
-
 @app.route('/upload', methods=['GET', 'POST'])
 @is_logged_in
 def upload():
@@ -399,8 +372,6 @@ def upload():
 # End upload Route
 
 # Class updateForm
-
-
 class UpdateForm(Form):
     title = StringField('Nombre', [
         validators.Length(
@@ -414,8 +385,6 @@ class UpdateForm(Form):
 # End Class updateForm
 
 # update Route
-
-
 @app.route('/updateform/<string:id>', methods=['GET', 'POST'])
 @is_logged_in
 def updateform(id):
@@ -425,13 +394,13 @@ def updateform(id):
         description = form.description.data
         status = form.status.data
         # path = form.description.path
-        model.sql_update_image(id, title, description, status)
+        image = model.sql_update_image(id, title, description, status)
+        if image is not None:
+            return redirect(url_for('update'))
     return render_template('UpdateForm/updateForm.html', form=form)
 # End update Route
 
 # class search
-
-
 class InSessionSearchForm(Form):
     texto = StringField('Texto', [
         validators.DataRequired()
@@ -439,8 +408,6 @@ class InSessionSearchForm(Form):
 # End search
 
 # updateSearch Route
-
-
 @app.route('/update/search', methods=["POST"])
 @is_logged_in
 def update_search():
@@ -455,12 +422,13 @@ def update_search():
             return render_template('updateView/update.html', form=form)
       
         if len(images) == 0:
-                return render_template('updateView/update.html', form=form)
+            return render_template('updateView/update.html', form=form)
         else:
             return render_template('updateView/update.html', form=form, images=images)
     return render_template('Updateview/update.html', form=form)
+# End updateSearch Route
 
-
+# updateSearch Route
 @app.route('/insession/search', methods=["POST"])
 @is_logged_in
 def inSession_search():
@@ -482,8 +450,6 @@ def inSession_search():
 # End updateSearch Route
 
 # Class ResetRequestForm
-
-
 class ResetRequestForm(Form):
     email = StringField('Correo', [
         validators.Length(
@@ -492,8 +458,6 @@ class ResetRequestForm(Form):
 # End Class ResetRequestForm
 
 # reset_request
-
-
 @app.route('/resetRequest', methods=['GET', 'POST'])
 def resetRequest():
     form = ResetRequestForm(request.form)

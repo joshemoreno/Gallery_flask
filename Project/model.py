@@ -1,8 +1,6 @@
 from db import get_db, close_db
 import datetime
 
-
-#Laura
 #Insert imagen y validar no existencia
 def sql_create_image(name, description, status, path, idUser):
     time = datetime.datetime.now()
@@ -15,7 +13,7 @@ def sql_create_image(name, description, status, path, idUser):
 #Delete image by idImage
 def sql_delete_image(id):
     db=get_db()
-    image = db.execute('DELETE FROM Image WHERE idImage = ?', (id))
+    image = db.execute('DELETE FROM Image WHERE idImage = ?', [id])
     db.commit()
     close_db()
     return image
@@ -32,13 +30,9 @@ def sql_select_images_byUser(id):
 def sql_select_repository_images(keyword, id):
     db = get_db()
     images = db.execute('SELECT * FROM Image WHERE (name LIKE :keyword OR description LIKE :keyword) AND idUser = :idUser', {"keyword": '%'+keyword+'%', "idUser":id}).fetchall()
-    db.commit()
     close_db()
     return images
-#fin laura
 
-
-#luis
 #Select user information
 def sql_select_usuario_byUser(username):
     db = get_db()
@@ -52,6 +46,7 @@ def sql_select_images_by_status():
     images = db.execute('SELECT * FROM Image WHERE status= 1').fetchall()
     close_db()
     return images
+
 #Update downloads by idImage
 def update_downloads(id):
     db = get_db()   
@@ -62,10 +57,6 @@ def update_downloads(id):
     db.commit()
     close_db()
 
-
-#fin luis
-
-#ivan
 #Insert usuario y validar no existencia
 def sql_insert_user(user, email, password):
     time = datetime.datetime.now()
@@ -77,18 +68,15 @@ def sql_insert_user(user, email, password):
     close_db()
     return emailUser
 
-
-#Update name, description, status, path
+#Update name, description, status
 def sql_update_image(id, name, description, status):
     time = datetime.datetime.now()
     db = get_db()
-    db.execute('UPDATE Image SET name = ?, description = ?, status = ?, updated_at = ? WHERE idImage= ?',[name, description, status, time, id])
+    image = db.execute('UPDATE Image SET name = ?, description = ?, status = ?, updated_at = ? WHERE idImage= ?',[name, description, status, time, id])
     db.commit()
     close_db()
-#fin ivan
+    return image
 
-
-#jose
 #Update password
 def update_password(id,password):
     time = datetime.datetime.now()
@@ -98,13 +86,10 @@ def update_password(id,password):
         db.execute('UPDATE User SET password= ?, updated_at= ? WHERE idUser= ?',[password, time, id])
         db.commit()
         return user
-        # print("update_password")
     else:
         return user
-        # print("El usuario no existe")
     close_db()
     
-
 #Select image by idImage
 def sql_select_image_by_id(id):
     db = get_db()
@@ -112,8 +97,6 @@ def sql_select_image_by_id(id):
     return image
     close_db()
    
-
-
 #Update votes by idImage
 def update_votes(idImage,voteStatus):
     db = get_db()
@@ -135,14 +118,12 @@ def update_votes(idImage,voteStatus):
         return votes
     print("update_votes")
 
-
 #Select images by keywords
 def sql_select_images_by_keyword(keyword):
     db = get_db()
     images = db.execute('SELECT * FROM Image WHERE (name LIKE :keyword OR description LIKE :keyword) AND status=1', {"keyword": '%'+keyword+'%'}).fetchall()
     return images
     close_db()
-
 
 def sql_select_usuario_byEmail(email):
     db = get_db()
@@ -155,4 +136,3 @@ def sql_activate_count(user):
     db.execute('UPDATE User SET status=1 WHERE name=?',[user])
     db.commit()
     close_db()
-#fin jose
