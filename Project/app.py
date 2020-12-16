@@ -184,7 +184,7 @@ def showImage(id):
         return render_template('LandingPage/main.html')
 # End ShowImage Route
 
-##FALTA
+
 # MostVoted Route
 @app.route('/mostVoted')
 def most_voted():
