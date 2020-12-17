@@ -106,195 +106,29 @@
             </ul>
         </div>
     </nav>    
-
+    
     <div class="row">
+        {% for image in images %}
         <div class="columnLeft col-md-4">
             <div class="container">
-                <form method="GET" action="{{url_for('showImage', id=1)}}">
-                    <button type="submit" class="hide"><img src="../../static/images/imagen5.jpg"
-                        alt="imagen0" class="imageLong"></button>
+                <form method="GET" action="{{url_for('showImage', id=image[0])}}">
+                    <button type="submit" class="hide"><img src="../../static/uploader/{{image[4]}}"
+                        alt="{{image[1]}}" class="imageLong"></button>
                 </form>
                 <div class="overlay">
-                    <div class="textAuth">Por: José A</div>
+                    <div class="textAuth">{{image[5]}}</div>
                     <div class="icons">
                         <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                        <p class="textVote">30</p>
+                        <p class="textVote">{{image[2]}}</p>
                         <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                        <p class="textDownload">20</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <form method="GET" action="{{url_for('showImage', id=1)}}">
-                    <button type="submit" class="hide"><img src="../../static/images/imagen4.jpg"
-                        alt="imagen0" class="imageLong"></button>
-                </form>
-                <div class="overlay">
-                    <div class="textAuth">Por: José A</div>
-                    <div class="icons">
-                        <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                        <p class="textVote">30</p>
-                        <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                        <p class="textDownload">20</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <form method="GET" action="{{url_for('showImage', id=1)}}">
-                    <button type="submit" class="hide"><img src="../../static/images/imagen3.jpg"
-                        alt="imagen0" class="imageLong"></button>
-                </form>
-                <div class="overlay">
-                    <div class="textAuth">Por: Manuel D</div>
-                    <div class="icons">
-                        <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                        <p class="textVote">30</p>
-                        <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                        <p class="textDownload">20</p>
+                        <p class="textDownload">{{image[3]}}</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="columnCenter col-md-4">
-            <div class="container">
-                <form method="GET" action="{{url_for('showImage', id=1)}}">
-                    <button type="submit" class="hide"><img src="../../static/images/imagen6.jpg"
-                        alt="imagen0" class="imageShort"></button>
-                </form>
-                <div class="overlay">
-                    <div class="textAuth">Por: José A</div>
-                    <div class="icons">
-                        <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                        <p class="textVote">30</p>
-                        <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                        <p class="textDownload">20</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <form method="GET" action="{{url_for('showImage', id=1)}}">
-                    <button type="submit" class="hide"><img src="../../static/images/imagen7.jpg"
-                        alt="imagen0" class="imageShort"></button>
-                </form>
-                <div class="overlay">
-                    <div class="textAuth">Por: Luis M</div>
-                    <div class="icons">
-                        <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                        <p class="textVote">30</p>
-                        <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                        <p class="textDownload">20</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <form method="GET" action="{{url_for('showImage', id=1)}}">
-                    <button type="submit" class="hide"><img src="../../static/images/imagen2.jpg"
-                        alt="imagen0" class="imageShort"></button>
-                </form>
-                <div class="overlay">
-                    <div class="textAuth">Por: José A</div>
-                    <div class="icons">
-                        <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                        <p class="textVote">30</p>
-                        <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                        <p class="textDownload">20</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <form method="GET" action="{{url_for('showImage', id=1)}}">
-                    <button type="submit" class="hide"><img src="../../static/images/imagen8.jpg"
-                        alt="imagen0" class="imageShort"></button>
-                </form>
-                <div class="overlay">
-                    <div class="textAuth">Por: Laura C</div>
-                    <div class="icons">
-                        <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                        <p class="textVote">30</p>
-                        <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                        <p class="textDownload">20</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <form method="GET" action="{{url_for('showImage', id=1)}}">
-                    <button type="submit" class="hide"><img src="../../static/images/imagen6.jpg"
-                        alt="imagen0" class="imageShort"></button>
-                </form>
-                <div class="overlay">
-                    <div class="textAuth">Por: Laura C</div>
-                    <div class="icons">
-                        <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                        <p class="textVote">30</p>
-                        <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                        <p class="textDownload">20</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <form method="GET" action="{{url_for('showImage', id=1)}}">
-                    <button type="submit" class="hide"><img src="../../static/images/imagen2.jpg"
-                        alt="imagen0" class="imageShort"></button>
-                </form>
-                <div class="overlay">
-                    <div class="textAuth">Por: José A</div>
-                    <div class="icons">
-                        <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                        <p class="textVote">30</p>
-                        <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                        <p class="textDownload">20</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="columnRight col-md-4">
-            <div class="container">
-                <form method="GET" action="{{url_for('showImage', id=1)}}">
-                    <button type="submit" class="hide"><img src="../../static/images/imagen4.jpg"
-                        alt="imagen0" class="imageLong"></button>
-                </form>
-                <div class="overlay">
-                    <div class="textAuth">Por: Laura C</div>
-                    <div class="icons">
-                        <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                        <p class="textVote">30</p>
-                        <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                        <p class="textDownload">20</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <form method="GET" action="{{url_for('showImage', id=1)}}">
-                    <button type="submit" class="hide"><img src="../../static/images/imagen9.jpg"
-                        alt="imagen0" class="imageLong"></button>
-                </form>
-                <div class="overlay">
-                    <div class="textAuth">Por: Manuel D</div>
-                    <div class="icons">
-                        <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                        <p class="textVote">30</p>
-                        <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                        <p class="textDownload">20</p>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <form method="GET" action="{{url_for('showImage', id=1)}}">
-                    <button type="submit" class="hide"><img src="../../static/images/imagen5.jpg"
-                        alt="imagen0" class="imageLong"></button>
-                </form>
-                <div class="overlay">
-                    <div class="textAuth">Por: José A</div>
-                    <div class="icons">
-                        <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                        <p class="textVote">30</p>
-                        <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                        <p class="textDownload">20</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
+    
     <div class="footer">
         <div class="text-center footer-in py-3">
             <div class="text-center">Términos y condiciones <span class="mx-4"></span>Políticas de privacidad</span>
