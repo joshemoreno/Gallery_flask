@@ -5,7 +5,7 @@ import datetime
 def sql_create_image(name, description, status, path, idUser):
     time = datetime.datetime.now()
     db = get_db()
-    imageCreated = db.execute('INSERT INTO Image (name, description, status, path, idUser, created_at) values (?,?,?,?,?,?)', (name, description, status, path, idUser, time))
+    imageCreated = db.execute('INSERT INTO Image (name, description, status, path, idUser, created_at, votes, downloads) values (?,?,?,?,?,?,?,?)', (name, description, status, path, idUser, time, 0, 0))
     db.commit()
     close_db()
     return imageCreated
@@ -43,7 +43,7 @@ def sql_select_usuario_byUser(username):
 #Select images by status=1
 def sql_select_images_by_status():
     db = get_db()
-    images = db.execute('SELECT * FROM Image WHERE status= 1').fetchall()
+    images = db.execute('SELECT idImage,Image.name,votes,downloads,path,User.name FROM Image INNER JOIN User ON Image.idUser = User.idUser WHERE Image.status=1').fetchall()
     close_db()
     return images
 
@@ -56,6 +56,7 @@ def update_downloads(id):
     db.execute('UPDATE Image SET downloads= ? WHERE idImage= ?',[downloads, id])
     db.commit()
     close_db()
+    return download
 
 #Insert usuario y validar no existencia
 def sql_insert_user(user, email, password):
@@ -93,7 +94,7 @@ def update_password(id,password):
 #Select image by idImage
 def sql_select_image_by_id(id):
     db = get_db()
-    image = db.execute('SELECT * FROM Image WHERE idImage= ?',[id]).fetchone()
+    image = db.execute('SELECT idImage,Image.name,description,path,User.name FROM Image INNER JOIN User ON Image.idUser = User.idUser WHERE idImage= ?',[id]).fetchone()
     return image
     close_db()
    
@@ -136,3 +137,10 @@ def sql_activate_count(user):
     db.execute('UPDATE User SET status=1 WHERE name=?',[user])
     db.commit()
     close_db()
+
+def sql_download_image(id):
+    db = get_db()   
+    pathSelect = db.execute('SELECT path FROM Image WHERE idImage = ?',[id]).fetchone()
+    path = pathSelect[0]
+    close_db()
+    return path
