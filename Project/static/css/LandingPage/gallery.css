@@ -2,6 +2,7 @@
     box-sizing: border-box;
   }
 .row{
+    display: flex;
     padding-left: 5%;
     padding-right: 5%;
     margin-right: 0px;

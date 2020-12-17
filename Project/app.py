@@ -1,6 +1,6 @@
 # imports
 import yagmail
-from flask import Flask, render_template, flash, request, redirect, url_for, session, logging, g
+from flask import Flask, render_template, flash, request, redirect, url_for, session, logging, g, send_file
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, BooleanField, SubmitField, FileField
 from werkzeug.utils import secure_filename
 from passlib.hash import sha256_crypt
@@ -8,11 +8,12 @@ from functools import wraps
 import utils
 import os
 import model
+
 # End imports
 
 # Variables
 yag = yagmail.SMTP('misiontic2022grupo11@gmail.com', '2022Grupo11')
-UPLOAD_FOLDER = os.path.abspath("./uploader")
+UPLOAD_FOLDER = os.path.abspath("./static/uploader")
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 # EndVaribles
 
@@ -177,10 +178,10 @@ def search_image():
 def showImage(id):
     image = model.sql_select_image_by_id(id)
     if image is not None:
-        print(image)
+        # print(image)
         return render_template('ShowImage/showImage.html', image=image)
     else:
-        print(image)
+        # print(image)
         return render_template('LandingPage/main.html')
 # End ShowImage Route
 
@@ -215,19 +216,20 @@ def vote():
 # End Vote Route
 
 # Download Route
-@app.route('/download/<string:id>', methods=["POST"])
+@app.route('/download/<string:id>')
 def download(id):
-    model.update_downloads(id)
-    status = "ok"
-    return status
+    path = model.sql_download_image(id)
+    if (path):
+        model.update_downloads(id)
+    route= "static\\uploader\\"+path
+    return send_file(route, as_attachment=True)
 # End Download Route
 
 # MainRoute
 @app.route('/')
 def index():
-    image= model.sql_select_images_by_status()
-    print(image)
-    return render_template('LandingPage/main.html')
+    images = model.sql_select_images_by_status()
+    return render_template('LandingPage/main.html', images=images)
 # End MainRoute
 
 # Class registerForm
@@ -477,4 +479,8 @@ def resetRequest():
         else:
             return render_template('Reset/resetRequest.html', form=form)
     return render_template('Reset/resetRequest.html', form=form)
+
+
+if __name__ ==  '__main__':
+    app.run( host='127.0.0.1', port =443, ssl_context=('micertificado.pem', 'llaveprivada.pem') )
 # End resetRequest
