@@ -52,7 +52,7 @@ def login():
                     session['logged_in'] = True
                     session['username'] = username
                     session['id'] = user[0]
-                    flash('You are logged in', 'success')
+                    # flash('You are logged in', 'success')
                     app.logger.info('PASSWORD MATCHED')
                     return redirect(url_for('in_session'))
                 else:
@@ -77,7 +77,7 @@ def is_logged_in(f):
 		if 'logged_in' in session:
 			return f(*args, **kwargs)
 		else:
-			flash('Unauthorized, Plese login', 'danger')
+			# flash('Unauthorized, Plese login', 'danger')
 			return redirect(url_for('login'))
 	return wrap
 
@@ -87,14 +87,17 @@ def is_logged_in(f):
 def in_session():
         id_User = session['id']
         images = model.sql_select_images_byUser(id_User)
+        # print(images)
         if images is not None:
             if len(images)==0:
-                return render_template('InSession/inSession.html')
-            print(images)
+                msg="No hay imágenes aún, animate y sube la primera"
+                return render_template('InSession/inSession.html', msg=msg)
+            # images[3]="Publico"
+            # print(images)
             return render_template('InSession/inSession.html', images=images)
         else:
             error = 'Error buscar las imágenes de usuario en sesión, intenta de nuevo'
-            flash(error)
+            # flash(error)
             return render_template('InSession/inSession.html')
         return render_template('InSession/inSession.html')
 # End InSession Route
@@ -103,7 +106,7 @@ def in_session():
 @app.route('/logout')
 def log_out():
 	session.clear()
-	flash('You are now logged out','success')
+	# flash('You are now logged out','success')
 	return redirect(url_for('index'))
 # End Logout Route
 
@@ -116,11 +119,11 @@ def update():
     if images is not None:
         if len(images)==0:
             return render_template('UpdateView/update.html')
-        print(images)
+        # print(images)
         return render_template('UpdateView/update.html', images=images)
     else:
         error = 'Error buscar las imágenes de usuario en sesión, intenta de nuevo'
-        flash(error)
+        # flash(error)
         return render_template('UpdateView/update.html')
     return render_template('UpdateView/update.html')
 # End Update Route
@@ -134,17 +137,17 @@ def image_delete(id):
 
         if not id_image:
             error = 'Debes seleccionar una imagen para ser eliminada'
-            flash(error)
+            # flash(error)
             return redirect(url_for('update'))
 
         image = model.sql_delete_image(id_image)
         if image is not None:
             success_message = 'Imagen eliminada exitosamente'
-            flash(success_message)
+            # flash(success_message)
             return redirect(url_for('update'))
         else:
             error = 'Error al eliminar la imagen, intenta de nuevo'
-            flash(error)
+            # flash(error)
             return redirect(url_for('update'))
     return redirect(url_for('update'))
 # End DeleteImage Route
@@ -164,11 +167,12 @@ def search_image():
     if request.method == 'POST' and form.validate():
         keyword= request.form['text']
         images = model.sql_select_images_by_keyword(keyword)
-        print(images)
+        # print(images)
         if len(images)==0:
-            return render_template('Search/searchImage.html', form=form)
+            msg="No se encontraron imágenes de acuerdo a la búsqueda"
+            return render_template('Search/searchImage.html', form=form, msg=msg)
         return render_template('Search/searchImage.html', form=form, images=images)
-    print(images)
+    # print(images)
     return render_template('Search/searchImage.html', form=form)
     # return render_template('LandingPage/main.html')
 # End Search Route
@@ -189,17 +193,21 @@ def showImage(id):
 # MostVoted Route
 @app.route('/mostVoted')
 def most_voted():
-    image= model.sql_select_images_by_status()
-    print(image)
-    return render_template('LandingPage/main.html')
+    images= model.sql_select_most_votes()
+    if len(images)==0:
+        msg="No hay imágenes aún, registrate y sube la primera"
+        return render_template('LandingPage/main.html', msg=msg)
+    return render_template('LandingPage/main.html', images=images)
 # End MostVoted Route
 
 # MostDownloaded Route
 @app.route('/mostDownloaded')
 def most_downloaded():
-    image= model.sql_select_images_by_status()
-    print(image)
-    return render_template('LandingPage/main.html')
+    images= model.sql_select_most_downloads()
+    if len(images)==0:
+        msg="No hay imágenes aún, registrate y sube la primera"
+        return render_template('LandingPage/main.html', msg=msg)
+    return render_template('LandingPage/main.html',images=images)
 # End Vote MostDownloaded Route
 
 # Vote Route
@@ -218,6 +226,7 @@ def vote():
 # Download Route
 @app.route('/download/<string:id>')
 def download(id):
+    # print(id)
     path = model.sql_download_image(id)
     if (path):
         model.update_downloads(id)
@@ -229,6 +238,9 @@ def download(id):
 @app.route('/')
 def index():
     images = model.sql_select_images_by_status()
+    if len(images)==0:
+        msg="No hay imágenes aún, registrate y sube la primera"
+        return render_template('LandingPage/main.html', msg=msg)
     return render_template('LandingPage/main.html', images=images)
 # End MainRoute
 
@@ -260,7 +272,7 @@ def register():
         email = form.email.data
         password = sha256_crypt.encrypt(str(form.password.data))
         usuario = model.sql_insert_user(user, email, password)
-        print(usuario)
+        # print(usuario)
         if usuario is None:
             yag.send(email, 'Activa tu cuenta',
                     ''' <h1> Bienvenid@ a nuestra comunidad </h1>
@@ -304,7 +316,7 @@ def reset(id):
             # print(user)
             return redirect(url_for('index'))
         else:
-            print(user)
+            # print(user)
             return render_template('Reset/resetPassword.html', form=form)
 
     return render_template('Reset/resetPassword.html', form=form)
@@ -342,34 +354,8 @@ def upload():
         if image and allowed_file(image.filename):
             filename = secure_filename(image.filename)
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        
-        if not title:
-            error = 'Debes ingresar un título'
-            flash(error)
-            return render_template('UploadView/upload.html', form=form)
-        
-        if not description:
-            error = 'Debes ingresar una descripción'
-            flash(error)
-            return render_template('UploadView/upload.html', form=form)
-        
-        if not status:
-            status = 0
-        
-        if not image.filename:
-            error = 'Debes adjuntar una imagen'
-            flash(error)
-            return render_template('UploadView/upload.html', form=form)
-        
-        imageCreated = model.sql_create_image(title, description, status, image.filename,session['id'])
-        if imageCreated is not None:
-            success_message = 'Imagen creada exitosamente'
-            flash(success_message)
-            return render_template('inSession/inSession.html', form=form)
-        else:
-            error = 'Error al crear la imagen, intenta de nuevo'
-            flash(error)
-            return render_template('UploadView/upload.html', form=form)
+            model.sql_create_image(title, description, status, image.filename,session['id'])
+            return redirect(url_for('in_session'))
     return render_template('UploadView/upload.html', form=form)
 # End upload Route
 
@@ -391,15 +377,17 @@ class UpdateForm(Form):
 @is_logged_in
 def updateform(id):
     form = UpdateForm(request.form)
+    image = model.sql_select_to_update(id)
+    form.description.data = image[2]
+    form.status.data = image[4]
     if request.method == 'POST' and form.validate():
+        form.description.data = ""
         title = form.title.data
-        description = form.description.data
+        description = request.data['description']
         status = form.status.data
-        # path = form.description.path
-        image = model.sql_update_image(id, title, description, status)
-        if image is not None:
-            return redirect(url_for('update'))
-    return render_template('UpdateForm/updateForm.html', form=form)
+        model.sql_update_image(id, title, description, status)
+        return redirect(url_for('update'))
+    return render_template('UpdateForm/updateForm.html', form=form, image=image)
 # End update Route
 
 # class search
@@ -420,7 +408,7 @@ def update_search():
         images = model.sql_select_repository_images(texto, idUser)
         if not texto:
             error = 'Debes escribir alguna palabra de búsqueda'
-            flash(error)
+            # flash(error)
             return render_template('updateView/update.html', form=form)
       
         if len(images) == 0:
@@ -441,7 +429,7 @@ def inSession_search():
         images = model.sql_select_repository_images(texto, idUser)
         if not texto:
             error = 'Debes escribir alguna palabra de búsqueda'
-            flash(error)
+            # flash(error)
             return render_template('inSession/inSession.html')
         
         if len(images) == 0:
