@@ -5,7 +5,7 @@ import datetime
 def sql_create_image(name, description, status, path, idUser):
     time = datetime.datetime.now()
     db = get_db()
-    imageCreated = db.execute('INSERT INTO Image (name, description, status, path, idUser, created_at) values (?,?,?,?,?,?)', (name, description, status, path, idUser, time))
+    imageCreated = db.execute('INSERT INTO Image (name, description, status, path, idUser, created_at, votes, downloads) values (?,?,?,?,?,?,?,?)', (name, description, status, path, idUser, time, 0, 0))
     db.commit()
     close_db()
     return imageCreated
@@ -43,7 +43,19 @@ def sql_select_usuario_byUser(username):
 #Select images by status=1
 def sql_select_images_by_status():
     db = get_db()
-    images = db.execute('SELECT * FROM Image WHERE status= 1').fetchall()
+    images = db.execute('SELECT idImage,Image.name,votes,downloads,path,User.name FROM Image INNER JOIN User ON Image.idUser = User.idUser WHERE Image.status=1').fetchall()
+    close_db()
+    return images
+
+def sql_select_most_votes():
+    db = get_db()
+    images = db.execute('SELECT idImage,Image.name,votes,downloads,path,User.name FROM Image INNER JOIN User ON Image.idUser = User.idUser WHERE Image.status=1 ORDER BY votes DESC LIMIT 20').fetchall()
+    close_db()
+    return images
+
+def sql_select_most_downloads():
+    db = get_db()
+    images = db.execute('SELECT idImage,Image.name,votes,downloads,path,User.name FROM Image INNER JOIN User ON Image.idUser = User.idUser WHERE Image.status=1 ORDER BY downloads DESC LIMIT 20').fetchall()
     close_db()
     return images
 
@@ -56,6 +68,7 @@ def update_downloads(id):
     db.execute('UPDATE Image SET downloads= ? WHERE idImage= ?',[downloads, id])
     db.commit()
     close_db()
+    return download
 
 #Insert usuario y validar no existencia
 def sql_insert_user(user, email, password):
@@ -70,12 +83,12 @@ def sql_insert_user(user, email, password):
 
 #Update name, description, status
 def sql_update_image(id, name, description, status):
+    print(id, name, description, status)
     time = datetime.datetime.now()
     db = get_db()
-    image = db.execute('UPDATE Image SET name = ?, description = ?, status = ?, updated_at = ? WHERE idImage= ?',[name, description, status, time, id])
+    db.execute('UPDATE Image SET name = ?, description = ?, status = ?, updated_at = ? WHERE idImage= ?',[name, description, status, time, id])
     db.commit()
     close_db()
-    return image
 
 #Update password
 def update_password(id,password):
@@ -93,15 +106,22 @@ def update_password(id,password):
 #Select image by idImage
 def sql_select_image_by_id(id):
     db = get_db()
-    image = db.execute('SELECT * FROM Image WHERE idImage= ?',[id]).fetchone()
+    image = db.execute('SELECT idImage,Image.name,description,path,User.name FROM Image INNER JOIN User ON Image.idUser = User.idUser WHERE idImage= ?',[id]).fetchone()
+    return image
+    close_db()
+
+def sql_select_to_update(id):
+    db = get_db()
+    image = db.execute('SELECT idImage,name,description,path,status FROM Image WHERE idImage= ?',[id]).fetchone()
     return image
     close_db()
    
 #Update votes by idImage
 def update_votes(idImage,voteStatus):
     db = get_db()
-    print(idImage,voteStatus)
+    # print(idImage,voteStatus)
     votes = db.execute('SELECT votes FROM Image WHERE idImage = :idImage',{"idImage":idImage}).fetchone()
+    # print(votes)
     if votes is not None:
         toVote=votes[0]
         voteStatus=int(voteStatus)
@@ -116,12 +136,11 @@ def update_votes(idImage,voteStatus):
         return toVote
     else:
         return votes
-    print("update_votes")
 
 #Select images by keywords
 def sql_select_images_by_keyword(keyword):
     db = get_db()
-    images = db.execute('SELECT * FROM Image WHERE (name LIKE :keyword OR description LIKE :keyword) AND status=1', {"keyword": '%'+keyword+'%'}).fetchall()
+    images = db.execute('SELECT idImage, Image.name, votes, downloads, path, User.name FROM Image INNER JOIN User ON Image.idUser = User.idUser WHERE (Image.name LIKE :keyword OR description LIKE :keyword) AND Image.status=1', {"keyword": '%'+keyword+'%'}).fetchall()
     return images
     close_db()
 
@@ -136,3 +155,10 @@ def sql_activate_count(user):
     db.execute('UPDATE User SET status=1 WHERE name=?',[user])
     db.commit()
     close_db()
+
+def sql_download_image(id):
+    db = get_db()   
+    pathSelect = db.execute('SELECT path FROM Image WHERE idImage = ?',[id]).fetchone()
+    path = pathSelect[0]
+    close_db()
+    return path

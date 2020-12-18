@@ -39,36 +39,4 @@ $(document).ready(function () {
             }
         })
     })
-
-    $('.downloadIcon1').on('click', function (event) {
-        let value = $('img.downloadIcon1').attr('src')
-        let data = 1
-        $.ajax({
-            url: "/download/1",
-            type: "POST",
-            data: data,
-            processData: false,
-            contentType: false,
-            statusCode: {
-                404: function (event) {
-                    console.log('La URL solicitada no existe, solicitud no enviada.')
-                },
-                200: function () {
-                    console.log('URL encontrada, solicitud enviada.')
-                },
-                500: function () {
-                    console.log('Error interno del servidor, solicitud no enviada.')
-                }
-            },
-            success: function (status) {
-                if (status == 'ok') {
-                    console.log('ok descarga')
-                }
-                else {
-                }
-            }
-        })
-    })
-
-
 })

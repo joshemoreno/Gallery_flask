@@ -60,8 +60,13 @@ function DescriptionValidate() {
     }
     return false;
 }
+statusCheck = document.getElementById("switch").value
+if (statusCheck==1){
+    document.getElementById("switch").checked = true;
+}else if(statusCheck==0){
+    document.getElementById("switch").checked = false;
+}
 
-document.getElementById("switch").checked = false;
 document.getElementById('switch').addEventListener('change', (e) => {
     let status = $('#statusImag')
     this.checkboxValue = e.target.checked ? status.html('Público') : status.html('Privado');

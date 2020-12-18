@@ -1,6 +1,9 @@
 .row{
     margin-right: 0px;
 }
+.alert{
+    text-align: center !important;
+}
 .col-md-7{
     padding-right: 0px;
 }
