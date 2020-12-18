@@ -28,9 +28,9 @@ function NameValidate() {
         nameError.removeAttribute("hidden");
         nameError.innerHTML = "El nombre de la imagen debe tener al menos 5 caracteres";
         inactiveSubmit();
-    }else if(name.value.trim().length > 20){
+    }else if(name.value.trim().length > 30){
         nameError.removeAttribute("hidden");
-        nameError.innerHTML = "El nombre de la imagen debe tener máximo 20 caracteres";
+        nameError.innerHTML = "El nombre de la imagen debe tener máximo 30 caracteres";
         inactiveSubmit();
     }else{
         nameError.setAttribute("hidden","true");
