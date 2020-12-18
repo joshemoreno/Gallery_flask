@@ -6,6 +6,9 @@
     padding-right: 5%;
     margin-right: 0px;
 }
+.alert{
+    text-align: center !important;
+}
 .columnLeft{
     padding: 10px;
 }
