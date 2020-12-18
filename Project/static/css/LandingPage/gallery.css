@@ -33,6 +33,9 @@
     padding: 0px;
     /* border: solid; */
 }
+.alert{
+    text-align: center !important;
+}
 .overlay {
     position: absolute;
     bottom: 0;
