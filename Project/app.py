@@ -52,16 +52,15 @@ def login():
                     session['logged_in'] = True
                     session['username'] = username
                     session['id'] = user[0]
-                    # flash('You are logged in', 'success')
                     app.logger.info('PASSWORD MATCHED')
                     return redirect(url_for('in_session'))
                 else:
                     app.logger.info('PASSWORD NO MATCHED')
-                    error = 'sesión inválida'
+                    error = 'Credenciales invalidas'
                     return render_template('Login/login.html', form=form, error=error)
             else:
                 app.logger.info('Activa tu cuenta')
-                error = 'Activa tu cuenta'
+                error = 'Primero debes activar tu cuenta'
                 return render_template('Login/login.html', form=form, error=error)
         else:
             app.logger.info('PASSWORD NO MATCHED')
@@ -87,26 +86,21 @@ def is_logged_in(f):
 def in_session():
         id_User = session['id']
         images = model.sql_select_images_byUser(id_User)
-        # print(images)
         if images is not None:
             if len(images)==0:
                 msg="No hay imágenes aún, animate y sube la primera"
                 return render_template('InSession/inSession.html', msg=msg)
-            # images[3]="Publico"
-            # print(images)
             return render_template('InSession/inSession.html', images=images)
         else:
             error = 'Error buscar las imágenes de usuario en sesión, intenta de nuevo'
-            # flash(error)
-            return render_template('InSession/inSession.html')
-        return render_template('InSession/inSession.html')
+            return render_template('InSession/inSession.html', error=error)
+        return render_template('InSession/inSession.html',success=success)
 # End InSession Route
 
 # Logout Route
 @app.route('/logout')
 def log_out():
 	session.clear()
-	# flash('You are now logged out','success')
 	return redirect(url_for('index'))
 # End Logout Route
 
@@ -119,11 +113,9 @@ def update():
     if images is not None:
         if len(images)==0:
             return render_template('UpdateView/update.html')
-        # print(images)
         return render_template('UpdateView/update.html', images=images)
     else:
         error = 'Error buscar las imágenes de usuario en sesión, intenta de nuevo'
-        # flash(error)
         return render_template('UpdateView/update.html')
     return render_template('UpdateView/update.html')
 # End Update Route
@@ -134,6 +126,8 @@ def update():
 def image_delete(id):
     if request.method == 'POST':
         image = model.sql_delete_image(id)
+        success="Imagen eliminada con exito"
+        flash(success, 'success')
     return redirect(url_for('update'))
 # End DeleteImage Route
 
@@ -152,12 +146,10 @@ def search_image():
     if request.method == 'POST' and form.validate():
         keyword= request.form['text']
         images = model.sql_select_images_by_keyword(keyword)
-        # print(images)
         if len(images)==0:
             msg="No se encontraron imágenes de acuerdo a la búsqueda"
             return render_template('Search/searchImage.html', form=form, msg=msg)
         return render_template('Search/searchImage.html', form=form, images=images)
-    # print(images)
     return render_template('Search/searchImage.html', form=form)
     # return render_template('LandingPage/main.html')
 # End Search Route
@@ -167,10 +159,8 @@ def search_image():
 def showImage(id):
     image = model.sql_select_image_by_id(id)
     if image is not None:
-        # print(image)
         return render_template('ShowImage/showImage.html', image=image)
     else:
-        # print(image)
         return render_template('LandingPage/main.html')
 # End ShowImage Route
 
@@ -210,7 +200,6 @@ def vote():
 # Download Route
 @app.route('/download/<string:id>')
 def download(id):
-    # print(id)
     path = model.sql_download_image(id)
     if (path):
         model.update_downloads(id)
@@ -256,18 +245,19 @@ def register():
         email = form.email.data
         password = sha256_crypt.encrypt(str(form.password.data))
         usuario = model.sql_insert_user(user, email, password)
-        # print(usuario)
         if usuario is None:
             yag.send(email, 'Activa tu cuenta',
                     ''' <h1> Bienvenid@ a nuestra comunidad </h1>
                 <h3><b>Hola, '''+user+'''</b></h3><br><p>Este correo es para informarte que te has registrado en PHOTOS<p>
-                <a href="http://localhost:5000/activate/'''+user+'''">Activa tu cuenta</a>
+                <a href="https://localhost/activate/'''+user+'''">Activa tu cuenta</a>
                 <p>Si usted no realizo este registro por favor ignore este mensaje, gracias!</p>
                 ''')
-            return redirect(url_for('index'))
+            msgRegister="Registro exitoso, por favor revisa tu correo para activar tu cuenta si ya lo hiciste haz click en"
+            return render_template('SingIn/singIn.html', form=form, msgRegister=msgRegister)
+            # return redirect(url_for('login'))
         else:
-            return render_template('SingIn/singIn.html', form=form)
-            # flash('Ya te has registrado revisa tu correo y activa tu cuenta', 'correcto')
+            error="Este usuario ya se encuentra registrado intenta con otro"
+            return render_template('SingIn/singIn.html', form=form, error=error)
     return render_template('SingIn/singIn.html', form=form)
 # End RegisterRoute
 
@@ -297,10 +287,8 @@ def reset(id):
         password = sha256_crypt.encrypt(str(form.password.data))
         user = model.update_password(id,password)
         if user is not None:
-            # print(user)
             return redirect(url_for('index'))
         else:
-            # print(user)
             return render_template('Reset/resetPassword.html', form=form)
 
     return render_template('Reset/resetPassword.html', form=form)
@@ -339,9 +327,12 @@ def upload():
             filename = secure_filename(image.filename)
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             model.sql_create_image(title, description, status, image.filename,session['id'])
+            success="Imagen cargada con exito"
+            flash(success, 'success')
             return redirect(url_for('in_session'))
     return render_template('UploadView/upload.html', form=form)
 # End upload Route
+
 
 # Class updateForm
 class UpdateForm(Form):
@@ -369,6 +360,8 @@ def updateform(id):
         description = form.description.data
         status = form.status.data
         model.sql_update_image(id, title, description, status)
+        success="Imagen actualizada con exito"
+        flash(success, 'success')
         return redirect(url_for('update'))
     return render_template('UpdateForm/updateForm.html', form=form, image=image)
 # End update Route
@@ -391,10 +384,7 @@ def update_search():
         texto = request.form['texto']
         images = model.sql_select_repository_images(texto, idUser)
         if not texto:
-            error = 'Debes escribir alguna palabra de búsqueda'
-            # flash(error)
             return render_template('updateView/update.html', form=form)
-      
         if len(images) == 0:
             return render_template('updateView/update.html', form=form)
         else:
@@ -444,7 +434,7 @@ def resetRequest():
                     ''' <h1>¿HAS OLVIDADO TU CONTRASEÑA? </h1>
                 <h3><b>Hola, '''+user[1]+'''</b></h3><br><p>Esta es una solicitud para restablecer tu contraseña</p>
                 Haz clic en el siguiente enlace para restablecer tu contraseña
-                <a href="http://localhost:5000/resetpassword/'''+idUser+'''">Restablece tu contraseña</a>
+                <a href="https://localhost/resetpassword/'''+idUser+'''">Restablece tu contraseña</a>
                 <p>Si no has solicitado una nueva contraseña, por favor ignore este mensaje, gracias!</p>
                 ''')
             return redirect(url_for('login'))
@@ -452,7 +442,7 @@ def resetRequest():
             return render_template('Reset/resetRequest.html', form=form)
     return render_template('Reset/resetRequest.html', form=form)
 
-# if __name__ ==  '__main__':
-#     app.run( host='127.0.0.1', port =443, ssl_context=('micertificado.pem', 'llaveprivada.pem') )
+if __name__ ==  '__main__':
+    app.run( host='127.0.0.1', port =443, ssl_context=('micertificado.pem', 'llaveprivada.pem') )
 # End resetRequest
 

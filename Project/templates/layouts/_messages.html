@@ -10,6 +10,13 @@
   <div class="alert alert-danger">{{error}}</div>
 {% endif %}
 
+{% if msgRegister %}
+  <div class="alert alert-success">{{msgRegister}}<a href="{{url_for('login')}}" class="alert-link"> continuar</a></div>
+{% endif %}
+
+{% if success %}
+  <div class="alert alert-success">{{success}}</div>
+{% endif %}
 
 {% if msg %}
   <div class="alert alert-dark">{{msg}}</div>
