@@ -36,30 +36,24 @@
     <div class="row1">
         <div class="card text-center">
             <div class="card-header">
-                <h3>Mirador al mar</h3>
+                {% block image %}
+                <h3>{{image[1]}}</h3>
             </div>
             <div class="card-body">
                 <div class="content">
                     <div class="col-md-6">
-                        <img src="../../static/images/imagen3.jpg" alt="imagen0" class="image">
+                        <img src="../../static/uploader/{{image[3]}}" alt="{{image[1]}}" class="image">
                     </div>
                     <div class="col-md-6">
                         <div class="description-title">
                             <h4>Descripción</h4>
                         </div>
-                        <p class="text"> Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum
-                            has been the industry's standard dummy text ever since the 1500s, when an unknown
-                            printer took a galley of type and scrambled it to make a type
-                            has been the industry's standard dummy text ever since the 1500s, when an unknown
-                            printer took a galley of type and scrambled it to make a type
-                            has been the industry's standard dummy text ever since the 1500s, when an unknown
-                            printer took a galley of type and scrambled it to make a type...
+                        <p class="text"> {{image[2]}}
                         </p>
                         <div class="description-title">
                             <h4>Autor</h4>
                         </div>
-                        <p class="text">Manuel D.</p>
+                        <p class="text">{{image[4]}}</p>
                     </div>
                 </div>
             </div>
@@ -67,11 +61,13 @@
                 {% if session.username %}
                 <img src="../../static/icons/heartEmpty.svg" alt="heart" class="voteIcon1">
                 {% endif %}
-                <img src="../../static/icons/downloadBlack.svg" alt="download" class="downloadIcon1">
+                <a href="{{url_for('download',id=image[0])}}"> <img src="../../static/icons/downloadBlack.svg"
+                        alt="download" class="downloadIcon1"></a>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
 
 <div class="footer">
     <div class="text-center footer-in py-3">

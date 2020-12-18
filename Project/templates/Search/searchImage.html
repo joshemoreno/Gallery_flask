@@ -21,7 +21,7 @@
                     <div class="row">
                         <div class="col-md-10 text-input">
                             <input class="form-control gray-border" type="text" placeholder="Ingresa una palabra clave"
-                                aria-label="Search" name="text" style="width: 100%;">
+                                aria-label="Search" name="text" style="width: 100%;" required>
                         </div>
                         <div class="col-md-2 button-input">
                             <button type="submit" class="btn btn-light" id="logoSearch-btn"><img
@@ -72,75 +72,29 @@
     </div>
 </nav>
 <!-- End navBar -->
-
+<div class="container">
+    {% include 'layouts/_messages.html' %}
+</div>
 <div class="row">
+    {% for image in images %}
     <div class="columnLeft col-md-4">
         <div class="container">
-            <form method="GET" action="{{url_for('showImage', id=1)}}">
-                <button type="submit" class="hide"><img src="../../static/images/imagen9.jpg" alt="imagen0"
+            <form method="GET" action="{{url_for('showImage', id=image[0])}}">
+                <button type="submit" class="hide"><img src="../../static/uploader/{{image[4]}}" alt="{{image[1]}}"
                         class="imageLong"></button>
             </form>
             <div class="overlay">
-                <div class="textAuth">Por: Manuel D</div>
+                <div class="textAuth">{{image[5]}}</div>
                 <div class="icons">
                     <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                    <p class="textVote">30</p>
+                    <p class="textVote">{{image[2]}}</p>
                     <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                    <p class="textDownload">20</p>
+                    <p class="textDownload">{{image[3]}}</p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="columnCenter col-md-4">
-        <div class="container">
-            {%from "layouts/_macro.html" import render_field%}
-            <form method="GET" action="{{url_for('showImage', id=1)}}">
-                <button type="submit" class="hide"><img src="../../static/images/imagen2.jpg" alt="imagen0"
-                        class="imageShort"></button>
-            </form>
-            <div class="overlay">
-                <div class="textAuth">Por: José A</div>
-                <div class="icons">
-                    <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                    <p class="textVote">30</p>
-                    <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                    <p class="textDownload">20</p>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <form method="GET" action="{{url_for('showImage', id=1)}}">
-                <button type="submit" class="hide"><img src="../../static/images/imagen8.jpg" alt="imagen0"
-                        class="imageShort"></button>
-            </form>
-            <div class="overlay">
-                <div class="textAuth">Por: José A</div>
-                <div class="icons">
-                    <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                    <p class="textVote">30</p>
-                    <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                    <p class="textDownload">20</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="columnRight col-md-4">
-        <div class="container">
-            <form method="GET" action="{{url_for('showImage', id=1)}}">
-                <button type="submit" class="hide"><img src="../../static/images/imagen3.jpg" alt="imagen0"
-                        class="imageLong"></button>
-            </form>
-            <div class="overlay">
-                <div class="textAuth">Por: Manuel D</div>
-                <div class="icons">
-                    <img src="../../static/icons/heartWhite.svg" alt="heart" class="voteIcon">
-                    <p class="textVote">30</p>
-                    <img src="../../static/icons/download.svg" alt="download" class="downloadIcon">
-                    <p class="textDownload">20</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% endfor %}
 </div>
 
 <nav aria-label="Page navigation">

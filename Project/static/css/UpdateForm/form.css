@@ -16,7 +16,6 @@
   /* The slider */
   .slider {
     position: absolute;
-    cursor: pointer;
     top: 0;
     left: 0;
     right: 0;
@@ -85,7 +84,6 @@
     border-radius: 5%;
     width: 100%;
     max-height: 500px;
-    cursor: pointer;
 }
 
 .buttonImage{
@@ -95,7 +93,6 @@
 	bottom:100px;
     width:34%;
     opacity: 0;
-    /* cursor: pointer; */
 }
 
 label{
