@@ -133,22 +133,7 @@ def update():
 @is_logged_in
 def image_delete(id):
     if request.method == 'POST':
-        id_image = request.form['id_image']
-
-        if not id_image:
-            error = 'Debes seleccionar una imagen para ser eliminada'
-            # flash(error)
-            return redirect(url_for('update'))
-
-        image = model.sql_delete_image(id_image)
-        if image is not None:
-            success_message = 'Imagen eliminada exitosamente'
-            # flash(success_message)
-            return redirect(url_for('update'))
-        else:
-            error = 'Error al eliminar la imagen, intenta de nuevo'
-            # flash(error)
-            return redirect(url_for('update'))
+        image = model.sql_delete_image(id)
     return redirect(url_for('update'))
 # End DeleteImage Route
 
@@ -379,16 +364,16 @@ def updateform(id):
     form = UpdateForm(request.form)
     image = model.sql_select_to_update(id)
     form.description.data = image[2]
-    form.status.data = image[4]
     if request.method == 'POST' and form.validate():
-        form.description.data = ""
+        form = UpdateForm(request.form)
         title = form.title.data
-        description = request.data['description']
+        description = form.description.data
         status = form.status.data
         model.sql_update_image(id, title, description, status)
         return redirect(url_for('update'))
     return render_template('UpdateForm/updateForm.html', form=form, image=image)
 # End update Route
+
 
 # class search
 class InSessionSearchForm(Form):

@@ -136,12 +136,11 @@ def update_votes(idImage,voteStatus):
         return toVote
     else:
         return votes
-    # print("update_votes")
 
 #Select images by keywords
 def sql_select_images_by_keyword(keyword):
     db = get_db()
-    images = db.execute('SELECT idImage, Image.name, votes, downloads, path, User.name FROM Image INNER JOIN User ON Image.idUser = User.idUser WHERE (Image.name LIKE :keyword OR description LIKE :keyword) AND status=1', {"keyword": '%'+keyword+'%'}).fetchall()
+    images = db.execute('SELECT idImage, Image.name, votes, downloads, path, User.name FROM Image INNER JOIN User ON Image.idUser = User.idUser WHERE (Image.name LIKE :keyword OR description LIKE :keyword) AND Image.status=1', {"keyword": '%'+keyword+'%'}).fetchall()
     return images
     close_db()
 

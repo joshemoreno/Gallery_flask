@@ -60,14 +60,14 @@
       <br>
       <label for="description">Descripción</label>
       <br>
-      {{render_field(form.description, name="description",class_="form-control textarea", placeholder="Descripción",
+      {{render_field(form.description,class_="form-control textarea", placeholder="Descripción",
       rows="8", id="description")}}
       <div class="alert alert-danger" id="descriptionerror" hidden></div>
       <br>
       <label for="status">Estado de visibilidad</label>
       <br>
       <div class="row">
-        {{render_field(form.status, id="switch", class_="check")}}
+        {{render_field(form.status, id="switch", class_="check", value=image[4])}}
         <label id="statusImag" class="label">{% if image[4] == 1 %}
           Público
           {% else %}
