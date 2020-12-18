@@ -174,7 +174,6 @@ def showImage(id):
         return render_template('LandingPage/main.html')
 # End ShowImage Route
 
-
 # MostVoted Route
 @app.route('/mostVoted')
 def most_voted():
@@ -453,7 +452,7 @@ def resetRequest():
             return render_template('Reset/resetRequest.html', form=form)
     return render_template('Reset/resetRequest.html', form=form)
 
-
-if __name__ ==  '__main__':
-    app.run( host='127.0.0.1', port =443, ssl_context=('micertificado.pem', 'llaveprivada.pem') )
+# if __name__ ==  '__main__':
+#     app.run( host='127.0.0.1', port =443, ssl_context=('micertificado.pem', 'llaveprivada.pem') )
 # End resetRequest
+
