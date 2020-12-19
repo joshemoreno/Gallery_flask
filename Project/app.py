@@ -397,12 +397,10 @@ def update_search():
         idUser = session['id']
         texto = request.form['texto']
         images = model.sql_select_repository_images(texto, idUser)
-        if not texto:
-            return render_template('updateView/update.html', form=form)
         if len(images) == 0:
-            return render_template('updateView/update.html', form=form)
+            return render_template('UpdateView/update.html', form=form)
         else:
-            return render_template('updateView/update.html', form=form, images=images)
+            return render_template('UpdateView/update.html', form=form, images=images)
     return render_template('Updateview/update.html', form=form)
 # End updateSearch Route
 
