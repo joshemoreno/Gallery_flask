@@ -205,7 +205,7 @@ def download(id):
     path = model.sql_download_image(id)
     if (path):
         model.update_downloads(id)
-    route= "static\\uploader\\"+path
+    route= "static/uploader/"+path
     return send_file(route, as_attachment=True)
 # End Download Route
 
