@@ -2,11 +2,12 @@ $(document).ready(function () {
     localStorage.setItem('voto', '1');
     $('.voteIcon1').on('click',function (event) {
         let value = $('img.voteIcon1').attr('src')
+        let idImage_ = window.location.pathname.split('/')[2]
         var data = {
             'voteStatus': localStorage.getItem('voto'),
-            'idImage': "1"
+            'idImage': idImage_
         } 
-
+        
         $.ajax({
             url: "/vote",
             type: "POST",

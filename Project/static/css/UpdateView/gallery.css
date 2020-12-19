@@ -75,7 +75,7 @@
     width: 7%;
 }
 .textVote {
-    color: white;
+    color: #9f9f9f;
     font-size: 20px;
     position: absolute;
     top: 20%;
@@ -89,7 +89,7 @@
     width: 6%;
 }
 .textDownload {
-    color: white;
+    color: #9f9f9f;
     font-size: 20px;
     position: absolute;
     top: 20%;
