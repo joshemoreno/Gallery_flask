@@ -8,6 +8,7 @@ from functools import wraps
 import utils
 import os
 import model
+import time
 
 # End imports
 
@@ -15,6 +16,7 @@ import model
 yag = yagmail.SMTP('misiontic2022grupo11@gmail.com', '2022Grupo11')
 UPLOAD_FOLDER = os.path.abspath("./static/uploader")
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+requestMailPath = 'http://localhost:5000'
 # EndVaribles
 
 # Init
@@ -249,7 +251,7 @@ def register():
             yag.send(email, 'Activa tu cuenta',
                     ''' <h1> Bienvenid@ a nuestra comunidad </h1>
                 <h3><b>Hola, '''+user+'''</b></h3><br><p>Este correo es para informarte que te has registrado en PHOTOS<p>
-                <a href="https://localhost/activate/'''+user+'''">Activa tu cuenta</a>
+                <a href="'''+requestMailPath+'''/activate/'''+user+'''">Activa tu cuenta</a>
                 <p>Si usted no realizo este registro por favor ignore este mensaje, gracias!</p>
                 ''')
             msgRegister="Registro exitoso, por favor revisa tu correo para activar tu cuenta si ya lo hiciste haz click en"
@@ -298,7 +300,7 @@ def reset(id):
 class UploadForm(Form):
     title = StringField('Nombre', [
         validators.Length(
-            min=5, max=20, message='El nombre de la imagen debe tener de 5 a 20 caracteres'), validators.DataRequired()
+            min=5, max=30, message='El nombre de la imagen debe tener de 5 a 30 caracteres'), validators.DataRequired()
     ])
     description = TextAreaField('Descripción', [
         validators.Length(
@@ -313,6 +315,17 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 # End validator Files
 
+# Change filename
+def change_file_name(filename):
+    segs_epoc = time.time()
+    time_ = time.ctime(segs_epoc)
+    time_ = time_.replace(" ", "")
+    time_ = time_.replace(":", "")
+    ext = filename.rsplit('.', 1)[1]
+    newFilename = session['username'] + time_ + '.' + ext
+    return newFilename
+# End change filename
+
 # upload Route
 @app.route('/upload', methods=['GET', 'POST'])
 @is_logged_in
@@ -323,6 +336,7 @@ def upload():
         description = form.description.data
         status = form.status.data
         image = request.files['file']
+        image.filename = change_file_name(image.filename)
         if image and allowed_file(image.filename):
             filename = secure_filename(image.filename)
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -338,7 +352,7 @@ def upload():
 class UpdateForm(Form):
     title = StringField('Nombre', [
         validators.Length(
-            min=5, max=20, message='El nombre de la imagen debe tener de 5 a 20 caracteres')
+            min=5, max=30, message='El nombre de la imagen debe tener de 5 a 30 caracteres')
     ])
     description = TextAreaField('Descripción', [
         validators.Length(
@@ -434,7 +448,7 @@ def resetRequest():
                     ''' <h1>¿HAS OLVIDADO TU CONTRASEÑA? </h1>
                 <h3><b>Hola, '''+user[1]+'''</b></h3><br><p>Esta es una solicitud para restablecer tu contraseña</p>
                 Haz clic en el siguiente enlace para restablecer tu contraseña
-                <a href="https://localhost/resetpassword/'''+idUser+'''">Restablece tu contraseña</a>
+                <a href="'''+requestMailPath+'''/resetpassword/'''+idUser+'''">Restablece tu contraseña</a>
                 <p>Si no has solicitado una nueva contraseña, por favor ignore este mensaje, gracias!</p>
                 ''')
             return redirect(url_for('login'))
