@@ -457,6 +457,6 @@ def resetRequest():
     return render_template('Reset/resetRequest.html', form=form)
 
 if __name__ ==  '__main__':
-    app.run( host='127.0.0.1', port =443, ssl_context=('micertificado.pem', 'llaveprivada.pem') )
+    app.run( host='0.0.0.0', port =443, ssl_context=('micertificado.pem', 'llaveprivada.pem') )
 # End resetRequest
 

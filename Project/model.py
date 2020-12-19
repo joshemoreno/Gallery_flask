@@ -83,7 +83,6 @@ def sql_insert_user(user, email, password):
 
 #Update name, description, status
 def sql_update_image(id, name, description, status):
-    print(id, name, description, status)
     time = datetime.datetime.now()
     db = get_db()
     db.execute('UPDATE Image SET name = ?, description = ?, status = ?, updated_at = ? WHERE idImage= ?',[name, description, status, time, id])
@@ -119,9 +118,7 @@ def sql_select_to_update(id):
 #Update votes by idImage
 def update_votes(idImage,voteStatus):
     db = get_db()
-    # print(idImage,voteStatus)
     votes = db.execute('SELECT votes FROM Image WHERE idImage = :idImage',{"idImage":idImage}).fetchone()
-    # print(votes)
     if votes is not None:
         toVote=votes[0]
         voteStatus=int(voteStatus)
