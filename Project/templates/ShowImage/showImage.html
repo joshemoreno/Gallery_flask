@@ -58,9 +58,7 @@
                 </div>
             </div>
             <div class="card-footer text-muted">
-                {% if session.username %}
                 <img src="../../static/icons/heartEmpty.svg" alt="heart" class="voteIcon1">
-                {% endif %}
                 <a href="{{url_for('download',id=image[0])}}"> <img src="../../static/icons/downloadBlack.svg"
                         alt="download" class="downloadIcon1"></a>
             </div>
